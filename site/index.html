@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mochi — A Little More Than a Pet</title>
+  <meta name="description" content="Mochi is a little companion that lives on your desktop, gets to know you, plays with you, helps you reflect, and quietly brings people together. A NASA Space Apps 2026 project." />
+  <meta property="og:title" content="Mochi — A Little More Than a Pet" />
+  <meta property="og:description" content="A little companion that lives on your desktop. Dr G Zero thinks. Fable connects. Mochi brings it to life." />
+  <meta property="og:image" content="https://khageshvaidya.github.io/mochi-a-little-more-than-a-pet/assets/img/mochi-art.png" />
+  <meta property="og:url" content="https://khageshvaidya.github.io/mochi-a-little-more-than-a-pet/" />
+  <link rel="icon" href="assets/img/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top"><img src="assets/img/icon.png" alt="" width="28" height="28" /> Mochi</a>
+      <nav aria-label="Sections">
+        <a href="#meet-mochi">Mochi</a>
+        <a href="#dr-g-zero">Dr G Zero</a>
+        <a href="#fable">Fable</a>
+        <a href="#play">Play</a>
+        <a href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet" rel="noopener">GitHub</a>
+        <a href="#install" class="nav-cta">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero: the companion first -->
+    <section class="hero" id="top">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">NASA Space Apps 2026 · open source</p>
+          <h1><span class="wordmark">MOCHI</span><span class="tagline">A Little More Than a Pet.</span></h1>
+          <p class="lede">A little companion that lives on your desktop, gets to know you, plays with you, helps you reflect, and quietly brings people together.</p>
+          <p class="sub">Built for astronauts on long missions. Not another health dashboard: a friend on your screen, with an explainable wellbeing intelligence one click behind it.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" data-dl="mac" href="#install">Download for macOS</a>
+            <a class="btn btn-primary" data-dl="win" href="#install">Download for Windows</a>
+            <a class="btn btn-ghost" href="#how">How it works</a>
+          </div>
+          <p class="fine" id="release-note">Free and open source · runs locally · demonstration with synthetic health data · not a medical device</p>
+        </div>
+        <div class="hero-art">
+          <div class="screen" role="img" aria-label="Mochi sitting on a computer desktop with its chat window open">
+            <div class="menubar" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="ghost-window" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <img class="screen-pet" src="assets/img/mochi-chat-light.png" alt="" width="560" height="805" />
+            <span class="hint">Right-click Mochi → <b>Open Dr G Zero</b></span>
+          </div>
+          <p class="caption">Real capture: Mochi and its chat window float above your other apps. Replies come from a model running on your own computer.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it fits together -->
+    <section class="band slim" id="how">
+      <div class="wrap">
+        <p class="identity"><b>Dr G Zero</b> thinks. <b>Fable</b> connects. <b>Mochi</b> brings it to life.</p>
+        <div class="arch" aria-label="Architecture: Mochi, Dr G Zero and Fable on your computer">
+          <div class="arch-box mochi">
+            <span class="arch-tag">You meet</span>
+            <h3>Mochi</h3>
+            <p>Companion and interaction layer: chat, play, journal, memory, gentle suggestions.</p>
+          </div>
+          <div class="arch-arrow" aria-hidden="true"><span>insight, worded kindly</span></div>
+          <div class="arch-box drg">
+            <span class="arch-tag">Thinks</span>
+            <h3>Dr G Zero</h3>
+            <p>SCND intelligence: personal baselines, data quality, analysis, recommendations and safety.</p>
+          </div>
+          <div class="arch-arrow" aria-hidden="true"><span>agreed activities only</span></div>
+          <div class="arch-box fable">
+            <span class="arch-tag">Connects <em class="status planned">Planned</em></span>
+            <h3>Fable</h3>
+            <p>Coordination between crew members’ companions, for activities people opt into.</p>
+          </div>
+        </div>
+        <p class="caption">Everything runs on your computer. Conversations, journals and health data stay local.</p>
+      </div>
+    </section>
+
+    <!-- Meet Mochi -->
+    <section class="band alt" id="meet-mochi">
+      <div class="wrap two-col">
+        <div>
+          <p class="eyebrow">Meet Mochi</p>
+          <h2>A friend that lives on your desktop</h2>
+          <p>Mochi isn’t a chatbot hidden inside an app. It sits above whatever you’re working on: click it to chat, drag it anywhere, hide it whenever you like.</p>
+          <ul class="ticks">
+            <li><b>Talks</b> in short, natural replies, powered by a small model running <em>on your own computer</em></li>
+            <li><b>Listens when invited</b>, and backs off when you want space</li>
+            <li><b>Helps you reflect</b> with a private journal: your words, editable, never shared and never sent to the model</li>
+            <li><b>Remembers</b> only what you confirm, and you can delete it</li>
+            <li><b>Plays</b> quick memory and reaction games</li>
+            <li><b>Opens your dashboard</b> when you ask: “Mochi, show me my health”</li>
+            <li><b>Knows its limits</b>: it never diagnoses, and “I’d like to talk to someone” is always one tap away</li>
+          </ul>
+        </div>
+        <div class="companions">
+          <div class="pets-grid">
+            <figure><img src="assets/img/mochi-art.png" alt="Mochi" loading="lazy" /><figcaption>Mochi</figcaption></figure>
+            <figure><img src="assets/img/pet-dog.png" alt="Comet the dog" loading="lazy" /><figcaption>Comet</figcaption></figure>
+            <figure><img src="assets/img/pet-cat.png" alt="The cat companion" loading="lazy" /><figcaption>Cat</figcaption></figure>
+            <figure><img src="assets/img/pet-alien.png" alt="The alien companion" loading="lazy" /><figcaption>Alien</figcaption></figure>
+          </div>
+          <p class="caption">Every crew member gets their own companion. Mochi is original team artwork; the other three are original placeholder designs, to be redrawn.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dr G Zero -->
+    <section class="band" id="dr-g-zero">
+      <div class="wrap">
+        <p class="eyebrow">Meet Dr G Zero</p>
+        <h2>The intelligence behind the companion</h2>
+        <p class="lead-narrow">Dr G Zero compares each astronaut with <b>their own baseline</b>, not population norms, and explains every result. Its SCND engine (Sustained Change, Not Diagnosis) is deterministic and auditable. The language model only words things; it never decides.</p>
+        <div class="monitor">
+          <div><h3>Physical wellbeing</h3><p>Resting heart rate, heart-rate variability, blood oxygen, sleep and activity, with long-term trends and deviations from your own baseline.</p></div>
+          <div><h3>Mental wellbeing</h3><p>Voluntary check-ins on mood, stress, fatigue, sleep quality, social connection and cognition. Sustained patterns only, never a diagnosis.</p></div>
+        </div>
+        <ol class="flow" aria-label="How Dr G Zero reaches a result">
+          <li>Data collection</li><li>Personal baseline</li><li>Data quality</li><li>Statistical detection</li><li>SCND decision</li><li>Recommendation</li><li>Mochi says it kindly</li>
+        </ol>
+        <div class="states">
+          <div><span class="pill yes">YES</span><p>Sustained, multi-domain change from your baseline, confirmed over 3 days. A private conversation is suggested; you decide whether to share.</p></div>
+          <div><span class="pill no">NO</span><p>No sustained change in the reliable data. It doesn’t confirm wellbeing; support is always available.</p></div>
+          <div><span class="pill insufficient">INSUFFICIENT DATA</span><p>Not enough reliable data to say anything. Dr G Zero won’t guess.</p></div>
+        </div>
+        <div class="gallery">
+          <figure>
+            <picture>
+              <source srcset="assets/img/drg-intelligence-dark.jpg" media="(prefers-color-scheme: dark)" />
+              <img src="assets/img/drg-intelligence-light.jpg" alt="How the decision was reached: statistical findings, ML advisory and data quality, side by side" loading="lazy" width="1600" height="904" />
+            </picture>
+            <figcaption>Explainable results: signals, method, window, baseline comparison, data quality, uncertainty.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/img/drg-physical-trends-dark.jpg" alt="Physical trends and deviations: Mann–Kendall trend findings" loading="lazy" width="1600" height="904" />
+            <figcaption>Physiological monitoring and long-term trends.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/img/drg-knowledge-light.jpg" alt="NASA Research and Risk Knowledge browser" loading="lazy" width="1600" height="904" />
+            <figcaption>Offline, cited NASA Human Research Program risk knowledge.</figcaption>
+          </figure>
+        </div>
+        <p class="fine">All astronaut data in the demonstration is synthetic (five fictional crew members). Thresholds are engineering defaults, not clinical thresholds, and the engine has not been clinically validated. Dr G Zero is not a medical device and does not diagnose.</p>
+      </div>
+    </section>
+
+    <!-- Fable -->
+    <section class="band alt" id="fable">
+      <div class="wrap two-col reverse">
+        <div class="fable-art" aria-label="Illustration: four companions coordinating a puzzle night through Fable">
+          <svg viewBox="0 0 520 380" role="img" aria-hidden="true">
+            <circle cx="260" cy="190" r="56" class="fable-core" />
+            <text x="260" y="186" text-anchor="middle" class="fable-label">Fable</text>
+            <text x="260" y="206" text-anchor="middle" class="fable-sub">consented intents</text>
+            <path d="M120 90 Q190 120 214 160" class="link" /><path d="M400 90 Q330 120 306 160" class="link" />
+            <path d="M120 300 Q190 270 214 222" class="link" /><path d="M400 300 Q330 270 306 222" class="link" />
+          </svg>
+          <img class="pet p1" src="assets/img/mochi-art.png" alt="" />
+          <img class="pet p2" src="assets/img/pet-dog.svg" alt="" />
+          <img class="pet p3" src="assets/img/pet-cat.svg" alt="" />
+          <img class="pet p4" src="assets/img/pet-alien.svg" alt="" />
+          <span class="chip c1">Puzzle at 19:00?</span>
+          <span class="chip c2">Maya’s in!</span>
+          <span class="chip c3">Sofia: open to a game</span>
+        </div>
+        <div>
+          <p class="eyebrow">Meet Fable <span class="status planned">Planned</span></p>
+          <h2>Companions that help the crew get together</h2>
+          <p>Every astronaut has their own companion. Fable lets those companions coordinate activities people have <b>agreed to</b>: a puzzle night, a shared meal, group exercise. It coordinates activities, not surveillance.</p>
+          <ul class="ticks">
+            <li>Companions share <b>intents</b>, never journals, conversations, health data or emotional state</li>
+            <li>No one is labelled, ranked or inferred about</li>
+            <li>“Personal space” means never invited</li>
+            <li>Opt out of any activity, or switch Fable off entirely</li>
+          </ul>
+          <p class="fine"><b>Available today:</b> voluntary crew statuses, activity invitations between companions, shared crew puzzles and a team expedition, all on one computer and shown as crew totals. <b>Planned:</b> the full Fable layer, including coordination between separate computers.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Play -->
+    <section class="band" id="play">
+      <div class="wrap">
+        <p class="eyebrow">Play</p>
+        <h2>Healthy routines, made fun</h2>
+        <p class="lead-narrow">Progress comes from taking part: check-ins, prescribed exercise, rest, recovery, connection and play. <b>Rest is never punished. Health metrics are never scores.</b> Nothing is ever taken away.</p>
+        <div class="cards">
+          <figure class="card"><img src="assets/img/game-explore-light.jpg" alt="Solar-system exploration map" loading="lazy" /><figcaption><b>Explore the Solar System</b> from the Moon to Pluto, unlocking views as you go.</figcaption></figure>
+          <figure class="card"><img src="assets/img/game-habitat-light.jpg" alt="Habitat rooms and pet home" loading="lazy" /><figcaption><b>Build your habitat</b>: sleeping quarters, gym, hydroponic garden, a home for your pet.</figcaption></figure>
+          <figure class="card"><img src="assets/img/game-memory-light.jpg" alt="Constellation Memory game" loading="lazy" /><figcaption><b>Mini-games</b>: Constellation Memory and Signal Catch, three difficulties, keyboard friendly.</figcaption></figure>
+          <figure class="card"><img src="assets/img/game-crew-light.jpg" alt="Crew cooperative missions and puzzle" loading="lazy" /><figcaption><b>Crew missions</b>: shared puzzles, a team ship and cooperative goals, as crew totals only.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="band alt" id="screens">
+      <div class="wrap">
+        <p class="eyebrow">See it running</p>
+        <h2>Real screenshots, light and dark</h2>
+        <div class="shots">
+          <img src="assets/img/drg-overview-dark.jpg" alt="Dr G Zero overview in dark mode" loading="lazy" />
+          <img src="assets/img/drg-alerts-light.jpg" alt="Tiered alerts with related NASA research areas" loading="lazy" />
+          <img src="assets/img/game-explore-dark.jpg" alt="Exploration map in dark mode" loading="lazy" />
+          <img src="assets/img/drg-settings-ai-light.jpg" alt="Conversational AI settings: Ollama local model in use" loading="lazy" />
+        </div>
+        <p class="caption">Captured from the running app with the synthetic demonstration crew.</p>
+      </div>
+    </section>
+
+    <!-- Install -->
+    <section class="band" id="install">
+      <div class="wrap">
+        <p class="eyebrow">Download</p>
+        <h2>Meet your own Mochi</h2>
+        <p class="lead-narrow" id="download-status">Installers are published on the <a href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet/releases">Releases page</a>. They are <b>unsigned</b> demonstration builds, so your system will ask you to confirm the first launch.</p>
+        <div class="install">
+          <div class="os">
+            <h3>macOS</h3>
+            <p class="fine">macOS 12 or later</p>
+            <ol>
+              <li>Download the <b>Apple Silicon</b> (M1 and later) or <b>Intel</b> disk image.</li>
+              <li>Drag <b>Mochi</b> to Applications.</li>
+              <li>First launch: <b>System Settings → Privacy &amp; Security → Open Anyway</b>.</li>
+            </ol>
+            <div class="dl-row">
+              <a class="btn btn-primary" data-dl="mac" href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet/releases">Apple Silicon</a>
+              <a class="btn btn-ghost" data-dl="mac-intel" href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet/releases">Intel</a>
+            </div>
+          </div>
+          <div class="os">
+            <h3>Windows</h3>
+            <p class="fine">Windows 10/11 · 64-bit · <span class="status exp">Experimental</span></p>
+            <ol>
+              <li>Download the installer (<code>.exe</code>).</li>
+              <li>If SmartScreen appears: <b>More info → Run anyway</b>.</li>
+              <li>Follow the installer.</li>
+            </ol>
+            <p class="fine">Built and smoke-tested automatically on Windows in CI. Not yet tested on a real Windows PC.</p>
+            <div class="dl-row"><a class="btn btn-primary" data-dl="win" href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet/releases">Windows installer</a></div>
+          </div>
+          <div class="os">
+            <h3>Local AI</h3>
+            <p class="fine">Optional, but this is how Mochi really talks</p>
+            <ol>
+              <li>Install <a href="https://ollama.com/download" rel="noopener">Ollama</a> (free).</li>
+              <li>Mochi’s first-run guide offers to download Qwen3 4B: about 2.5 GB, <b>only after you confirm</b>.</li>
+              <li>Uses about 3.2 GB of memory while chatting. 8 GB RAM and 4 GB free disk recommended.</li>
+            </ol>
+            <p class="fine">No model is bundled in the installer. Without one, Mochi runs in a clearly labelled <b>simple mode</b>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project -->
+    <section class="band alt" id="project">
+      <div class="wrap two-col">
+        <div>
+          <p class="eyebrow">Project &amp; research</p>
+          <h2>Open, documented, honest</h2>
+          <p>Mochi was built for the NASA Space Apps Challenge 2026 (<em>Create Health Monitoring Software for Astronauts on Space Missions</em>). The architecture, the SCND engine, its evaluation on held-out synthetic data, and the privacy design are all documented.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet" rel="noopener">GitHub repository</a>
+            <a class="btn btn-ghost" href="assets/mochi-space-apps.pdf">Presentation (PDF)</a>
+            <a class="btn btn-ghost" href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet/blob/main/docs/ARCHITECTURE.md" rel="noopener">Architecture</a>
+            <a class="btn btn-ghost" href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet/blob/main/docs/scnd-technical-explanation.md" rel="noopener">SCND engine</a>
+            <a class="btn btn-ghost" href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet/blob/main/docs/PRIVACY.md" rel="noopener">Privacy</a>
+          </div>
+        </div>
+        <div class="status-table">
+          <h3>What works today</h3>
+          <ul class="legend">
+            <li><span class="status ok">Available</span> Desktop companion · local AI chat · journal &amp; memory · Dr G Zero SCND · physical and mental wellbeing monitoring · NASA risk knowledge · gamification · macOS installers</li>
+            <li><span class="status exp">Experimental</span> Windows installer (untested on real Windows) · slower fallback model · optional Anthropic provider (off by default)</li>
+            <li><span class="status planned">Planned</span> Full Fable coordination across computers · signed installers · real sensor integrations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="closing">Because looking after astronauts means looking after the humans behind the helmets.</p>
+      <p class="fine">Mochi — A Little More Than a Pet · NASA Space Apps 2026 demonstration · synthetic data only · not a medical device · not affiliated with or endorsed by NASA · Code: MIT · Mochi artwork © 2026 the Mochi project team, all rights reserved · <a href="https://github.com/KhageshVaidya/mochi-a-little-more-than-a-pet">Source on GitHub</a></p>
+    </div>
+  </footer>
+  <script src="main.js"></script>
+</body>
+</html>
