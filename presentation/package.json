@@ -1,0 +1,14 @@
+{
+  "name": "mochi-presentation",
+  "private": true,
+  "description": "Source for the 7-slide Mochi NASA Space Apps deck. `npm run build` regenerates mochi-space-apps.pptx.",
+  "type": "module",
+  "scripts": {
+    "build": "node build-deck.mjs"
+  },
+  "devDependencies": {
+    "jszip": "3.10.1",
+    "pptxgenjs": "4.0.1",
+    "qrcode": "1.5.4"
+  }
+}
