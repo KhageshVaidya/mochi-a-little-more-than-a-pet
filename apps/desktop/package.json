@@ -1,0 +1,44 @@
+{
+  "name": "@orbital/desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ORBITAL desktop application",
+  "type": "module",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "smoke": "electron-vite build && node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "@orbital/contracts": "0.1.0",
+    "@orbital/engine": "0.1.0",
+    "@orbital/gamification": "0.1.0",
+    "@orbital/signals": "0.1.0",
+    "@orbital/simulation": "0.1.0",
+    "zod": "4.6.7",
+    "@orbital/companion": "0.1.0",
+    "@orbital/data-sources": "0.1.0",
+    "@orbital/recommendations": "0.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.3.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "clsx": "^2.1.1",
+    "electron": "45.3.2",
+    "electron-vite": "6.0.0",
+    "lucide-react": "1.73.0",
+    "motion": "14.14.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "recharts": "3.10.1",
+    "tailwind-merge": "^3.0.0",
+    "tailwindcss": "4.3.5",
+    "vite": "8.3.8",
+    "zustand": "5.1.0"
+  }
+}

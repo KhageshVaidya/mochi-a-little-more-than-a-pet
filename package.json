@@ -1,0 +1,30 @@
+{
+  "name": "orbital",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ORBITAL — astronaut health intelligence desktop app (NASA Space Apps 2026)",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @orbital/desktop",
+    "build": "npm run build -w @orbital/desktop",
+    "smoke": "npm run smoke -w @orbital/desktop",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm run test",
+    "artwork:cutout": "node tools/artwork-cutout.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "5.9.3",
+    "vitest": "5.1.0",
+    "jpeg-js": "0.4.4",
+    "pngjs": "7.0.0"
+  }
+}

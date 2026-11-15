@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "id": "mochi",
+  "displayName": "Mochi",
+  "species": "Mochi (original character)",
+  "official": true,
+  "placeholder": false,
+  "motionProfile": "mochi",
+  "rig": {
+    "kind": "raster-layered",
+    "body": "mochi-body.png",
+    "tail": {
+      "image": "mochi-tail.png",
+      "pivot": {
+        "x": 0.378,
+        "y": 0.69
+      },
+      "swish": {
+        "scaleMin": 0.965,
+        "scaleMax": 1.025,
+        "deg": 1
+      }
+    },
+    "eyes": [
+      {
+        "cx": 0.4418,
+        "cy": 0.3653,
+        "r": 0.0165,
+        "lid": "#b88a8d"
+      },
+      {
+        "cx": 0.6651,
+        "cy": 0.294,
+        "r": 0.0165,
+        "lid": "#ba8a8d"
+      }
+    ]
+  },
+  "artwork": {
+    "default": "mochi.png",
+    "reference": "mochi-reference.jpg",
+    "width": 421,
+    "height": 449,
+    "alt": "Mochi, a small mauve companion with long floppy ears, freckles and a white-tipped tail"
+  },
+  "display": {
+    "width": 150,
+    "height": 160
+  },
+  "animations": {
+    "idle": {
+      "kind": "still",
+      "image": "mochi.png",
+      "motion": "float-breathe"
+    },
+    "bounce": {
+      "kind": "still",
+      "image": "mochi.png",
+      "motion": "bounce",
+      "durationMs": 900
+    },
+    "react": {
+      "kind": "still",
+      "image": "mochi.png",
+      "motion": "react",
+      "durationMs": 650
+    },
+    "celebrate": {
+      "kind": "still",
+      "image": "mochi.png",
+      "motion": "celebrate",
+      "durationMs": 1800,
+      "overlay": "sparkles"
+    },
+    "sleep": {
+      "kind": "still",
+      "image": "mochi.png",
+      "motion": "sleep",
+      "overlay": "zzz"
+    },
+    "wake": {
+      "kind": "still",
+      "image": "mochi.png",
+      "motion": "wake",
+      "durationMs": 900
+    },
+    "curious": {
+      "kind": "still",
+      "image": "mochi.png",
+      "motion": "curious",
+      "durationMs": 2200
+    }
+  },
+  "interactions": {
+    "menu": [
+      "chat",
+      "hello",
+      "status",
+      "celebrate",
+      "sleep",
+      "wake",
+      "open-dashboard",
+      "hide"
+    ],
+    "autoSleepAfterMin": 20,
+    "idleBounceEverySec": 45
+  },
+  "personality": {
+    "traits": [
+      "curious",
+      "gentle",
+      "playful",
+      "supportive",
+      "occasionally sleepy",
+      "loves small wins"
+    ],
+    "messages": {
+      "hello": [
+        "Hi! I’m happy you’re here.",
+        "Hello, crewmate!",
+        "Oh — hi! What are we exploring today?",
+        "Hey there. I saved you a spot by the window."
+      ],
+      "celebrate": [
+        "Mission complete! That’s wonderful.",
+        "Yay! Small wins add up.",
+        "You did it — I’m doing a happy wiggle."
+      ],
+      "dailyMission": [
+        "Daily mission done! Nicely paced.",
+        "Another mission complete. I’m proud of you.",
+        "That’s one more for the logbook!"
+      ],
+      "cognitive": [
+        "Sharp thinking! That was fun to watch.",
+        "Brain games complete — clever you.",
+        "Ooh, a new personal best!"
+      ],
+      "recovery": [
+        "Recovery time well spent. Bodies like that.",
+        "Gentle and steady — lovely recovery.",
+        "That stretch looked so relaxing."
+      ],
+      "rest": [
+        "Rest counts as a win too.",
+        "A rest day is part of the plan. Enjoy it.",
+        "Resting is how strong crews stay strong."
+      ],
+      "milestone": [
+        "Look how far we’ve travelled together!",
+        "A mission milestone! Thank you for taking care of yourself.",
+        "Another milestone in orbit. I’m glad I’m with you."
+      ],
+      "sleep": [
+        "Mm… just a little nap…",
+        "Wake me if you need me."
+      ],
+      "wake": [
+        "I’m up! Did I miss anything fun?",
+        "Good nap. Hello again!"
+      ],
+      "breakSuggestion": [
+        "Fancy a little stretch with me?",
+        "Maybe a sip of water?",
+        "Want to look out of the window for a moment?"
+      ]
+    },
+    "voice": {
+      "interjections": [
+        "Ooh",
+        "Hehe",
+        "Eep",
+        "Yay"
+      ],
+      "happyAction": "do a happy ear-wiggle",
+      "signoff": "Mochi out!"
+    }
+  },
+  "credits": "Character artwork supplied by the ORBITAL team. mochi-reference.jpg is the unchanged original. mochi.png is a transparent cutout with the enclosed white tail patch refilled from surrounding fur (tools/artwork-cutout.mjs --fill-enclosed-white 300); mochi-body.png / mochi-tail.png are animation layers (tools/companion-rig.mjs)."
+}

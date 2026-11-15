@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 210" width="200" height="210">
+<!-- ORBITAL placeholder companion artwork (vector). Replace with team artwork; see assets/pets/README.md -->
+<style>
+  * { stroke-linejoin: round; stroke-linecap: round; }
+  .ink { stroke: #2b2226; stroke-width: 3; }
+  .blink { transform-box: fill-box; transform-origin: 50% 0%; animation: blink 5.2s infinite; }
+  @keyframes blink { 0%, 93%, 100% { transform: scaleY(0); } 95.5% { transform: scaleY(1); } }
+  .curl { animation: curl 1.2s ease-in-out infinite; } @keyframes curl { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(10deg); } }
+          .twitch { animation: perk .6s ease-in-out infinite alternate; } @keyframes perk { to { transform: rotate(6deg); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+<g class="curl" style="transform-origin:132px 190px"><path d="M132 190 C 160 180, 168 140, 158 104 C 154 92, 166 84, 176 92" fill="none" stroke="#2b2226" stroke-width="13"/><path d="M132 190 C 160 180, 168 140, 158 104 C 154 92, 166 84, 176 92" fill="none" stroke="#b8b4c9" stroke-width="8"/></g>
+  <ellipse cx="100" cy="203" rx="44" ry="5" fill="rgba(0,0,0,0.12)"/>
+  <g class="chest" style="transform-origin:100px 200px">
+    <path class="ink" fill="#b8b4c9" d="M66 200 C 60 164, 70 132, 100 128 C 130 132, 140 164, 134 200 Z"/>
+    <path fill="#ecebf3" d="M86 198 C 84 174, 90 154, 100 152 C 110 154, 116 174, 114 198 Z"/>
+    <path class="ink" fill="#b8b4c9" d="M78 200 C 76 190, 82 185, 89 187 C 94 189, 94 197, 92 200 Z"/>
+    <path class="ink" fill="#b8b4c9" d="M122 200 C 124 190, 118 185, 111 187 C 106 189, 106 197, 108 200 Z"/>
+  </g>
+  <g class="head" style="transform-origin:100px 124px">
+    <g class="twitch" style="transform-origin:72px 58px"><path class="ink" fill="#b8b4c9" d="M66 66 L 70 26 L 96 50 Z"/><path fill="#e7a9b8" d="M71 58 L 73 36 L 88 50 Z"/></g>
+    <g class="twitch r" style="transform-origin:128px 58px"><path class="ink" fill="#b8b4c9" d="M134 66 L 130 26 L 104 50 Z"/><path fill="#e7a9b8" d="M129 58 L 127 36 L 112 50 Z"/></g>
+    <ellipse class="ink" cx="100" cy="82" rx="40" ry="36" fill="#b8b4c9"/>
+    <path class="ink" d="M78 81 q6 -7 12 0" fill="none"/><path class="ink" d="M110 81 q6 -7 12 0" fill="none"/>
+    <path class="ink" d="M96 92 L 104 92 L 100 97 Z" fill="#e7a9b8"/>
+    <path class="ink" d="M100 97 q-6 6 -11 2 M100 97 q6 6 11 2" fill="none" stroke-width="2.4"/>
+    <path d="M70 92 L 52 88 M70 97 L 52 99 M130 92 L 148 88 M130 97 L 148 99" stroke="#2b2226" stroke-width="1.6" opacity=".7"/>
+  </g>
+</svg>

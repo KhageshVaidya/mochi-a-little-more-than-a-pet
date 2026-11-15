@@ -1,0 +1,94 @@
+/*
+ * ORBITAL design tokens — the single source of colour, type and depth for every window.
+ * Theme switching is driven by Electron's nativeTheme.themeSource, so `prefers-color-scheme`
+ * always reflects the user's preference (light / dark / system).
+ *
+ * Status colours follow BASELINE semantics (within baseline / watch / attention),
+ * never population "normal / abnormal".
+ */
+
+:root {
+  color-scheme: light;
+
+  --o-bg: #f6f6f3;
+  --o-sidebar: #efefea;
+  --o-surface: #ffffff;
+  --o-surface-2: #f2f2ee;
+  --o-surface-3: #e9e9e4;
+  --o-line: rgb(28 29 31 / 0.08);
+  --o-line-strong: rgb(28 29 31 / 0.14);
+
+  --o-ink: #1c1d1f;
+  --o-ink-2: #5d6066;
+  --o-ink-3: #8b8e94;
+
+  --o-accent: #2f6bd8;
+  --o-accent-soft: rgb(47 107 216 / 0.1);
+  --o-teal: #138f86;
+  --o-teal-soft: rgb(19 143 134 / 0.11);
+  --o-watch: #a86e12;
+  --o-watch-soft: rgb(196 134 30 / 0.13);
+  --o-attention: #b9503a;
+  --o-attention-soft: rgb(196 85 63 / 0.11);
+  --o-synthetic: #8a5a00;
+  --o-synthetic-soft: rgb(214 158 46 / 0.16);
+
+  --o-shadow-card: 0 1px 2px rgb(16 17 19 / 0.04), 0 6px 20px rgb(16 17 19 / 0.035);
+  --o-shadow-raised: 0 1px 2px rgb(16 17 19 / 0.06), 0 12px 32px rgb(16 17 19 / 0.08);
+  --o-focus: 0 0 0 3px rgb(47 107 216 / 0.35);
+
+  /* Crew categorical palette — validated (dataviz validator: lightness, chroma, CVD ΔE ≥ 8, normal-vision ΔE ≥ 15). */
+  --crew-blue: #2a78d6;
+  --crew-orange: #eb6834;
+  --crew-aqua: #1baf7a;
+  --crew-yellow: #eda100;
+  --crew-magenta: #e87ba4;
+
+  /* Assessment states (always shown with an icon and label, never colour alone). */
+  --o-state-yes: #c2553f;
+  --o-state-no: #138f86;
+  --o-state-insufficient: #9a9ca1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --o-bg: #15171a;
+    --o-sidebar: #191b1f;
+    --o-surface: #1e2125;
+    --o-surface-2: #252930;
+    --o-surface-3: #2d3239;
+    --o-line: rgb(255 255 255 / 0.07);
+    --o-line-strong: rgb(255 255 255 / 0.12);
+
+    --o-ink: #eceef1;
+    --o-ink-2: #a4a9b0;
+    --o-ink-3: #767b83;
+
+    --o-accent: #79a3f2;
+    --o-accent-soft: rgb(121 163 242 / 0.14);
+    --o-teal: #4cc2b6;
+    --o-teal-soft: rgb(76 194 182 / 0.14);
+    --o-watch: #e3ad57;
+    --o-watch-soft: rgb(227 173 87 / 0.14);
+    --o-attention: #e8846f;
+    --o-attention-soft: rgb(232 132 111 / 0.14);
+    --o-synthetic: #e9bd6a;
+    --o-synthetic-soft: rgb(233 189 106 / 0.13);
+
+    --o-shadow-card: 0 1px 2px rgb(0 0 0 / 0.28);
+    --o-shadow-raised: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 40px rgb(0 0 0 / 0.35);
+    --o-focus: 0 0 0 3px rgb(121 163 242 / 0.4);
+
+    --crew-blue: #3987e5;
+    --crew-orange: #d95926;
+    --crew-aqua: #199e70;
+    --crew-yellow: #c98500;
+    --crew-magenta: #d55181;
+
+    --o-state-yes: #e8846f;
+    --o-state-no: #4cc2b6;
+    --o-state-insufficient: #6f747b;
+  }
+}

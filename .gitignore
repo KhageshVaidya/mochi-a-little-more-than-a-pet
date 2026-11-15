@@ -1,0 +1,30 @@
+# Dependencies & build output
+node_modules/
+out/
+dist/
+release/
+*.tsbuildinfo
+coverage/
+
+# Local data
+*.sqlite
+*.sqlite-journal
+.orbital-dev/
+
+# OS / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Reference materials stay local:
+#  - body-composition-example.jpg contains a real person's personal health data
+#  - health-monitoring-review.pdf is a copyrighted Elsevier article (all rights reserved)
+reference/
+apps/desktop/.smoke/
+
+# Generated review / smoke output and logs
+apps/desktop/.review/
+apps/desktop/.review-run.log
+# Private local demo identities (never committed)
+config/*.local.json

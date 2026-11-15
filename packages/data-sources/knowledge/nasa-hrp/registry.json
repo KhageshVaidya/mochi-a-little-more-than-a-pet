@@ -1,0 +1,545 @@
+{
+  "schemaVersion": 1,
+  "registryVersion": "1.0.0",
+  "snapshotDate": "2026-11-15",
+  "catalogueSourceId": "src:catalogue",
+  "disclaimer": "Curated offline snapshot of public NASA Human Research Program pages. Quotes are verbatim; descriptions are ORBITAL's paraphrase. Links between ORBITAL measurements and NASA risks explain why ORBITAL monitors a measurement. They do not establish that an astronaut is experiencing a risk, they are not diagnoses, and they do not imply NASA endorsement of ORBITAL.",
+  "sources": [
+    { "id": "src:catalogue", "kind": "catalogue", "title": "Risks of Human Spaceflight", "organisation": "Human Research Program", "url": "https://www.nasa.gov/hrp/risks/", "lastUpdated": null, "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-sleep", "kind": "public-risk-page", "title": "Risk from Inadequate Sleep and Irregular Schedules", "organisation": "Humans in Space", "url": "https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-sleep", "kind": "hsrb-risk-page", "title": "Risk of Performance Decrements and Adverse Health Outcomes Resulting from Sleep Loss, Circadian Desynchronization, and Work Overload", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/risk-of-performance-decrements-and-adverse-health-outcomes-resulting-from-sleep-loss-circadian-desynchronization-and-work-overload/", "lastUpdated": "2025-09-16", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-immune", "kind": "public-risk-page", "title": "Risk of Altered Immune System Responses", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-altered-immune-system-responses/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-immune", "kind": "hsrb-risk-page", "title": "Risk of In Mission Impacts, Adverse Health Events or Long-Term Health Impacts due to Altered Immune Response (Immune Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/immune-risk/", "lastUpdated": "2025-09-10", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-sensorimotor", "kind": "public-risk-page", "title": "Risk of Altered Sensorimotor and Vestibular Function", "organisation": "Humans in Space", "url": "https://www.nasa.gov/reference/risk-of-altered-sensorimotor-and-vestibular-function/", "lastUpdated": "2025-12-02", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-sensorimotor", "kind": "hsrb-risk-page", "title": "Risk of Altered Sensorimotor/Vestibular Function Impacting Critical Mission Tasks, Human Health, and Long-Term Health (Sensorimotor Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/sensorimotor-risk/", "lastUpdated": "2025-07-08", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-behavioral", "kind": "public-risk-page", "title": "Risk of behavioral changes and psychiatric disorders", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-behavioral-conditions-and-psychiatric-disorders/", "lastUpdated": "2026-02-24", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-behavioral", "kind": "hsrb-risk-page", "title": "Risk of Adverse Cognitive or Behavioral Changes and Psychiatric Disorders Leading to In-mission Health and Performance and Long-term Health Effects (Behavioral Health Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/behavioral-health-risk/", "lastUpdated": "2025-09-17", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-cardiovascular", "kind": "public-risk-page", "title": "Risk of Cardiovascular Adaptations", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-cardiovascular-adaptations/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-cardiovascular", "kind": "hsrb-risk-page", "title": "Risk of Cardiovascular Adaptations Contributing to Adverse Mission Performance and Health Outcomes (CV Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/cv-risk/", "lastUpdated": "2025-06-13", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-dcs", "kind": "public-risk-page", "title": "Risk of Decompression Sickness", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-decompression-sickness/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-dcs", "kind": "hsrb-risk-page", "title": "Risk of Mission Impacts and Long-Term Health Issues due to Decompression Sickness", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/risk-of-decompression-sickness/", "lastUpdated": "2025-09-12", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-host-microorganism", "kind": "public-risk-page", "title": "Risk of Host-Microorganism Interactions", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-host-microorganism-interactions/", "lastUpdated": "2025-12-02", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-host-microorganism", "kind": "hsrb-risk-page", "title": "Risk of Adverse Health Effects Due to Host-Microorganism Interactions", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/risk-of-adverse-health-effects-due-to-host-microorganism-interactions/", "lastUpdated": "2025-09-16", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-hypoxia", "kind": "public-risk-page", "title": "Risk of Hypoxia", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-hypoxia/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-hypoxia", "kind": "hsrb-risk-page", "title": "Risk of Reduced Crew Health and Performance Due to Hypoxia", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/risk-of-reduced-crew-health-and-performance-due-to-hypoxia/", "lastUpdated": "2025-06-24", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-food-nutrition", "kind": "public-risk-page", "title": "Risk of Inadequate Food and Nutrition", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-inadequate-food-and-nutrition/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-food-nutrition", "kind": "hsrb-risk-page", "title": "Risk of Inadequate Food and Nutrition Causing Decrements in In-Mission Health and Performance and Long-term Health (Food and Nutrition Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/risk-of-performance-decrement-and-crew-illness-due-to-inadequate-food-and-nutrition/", "lastUpdated": "2025-08-27", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-systems-operations", "kind": "public-risk-page", "title": "Risk of inadequate systems operations support", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-inadequate-systems-operations-support/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-systems-operations", "kind": "hsrb-risk-page", "title": "Risk of Adverse Mission Outcomes Due to Earth Independent Human-Systems Operations (EIHSO Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/eihso-risk/", "lastUpdated": "2025-09-12", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-teamwork", "kind": "public-risk-page", "title": "Risk of inadequate teamwork", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-inadequate-teamwork/", "lastUpdated": "2025-12-02", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-teamwork", "kind": "hsrb-risk-page", "title": "Risk of In-Mission Performance and Behavioral Health Decrements Due to Inadequate Cooperation, Coordination, Communication, and Psychosocial Adaptation within a Team (Team Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/team-risk/", "lastUpdated": "2025-03-18", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-eva", "kind": "public-risk-page", "title": "Risk of Injury and Compromised Performance from Spacewalks", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-injury-and-compromised-performance-from-extravehicular-activity-eva/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-eva", "kind": "hsrb-risk-page", "title": "Risk of Mission Impacting Injury and Compromised Performance and Long-Term Health Effects due to EVA Operations (EVA Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/eva-operations-risk/", "lastUpdated": "2025-09-15", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-dynamic-loads", "kind": "public-risk-page", "title": "Risk of injury from dynamic loads", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-injury-from-dynamic-loads/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-dynamic-loads", "kind": "hsrb-risk-page", "title": "Risk of In-Mission Injury and Performance Decrements and Long-term Health Effects due to Dynamic Loads (Dynamic Loads Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/dynamic-loads-risk/", "lastUpdated": "2025-03-11", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-radiation", "kind": "public-risk-page", "title": "Risk of radiation-induced cancers", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-radiation-induced-cancers/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-radiation", "kind": "hsrb-risk-page", "title": "Risk of Radiation Carcinogenesis", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/risk-of-radiation-carcinogenesis/", "lastUpdated": "2025-09-12", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-fitness", "kind": "public-risk-page", "title": "Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-reduced-cardiorespiratory-and-musculoskeletal-fitness/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-muscle", "kind": "hsrb-risk-page", "title": "Risk of Reduced Physical Performance Capabilities Due to Reduced Muscle Size, Strength, and Endurance (Muscle Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/muscle-risk/", "lastUpdated": "2025-08-20", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-sans", "kind": "public-risk-page", "title": "Risk of Spaceflight Associated Neuro-ocular Syndrome (SANS)", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-spaceflight-associated-neuro-ocular-syndrome-sans/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-sans", "kind": "hsrb-risk-page", "title": "Risk of Spaceflight Associated Neuro-ocular Syndrome (SANS Risk)", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/risk-of-spaceflight-associated-neuro-ocular-syndrome/", "lastUpdated": "2025-09-16", "retrievedAt": "2026-11-15" },
+
+    { "id": "src:pub-bone", "kind": "public-risk-page", "title": "Risk of Spaceflight-Induced Bone Changes", "organisation": "Human Research Program", "url": "https://www.nasa.gov/reference/risk-of-spaceflight-induced-bone-changes/", "lastUpdated": "2025-05-16", "retrievedAt": "2026-11-15" },
+    { "id": "src:hsrb-bone", "kind": "hsrb-risk-page", "title": "Risk of Bone Fracture due to Spaceflight-induced Changes to Bone", "organisation": "Human Health and Performance", "url": "https://www.nasa.gov/directorates/esdmd/hhp/risk-of-bone-fracture-due-to-spaceflight-induced-changes-to-bone/", "lastUpdated": "2025-11-13", "retrievedAt": "2026-11-15" }
+  ],
+  "risks": [
+    {
+      "id": "sleep-schedules",
+      "name": "Risk from Inadequate Sleep and Irregular Schedules",
+      "formalName": "Risk of Performance Decrements and Adverse Health Outcomes Resulting from Sleep Loss, Circadian Desynchronization, and Work Overload",
+      "description": "Sleep loss, disrupted circadian rhythms and heavy workload are common in spaceflight. NASA links them to fatigue, errors and reduced performance, and notes that the cabin environment itself (noise, temperature, vibration, light) can make sleep harder.",
+      "sourceIds": ["src:pub-sleep", "src:hsrb-sleep"],
+      "statements": [
+        { "quote": "astronauts commonly experience sleep deprivation", "sourceId": "src:hsrb-sleep" },
+        { "quote": "environmental factors (e.g., noise, temperature, vibration, and light) inhibit sleep", "sourceId": "src:hsrb-sleep" },
+        { "quote": "16 sunrises and sunsets", "sourceId": "src:pub-sleep" }
+      ],
+      "indicators": [
+        { "label": "Sleep duration / sleep loss", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:hsrb-sleep", "signalIds": ["sleep.duration", "sleep.efficiency"] },
+        { "label": "Perceived sleep quality", "layer": "psychological", "evidence": "nasa-related", "sourceId": "src:hsrb-sleep", "signalIds": ["sleep.quality"] },
+        { "label": "Fatigue", "layer": "psychological", "evidence": "nasa-stated", "sourceId": "src:hsrb-sleep", "signalIds": ["fatigue.vas", "fatigue.index"] },
+        { "label": "Performance decrements and errors (vigilance, reaction time)", "layer": "cognitive", "evidence": "nasa-related", "sourceId": "src:hsrb-sleep", "signalIds": ["cog.rt.median", "cog.rt.lapses", "cog.game.reaction"] },
+        { "label": "Circadian timing (sleep/wake phase, light exposure)", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:hsrb-sleep", "signalIds": [] },
+        { "label": "Workload", "layer": "operational", "evidence": "nasa-stated", "sourceId": "src:hsrb-sleep", "signalIds": [] },
+        { "label": "Autonomic recovery during sleep (HRV)", "layer": "physiological", "evidence": "orbital-hypothesis", "signalIds": ["hrv.rmssd"] }
+      ],
+      "signalLinks": [
+        { "signalId": "sleep.duration", "evidence": "nasa-stated", "sourceId": "src:hsrb-sleep", "rationale": "NASA names sleep loss directly; nightly sleep duration is its most direct measure." },
+        { "signalId": "sleep.efficiency", "evidence": "nasa-related", "sourceId": "src:hsrb-sleep", "rationale": "Disturbed sleep (time awake in bed) is part of sleep loss; efficiency is ORBITAL's way of quantifying it." },
+        { "signalId": "sleep.quality", "evidence": "nasa-related", "sourceId": "src:hsrb-sleep", "rationale": "Self-rated sleep quality is a subjective view of the sleep loss NASA describes." },
+        { "signalId": "fatigue.vas", "evidence": "nasa-stated", "sourceId": "src:hsrb-sleep", "rationale": "NASA states that sleep loss and circadian disturbance lead to fatigue." },
+        { "signalId": "fatigue.index", "evidence": "nasa-related", "sourceId": "src:hsrb-sleep", "rationale": "Composite fatigue estimate derived by ORBITAL; fatigue itself is named by NASA." },
+        { "signalId": "cog.rt.median", "evidence": "nasa-related", "sourceId": "src:hsrb-sleep", "rationale": "NASA describes performance decrements and errors; reaction time is ORBITAL's measurable proxy." },
+        { "signalId": "cog.rt.lapses", "evidence": "nasa-related", "sourceId": "src:hsrb-sleep", "rationale": "Attention lapses are ORBITAL's proxy for the errors NASA associates with fatigue." },
+        { "signalId": "cog.game.reaction", "evidence": "orbital-hypothesis", "rationale": "Optional game reaction times may reflect alertness; uncontrolled conditions make this a weak, exploratory proxy." },
+        { "signalId": "hrv.rmssd", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: lower overnight HRV may accompany poor sleep. Not stated on the NASA pages." }
+      ],
+      "missingMeasurements": ["Circadian phase markers (e.g. light exposure, sleep timing relative to schedule)", "Workload / schedule data", "Cabin noise, temperature, vibration and light levels", "Polysomnography-grade sleep staging"],
+      "detectionMethods": [
+        { "method": "Personal-baseline z-score (7-day mean)", "description": "Compares recent sleep with the astronaut's own days 10–37 baseline.", "implemented": true },
+        { "method": "Persistence + EWMA + CUSUM agreement", "description": "SCND treats a domain as sustained only when all three detectors agree.", "implemented": true },
+        { "method": "Sleep-timing regularity", "description": "Variability of sleep onset/offset across days. Not implemented; ORBITAL has no sleep-timing signal.", "implemented": false }
+      ],
+      "mitigations": [
+        { "summary": "Lighting that simulates Earth's light-dark cycle", "quote": "light-emitting diodes, or LEDs, simulate Earth’s light-dark cycle to help astronauts sleep better", "sourceId": "src:pub-sleep" },
+        { "summary": "Scheduled time for relaxation and self-care", "quote": "designated times for relaxation and self-care", "sourceId": "src:pub-sleep" }
+      ],
+      "coverage": "proxies-measured",
+      "limitations": ["ORBITAL's sleep values are simulated wearable/self-report estimates, not polysomnography.", "No circadian-phase or workload data, both of which NASA names as contributors.", "NASA does not publish thresholds for these consumer-style measures; ORBITAL compares only with each astronaut's own baseline."]
+    },
+    {
+      "id": "behavioral-psychiatric",
+      "name": "Risk of behavioral changes and psychiatric disorders",
+      "formalName": "Risk of Adverse Cognitive or Behavioral Changes and Psychiatric Disorders Leading to In-mission Health and Performance and Long-term Health Effects",
+      "description": "Isolation and confinement during long missions can lead to changes in cognitive and behavioural functioning. NASA reports that selection, training and ISS countermeasures have mainly been successful, but that countermeasures for exploration-class missions have not yet been validated.",
+      "sourceIds": ["src:pub-behavioral", "src:hsrb-behavioral"],
+      "statements": [
+        { "quote": "decrements in cognitive and behavioral functioning", "sourceId": "src:hsrb-behavioral" },
+        { "quote": "have mainly been successful in mitigating this risk", "sourceId": "src:hsrb-behavioral" },
+        { "quote": "Feasible and acceptable countermeasures for exploration class missions have not yet been developed and validated", "sourceId": "src:hsrb-behavioral" },
+        { "quote": "Privacy is also a top priority", "sourceId": "src:pub-behavioral" }
+      ],
+      "indicators": [
+        { "label": "Cognitive functioning (attention, memory)", "layer": "cognitive", "evidence": "nasa-stated", "sourceId": "src:hsrb-behavioral", "signalIds": ["cog.rt.median", "cog.memory.accuracy", "cog.concentration", "cog.game.reaction", "cog.game.memory-span"] },
+        { "label": "Morale / mood", "layer": "psychological", "evidence": "nasa-related", "sourceId": "src:pub-behavioral", "signalIds": ["mood.vas", "motivation.vas"] },
+        { "label": "Stress", "layer": "psychological", "evidence": "orbital-hypothesis", "signalIds": ["stress.vas"] },
+        { "label": "Perceived isolation", "layer": "psychological", "evidence": "nasa-related", "sourceId": "src:hsrb-behavioral", "signalIds": ["isolation.vas"] },
+        { "label": "Sleep (ORBITAL tracks this under the sleep risk)", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-behavioral", "signalIds": [] },
+        { "label": "Fatigue", "layer": "psychological", "evidence": "orbital-hypothesis", "signalIds": ["fatigue.vas"] },
+        { "label": "Clinical assessment by behavioural health professionals", "layer": "psychological", "evidence": "orbital-hypothesis", "signalIds": [] }
+      ],
+      "signalLinks": [
+        { "signalId": "cog.rt.median", "evidence": "nasa-related", "sourceId": "src:hsrb-behavioral", "rationale": "NASA names decrements in cognitive functioning; reaction time is one measurable aspect." },
+        { "signalId": "cog.memory.accuracy", "evidence": "nasa-related", "sourceId": "src:hsrb-behavioral", "rationale": "Working-memory accuracy is ORBITAL's operationalisation of cognitive functioning." },
+        { "signalId": "cog.concentration", "evidence": "nasa-related", "sourceId": "src:hsrb-behavioral", "rationale": "Self-rated concentration is a subjective view of cognitive functioning." },
+        { "signalId": "cog.game.reaction", "evidence": "orbital-hypothesis", "rationale": "Optional games are played for fun under uncontrolled conditions; any link is exploratory." },
+        { "signalId": "cog.game.memory-span", "evidence": "orbital-hypothesis", "rationale": "Optional games are played for fun under uncontrolled conditions; any link is exploratory." },
+        { "signalId": "mood.vas", "evidence": "nasa-related", "sourceId": "src:pub-behavioral", "rationale": "NASA mentions impacts on morale; a mood rating is ORBITAL's self-report proxy. It is not a depression measure." },
+        { "signalId": "motivation.vas", "evidence": "nasa-related", "sourceId": "src:pub-behavioral", "rationale": "Self-rated motivation is ORBITAL's proxy for the morale NASA mentions." },
+        { "signalId": "stress.vas", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: perceived stress may accompany behavioural-health strain. Not a NASA-specified indicator on these pages." },
+        { "signalId": "isolation.vas", "evidence": "nasa-related", "sourceId": "src:hsrb-behavioral", "rationale": "NASA names isolation and confinement as the stressor; perceived isolation is ORBITAL's self-report." },
+        { "signalId": "fatigue.vas", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: fatigue co-varies with behavioural strain. NASA links fatigue to the sleep risk." }
+      ],
+      "missingMeasurements": ["Clinical behavioural-health assessment (only qualified humans can make one)", "Validated psychological instruments administered by professionals", "Workload and schedule context", "Team interaction data (see the teamwork risk)"],
+      "detectionMethods": [
+        { "method": "SCND rules R-BRAIN-01/02/03", "description": "Deterministic YES / NO / INSUFFICIENT DATA from sustained, multi-detector deviation against the personal baseline.", "implemented": true },
+        { "method": "Wellbeing patterns", "description": "Descriptive 7-day changes and relationships between signals, with uncertainty.", "implemented": true },
+        { "method": "Machine-learning anomaly scoring", "description": "Interface only; advisory and never able to change a decision. Not implemented in this phase.", "implemented": false }
+      ],
+      "mitigations": [
+        { "summary": "Selection, training and ISS behavioural health countermeasures", "quote": "the robust set of behavioral health and performance countermeasures on ISS have mainly been successful in mitigating this risk", "sourceId": "src:hsrb-behavioral" },
+        { "summary": "Self-care options such as journaling", "quote": "NASA encourages astronauts to explore self-care options including keeping a regular journal", "sourceId": "src:pub-behavioral" }
+      ],
+      "coverage": "proxies-measured",
+      "limitations": ["ORBITAL never diagnoses depression or any psychiatric disorder; these signals are self-reports and task scores.", "NASA states exploration-class countermeasures are not yet validated; ORBITAL's suggestions are not validated countermeasures either.", "Self-report is affected by willingness to report, mood at the time of rating and survey fatigue."]
+    },
+    {
+      "id": "teamwork",
+      "name": "Risk of inadequate teamwork",
+      "formalName": "Risk of In-Mission Performance and Behavioral Health Decrements Due to Inadequate Cooperation, Coordination, Communication, and Psychosocial Adaptation within a Team",
+      "description": "Long missions can strain cooperation, coordination and communication within a crew. NASA reports evidence of occasional conflict and notes that team training and performance are not systematically monitored.",
+      "sourceIds": ["src:pub-teamwork", "src:hsrb-teamwork"],
+      "statements": [
+        { "quote": "evidence of occasional conflict", "sourceId": "src:hsrb-teamwork" },
+        { "quote": "Team training and performance are not systematically monitored nor evaluated", "sourceId": "src:hsrb-teamwork" }
+      ],
+      "indicators": [
+        { "label": "Team cohesion and conflict", "layer": "psychological", "evidence": "nasa-stated", "sourceId": "src:hsrb-teamwork", "signalIds": [] },
+        { "label": "Communication (including communication delay)", "layer": "operational", "evidence": "nasa-stated", "sourceId": "src:hsrb-teamwork", "signalIds": [] },
+        { "label": "Perceived isolation", "layer": "psychological", "evidence": "orbital-hypothesis", "signalIds": ["isolation.vas"] }
+      ],
+      "signalLinks": [
+        { "signalId": "isolation.vas", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: an individual's sense of isolation may relate to team psychosocial adaptation. It is not a team measure." }
+      ],
+      "missingMeasurements": ["Team performance and cohesion measures", "Communication logs (deliberately not collected, for privacy)"],
+      "detectionMethods": [
+        { "method": "Aggregate team participation", "description": "Crew Wellbeing shows team-level participation only, never per person and never linked to health.", "implemented": true }
+      ],
+      "mitigations": [
+        { "summary": "Team-building skills training", "quote": "astronauts practice team-building skills", "sourceId": "src:pub-teamwork" }
+      ],
+      "coverage": "partial",
+      "limitations": ["ORBITAL does not measure team functioning. Voluntary shared activities are a social feature, not a team assessment.", "Simulated crewmates' responses are synthetic."]
+    },
+    {
+      "id": "cardiovascular",
+      "name": "Risk of Cardiovascular Adaptations",
+      "formalName": "Risk of Cardiovascular Adaptations Contributing to Adverse Mission Performance and Health Outcomes",
+      "description": "Weightlessness causes cardiovascular deconditioning and remodelling. Low blood pressure on standing (orthostatic intolerance) is a primary concern on return to gravity, and stagnant or reversed flow in the internal jugular vein is an emerging finding.",
+      "sourceIds": ["src:pub-cardiovascular", "src:hsrb-cardiovascular"],
+      "statements": [
+        { "quote": "cardiovascular deconditioning, dysfunction, and remodeling", "sourceId": "src:hsrb-cardiovascular" },
+        { "quote": "Orthostatic intolerance", "sourceId": "src:hsrb-cardiovascular" },
+        { "quote": "Stagnant or reverse flow in the internal jugular vein", "sourceId": "src:hsrb-cardiovascular" }
+      ],
+      "indicators": [
+        { "label": "Blood pressure", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-cardiovascular", "signalIds": ["bp.systolic", "bp.diastolic"] },
+        { "label": "Heart rate", "layer": "physiological", "evidence": "nasa-related", "sourceId": "src:hsrb-cardiovascular", "signalIds": ["hr.sample", "hr.resting"] },
+        { "label": "Heart-rate variability", "layer": "physiological", "evidence": "orbital-hypothesis", "signalIds": ["hrv.rmssd"] },
+        { "label": "Aerobic exercise", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-cardiovascular", "signalIds": ["exercise.aerobic"] },
+        { "label": "Orthostatic tolerance on standing", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:hsrb-cardiovascular", "signalIds": [] },
+        { "label": "Venous flow (internal jugular vein)", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:hsrb-cardiovascular", "signalIds": [] }
+      ],
+      "signalLinks": [
+        { "signalId": "bp.systolic", "evidence": "nasa-stated", "sourceId": "src:pub-cardiovascular", "rationale": "NASA describes countermeasures to prevent low blood pressure; blood pressure is measured directly." },
+        { "signalId": "bp.diastolic", "evidence": "nasa-stated", "sourceId": "src:pub-cardiovascular", "rationale": "NASA describes countermeasures to prevent low blood pressure; blood pressure is measured directly." },
+        { "signalId": "hr.sample", "evidence": "nasa-related", "sourceId": "src:hsrb-cardiovascular", "rationale": "Heart rate is a basic measure of the cardiovascular function NASA describes." },
+        { "signalId": "hr.resting", "evidence": "nasa-related", "sourceId": "src:hsrb-cardiovascular", "rationale": "Resting heart rate is ORBITAL's proxy for cardiovascular deconditioning." },
+        { "signalId": "hrv.rmssd", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: HRV reflects autonomic regulation. Not stated on the NASA pages." },
+        { "signalId": "exercise.aerobic", "evidence": "nasa-stated", "sourceId": "src:pub-cardiovascular", "rationale": "NASA states regular exercise helps crews maintain cardiovascular fitness; ORBITAL tracks adherence." }
+      ],
+      "missingMeasurements": ["Orthostatic (stand) test", "Cardiac and vascular ultrasound", "Internal jugular venous flow", "ECG"],
+      "detectionMethods": [
+        { "method": "Personal-baseline 7-day mean (A-MONITOR-PHYSICAL)", "description": "Monitor-tier alert when the 7-day mean is ≥2 SD in the adverse direction, needing ≥10 baseline points. An ORBITAL screening rule, not a clinical threshold.", "implemented": true }
+      ],
+      "mitigations": [
+        { "summary": "Regular exercise and a healthy diet", "quote": "Regular exercise and healthy diets help crews maintain cardiovascular fitness", "sourceId": "src:pub-cardiovascular" },
+        { "summary": "Compression garments and fluid loading before landing", "quote": "Lower-body compression garments and drinking lots of fluids prior to landing can help to prevent low blood pressure", "sourceId": "src:pub-cardiovascular" }
+      ],
+      "coverage": "partial",
+      "limitations": ["ORBITAL has no orthostatic test or vascular imaging, which are central to this risk.", "Values are synthetic; the 2 SD monitor rule is ORBITAL's own screening convention, not a NASA threshold."]
+    },
+    {
+      "id": "cardiorespiratory-musculoskeletal-fitness",
+      "name": "Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness",
+      "formalName": "Risk of Reduced Physical Performance Capabilities Due to Reduced Muscle Size, Strength, and Endurance (Muscle Risk)",
+      "description": "Microgravity reduces muscle size, strength, endurance and aerobic fitness. ISS data show crews who follow the exercise schedule return with minimal average losses, but individual effects vary substantially, and exploration vehicles may have less exercise capability.",
+      "sourceIds": ["src:pub-fitness", "src:hsrb-muscle"],
+      "statements": [
+        { "quote": "if crew adhere to the exercise schedule and have access to adequate exercise countermeasure systems then on average, they return with minimal losses", "sourceId": "src:hsrb-muscle" },
+        { "quote": "average losses to strength and aerobic fitness are 10-12% of pre-mission levels", "sourceId": "src:pub-fitness" },
+        { "quote": "can vary substantially between individual astronauts", "sourceId": "src:pub-fitness" }
+      ],
+      "indicators": [
+        { "label": "Exercise adherence (resistance and aerobic)", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:hsrb-muscle", "signalIds": ["exercise.resistance", "exercise.aerobic", "activity.active-minutes"] },
+        { "label": "Fitness self-evaluation", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-fitness", "signalIds": ["exercise.performance"] },
+        { "label": "Muscle size", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:hsrb-muscle", "signalIds": ["body.lean-mass", "body.muscle-mass", "body.skeletal-muscle", "body.segment.arm-left", "body.segment.arm-right", "body.segment.trunk", "body.segment.leg-left", "body.segment.leg-right"] },
+        { "label": "Aerobic fitness (resting heart rate as a proxy)", "layer": "physiological", "evidence": "nasa-related", "sourceId": "src:pub-fitness", "signalIds": ["hr.resting"] },
+        { "label": "Muscle strength (dynamometry) and VO2 capacity", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-fitness", "signalIds": [] }
+      ],
+      "signalLinks": [
+        { "signalId": "exercise.resistance", "evidence": "nasa-stated", "sourceId": "src:pub-fitness", "rationale": "NASA describes daily resistance training as the countermeasure; ORBITAL tracks completion against prescription." },
+        { "signalId": "exercise.aerobic", "evidence": "nasa-stated", "sourceId": "src:pub-fitness", "rationale": "NASA describes daily aerobic exercise as the countermeasure; ORBITAL tracks completion against prescription." },
+        { "signalId": "activity.active-minutes", "evidence": "nasa-related", "sourceId": "src:pub-fitness", "rationale": "General activity is ORBITAL's broader proxy for exercise exposure." },
+        { "signalId": "exercise.performance", "evidence": "nasa-stated", "sourceId": "src:pub-fitness", "rationale": "NASA mentions periodic fitness self-evaluations; ORBITAL's weekly fitness test is a simulated equivalent." },
+        { "signalId": "hr.resting", "evidence": "nasa-related", "sourceId": "src:pub-fitness", "rationale": "Resting heart rate is a rough proxy for the aerobic fitness NASA describes." },
+        { "signalId": "body.lean-mass", "evidence": "nasa-related", "sourceId": "src:hsrb-muscle", "rationale": "NASA names declining muscle size; estimated lean mass is an indirect proxy." },
+        { "signalId": "body.muscle-mass", "evidence": "nasa-related", "sourceId": "src:hsrb-muscle", "rationale": "Estimated muscle mass is an indirect proxy for the muscle size NASA describes." },
+        { "signalId": "body.skeletal-muscle", "evidence": "nasa-related", "sourceId": "src:hsrb-muscle", "rationale": "Estimated skeletal muscle mass is an indirect proxy for muscle size." },
+        { "signalId": "body.segment.arm-left", "evidence": "orbital-hypothesis", "rationale": "Segmental estimates are ORBITAL's illustration of where losses might appear; not a NASA-specified measure." },
+        { "signalId": "body.segment.arm-right", "evidence": "orbital-hypothesis", "rationale": "Segmental estimates are ORBITAL's illustration of where losses might appear; not a NASA-specified measure." },
+        { "signalId": "body.segment.trunk", "evidence": "orbital-hypothesis", "rationale": "Segmental estimates are ORBITAL's illustration of where losses might appear; not a NASA-specified measure." },
+        { "signalId": "body.segment.leg-left", "evidence": "orbital-hypothesis", "rationale": "Segmental estimates are ORBITAL's illustration of where losses might appear; not a NASA-specified measure." },
+        { "signalId": "body.segment.leg-right", "evidence": "orbital-hypothesis", "rationale": "Segmental estimates are ORBITAL's illustration of where losses might appear; not a NASA-specified measure." }
+      ],
+      "missingMeasurements": ["Strength testing (dynamometry)", "VO2 / aerobic capacity testing", "Muscle imaging (MRI/ultrasound)", "Functional tasks after gravity transitions"],
+      "detectionMethods": [
+        { "method": "Prescription adherence", "description": "Gamification rewards completion up to the prescription; nothing is lost for missed days.", "implemented": true },
+        { "method": "Personal-baseline trend", "description": "7-day mean vs baseline for measured/derived signals (monitor tier).", "implemented": true }
+      ],
+      "mitigations": [
+        { "summary": "Daily resistance and aerobic exercise", "quote": "Six to seven days a week, astronauts on the International Space Station perform resistance training and aerobic exercises for 1.5 hours per day", "sourceId": "src:pub-fitness" },
+        { "summary": "Periodic fitness self-evaluations", "quote": "periodic fitness self-evaluations", "sourceId": "src:pub-fitness" }
+      ],
+      "coverage": "proxies-measured",
+      "limitations": ["Body-composition values are simulated estimates, not DXA or imaging.", "NASA's 10–12% average loss is a population figure from ISS; it is not used as a per-person threshold."]
+    },
+    {
+      "id": "bone",
+      "name": "Risk of Spaceflight-Induced Bone Changes",
+      "formalName": "Risk of Bone Fracture due to Spaceflight-induced Changes to Bone",
+      "description": "Weight-bearing bones lose density in microgravity, which can raise fracture risk during and after missions. NASA states that exercise, adequate nutrition and medications are needed as countermeasures, and that long-term effects of exploration missions are uncharacterised.",
+      "sourceIds": ["src:pub-bone", "src:hsrb-bone"],
+      "statements": [
+        { "quote": "bones lose between 1% and 1.5% of their density each month during four-to-six-month missions", "sourceId": "src:pub-bone" },
+        { "quote": "Countermeasures such as exercise, adequate nutrition, and medications are needed", "sourceId": "src:hsrb-bone" }
+      ],
+      "indicators": [
+        { "label": "Bone mineral density", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-bone", "signalIds": [] },
+        { "label": "Resistive exercise", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-bone", "signalIds": ["exercise.resistance"] },
+        { "label": "Lean / skeletal muscle mass", "layer": "physiological", "evidence": "orbital-hypothesis", "signalIds": ["body.lean-mass", "body.skeletal-muscle"] }
+      ],
+      "signalLinks": [
+        { "signalId": "exercise.resistance", "evidence": "nasa-stated", "sourceId": "src:pub-bone", "rationale": "NASA describes resistive exercise as helping keep bones strong; ORBITAL tracks adherence." },
+        { "signalId": "body.lean-mass", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: muscle loading relates to bone loading. This is NOT a bone measurement." },
+        { "signalId": "body.skeletal-muscle", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: muscle loading relates to bone loading. This is NOT a bone measurement." }
+      ],
+      "missingMeasurements": ["Bone density scans (NASA performs these before and after flight)", "Bone turnover biomarkers", "Nutrition intake (calcium, vitamin D)"],
+      "detectionMethods": [
+        { "method": "Exercise adherence only", "description": "ORBITAL cannot detect bone change; it can only show whether the exercise countermeasure is being completed.", "implemented": true }
+      ],
+      "mitigations": [
+        { "summary": "Exercise", "quote": "Exercise to reduce the deficits in postflight bone density and strengthen muscle force is an essential component of preventing declines in bone tissue", "sourceId": "src:pub-bone" },
+        { "summary": "Medication under study (bisphosphonates)", "quote": "NASA studies have found that medications like bisphosphonate could help mitigate some spaceflight-induced bone loss", "sourceId": "src:pub-bone" }
+      ],
+      "coverage": "countermeasure-only",
+      "limitations": ["ORBITAL measures no bone property. Nothing in ORBITAL can indicate bone loss.", "Medication is listed because NASA reports it; ORBITAL never suggests medication."]
+    },
+    {
+      "id": "hypoxia",
+      "name": "Risk of Hypoxia",
+      "formalName": "Risk of Reduced Crew Health and Performance Due to Hypoxia",
+      "description": "Future exploration vehicles may use reduced-pressure cabin atmospheres to simplify spacewalk preparation, which raises the risk of mild hypoxia. Cabin depressurisation, life-support failure, toxic exposure or illness can also cause hypoxic exposure.",
+      "sourceIds": ["src:pub-hypoxia", "src:hsrb-hypoxia"],
+      "statements": [
+        { "quote": "exposure to mild hypobaric hypoxia", "sourceId": "src:hsrb-hypoxia" },
+        { "quote": "of most concern are the potential effects on the increased intracranial pressure, visual impairment, cognitive performance, sensorimotor dysfunction, oxidative damage, and sleep quality", "sourceId": "src:hsrb-hypoxia" }
+      ],
+      "indicators": [
+        { "label": "Blood oxygen saturation", "layer": "physiological", "evidence": "nasa-related", "sourceId": "src:pub-hypoxia", "signalIds": ["spo2.spot", "spo2.nightly"] },
+        { "label": "Respiratory rate", "layer": "physiological", "evidence": "orbital-hypothesis", "signalIds": ["resp.rate"] },
+        { "label": "Cognitive performance and sleep quality", "layer": "cognitive", "evidence": "nasa-stated", "sourceId": "src:hsrb-hypoxia", "signalIds": [] },
+        { "label": "Cabin pressure and oxygen partial pressure", "layer": "operational", "evidence": "nasa-stated", "sourceId": "src:hsrb-hypoxia", "signalIds": [] }
+      ],
+      "signalLinks": [
+        { "signalId": "spo2.spot", "evidence": "nasa-related", "sourceId": "src:pub-hypoxia", "rationale": "NASA describes low tissue oxygen; pulse-oximetry saturation is ORBITAL's proxy." },
+        { "signalId": "spo2.nightly", "evidence": "nasa-related", "sourceId": "src:pub-hypoxia", "rationale": "NASA describes low tissue oxygen; nightly saturation is ORBITAL's proxy." },
+        { "signalId": "resp.rate", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: breathing rate may change with low oxygen. Not stated on the NASA pages." }
+      ],
+      "missingMeasurements": ["Cabin atmosphere telemetry (pressure, ppO2)", "Arterial blood gases"],
+      "detectionMethods": [
+        { "method": "Personal-baseline 7-day mean (A-MONITOR-PHYSICAL)", "description": "Monitor-tier alert on sustained adverse deviation; not an acute hypoxia alarm.", "implemented": true }
+      ],
+      "mitigations": [],
+      "coverage": "partial",
+      "limitations": ["ORBITAL is not an acute hypoxia alarm and must never be used as one; cabin life-support systems fulfil that role.", "The pages describe future atmospheres; the simulated ISS-like mission does not model reduced cabin pressure."]
+    },
+    {
+      "id": "food-nutrition",
+      "name": "Risk of Inadequate Food and Nutrition",
+      "formalName": "Risk of Inadequate Food and Nutrition Causing Decrements in In-Mission Health and Performance and Long-term Health (Food and Nutrition Risk)",
+      "description": "The space food system must be safe, nutritious and acceptable. Adequate nutrition has been demonstrated for 6-month and limited 1-year missions, but sustaining it on long missions with limited resupply is complex, including avoiding menu fatigue.",
+      "sourceIds": ["src:pub-food-nutrition", "src:hsrb-food-nutrition"],
+      "statements": [
+        { "quote": "Adequate nutrition and safe food have been demonstrated for 6-month missions and limited 1-year missions", "sourceId": "src:hsrb-food-nutrition" },
+        { "quote": "varied enough to avoid menu fatigue", "sourceId": "src:pub-food-nutrition" }
+      ],
+      "indicators": [
+        { "label": "Body mass", "layer": "physiological", "evidence": "orbital-hypothesis", "signalIds": ["body.mass", "body.fat-mass", "body.water"] },
+        { "label": "Hydration", "layer": "physiological", "evidence": "orbital-hypothesis", "signalIds": ["hydration.intake", "hydration.index"] },
+        { "label": "Capillary glucose", "layer": "physiological", "evidence": "orbital-hypothesis", "signalIds": ["glucose.capillary"] },
+        { "label": "Food intake and acceptability", "layer": "psychological", "evidence": "nasa-stated", "sourceId": "src:hsrb-food-nutrition", "signalIds": [] }
+      ],
+      "signalLinks": [
+        { "signalId": "body.mass", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: sustained mass change may reflect energy balance. Not stated on these NASA pages." },
+        { "signalId": "body.fat-mass", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: fat mass may reflect energy balance." },
+        { "signalId": "body.water", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: body water estimates relate to fluid intake." },
+        { "signalId": "hydration.intake", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: fluid intake is part of nutrition. Not stated on these NASA pages." },
+        { "signalId": "hydration.index", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: derived hydration estimate." },
+        { "signalId": "glucose.capillary", "evidence": "orbital-hypothesis", "rationale": "ORBITAL hypothesis: glucose is a metabolic marker; not stated on these NASA pages." }
+      ],
+      "missingMeasurements": ["Dietary intake logging", "Nutritional biochemistry (blood/urine)", "Food acceptability ratings"],
+      "detectionMethods": [
+        { "method": "Personal-baseline trend", "description": "7-day mean vs personal baseline for measured/derived signals.", "implemented": true }
+      ],
+      "mitigations": [
+        { "summary": "Crew evaluate and choose preferred foods before flight", "quote": "Astronauts work with scientists to evaluate and select their preferred foods before their mission", "sourceId": "src:pub-food-nutrition" }
+      ],
+      "coverage": "partial",
+      "limitations": ["Every ORBITAL link to this risk is an ORBITAL hypothesis; NASA's pages do not name these measures.", "ORBITAL records no diet, so it cannot assess nutrition."]
+    },
+    {
+      "id": "immune",
+      "name": "Risk of Altered Immune System Responses",
+      "formalName": "Risk of In Mission Impacts, Adverse Health Events or Long-Term Health Impacts due to Altered Immune Response (Immune Risk)",
+      "description": "Spaceflight alters immune function and latent viruses can reactivate, but it is not yet clear whether this increases susceptibility to disease. NASA studies blood, saliva and urine samples, including inflight samples.",
+      "sourceIds": ["src:pub-immune", "src:hsrb-immune"],
+      "statements": [
+        { "quote": "it is unclear at present if such alterations lead to increased susceptibility to disease", "sourceId": "src:hsrb-immune" },
+        { "quote": "The reactivation of latent viruses has been documented in crewmembers", "sourceId": "src:hsrb-immune" }
+      ],
+      "indicators": [
+        { "label": "Immune biomarkers (blood, saliva, urine)", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-immune", "signalIds": [] },
+        { "label": "Reported symptoms (cold sores, rashes, atypical allergies, infections)", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-immune", "signalIds": [] }
+      ],
+      "signalLinks": [],
+      "missingMeasurements": ["Immune biomarkers", "Viral reactivation assays", "Symptom reporting"],
+      "detectionMethods": [],
+      "mitigations": [],
+      "coverage": "not-measured",
+      "limitations": ["ORBITAL measures no immune parameter. Skin temperature is deliberately NOT linked to infection."]
+    },
+    {
+      "id": "sensorimotor-vestibular",
+      "name": "Risk of Altered Sensorimotor and Vestibular Function",
+      "formalName": "Risk of Altered Sensorimotor/Vestibular Function Impacting Critical Mission Tasks, Human Health, and Long-Term Health (Sensorimotor Risk)",
+      "description": "Altered gravity causes motion sickness, spatial disorientation and reduced postural control, locomotion and fine motor control. Readaptation takes hours to days, and impairment is greatest around gravity transitions.",
+      "sourceIds": ["src:pub-sensorimotor", "src:hsrb-sensorimotor"],
+      "statements": [
+        { "quote": "motion sickness, spatial disorientation, decrements in postural control and locomotion, and manual and fine motor control deficits", "sourceId": "src:hsrb-sensorimotor" },
+        { "quote": "It takes hours to days for the body to readapt to gravity upon landing", "sourceId": "src:hsrb-sensorimotor" }
+      ],
+      "indicators": [
+        { "label": "Balance, posture and locomotion", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:hsrb-sensorimotor", "signalIds": [] },
+        { "label": "Motion sickness and disorientation", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:hsrb-sensorimotor", "signalIds": [] },
+        { "label": "Fine motor control", "layer": "cognitive", "evidence": "nasa-stated", "sourceId": "src:hsrb-sensorimotor", "signalIds": [] }
+      ],
+      "signalLinks": [],
+      "missingMeasurements": ["Balance / posturography", "Fine motor task performance", "Motion-sickness symptom ratings"],
+      "detectionMethods": [],
+      "mitigations": [],
+      "coverage": "not-measured",
+      "limitations": ["ORBITAL does not measure sensorimotor function. Reaction-time tests are not validated sensorimotor measures and are not linked here."]
+    },
+    {
+      "id": "sans",
+      "name": "Risk of Spaceflight Associated Neuro-ocular Syndrome (SANS)",
+      "formalName": "Risk of Spaceflight Associated Neuro-ocular Syndrome (SANS Risk)",
+      "description": "Headward fluid shifts in weightlessness can cause optic-nerve swelling, retinal folds, flattening of the back of the eye and brain changes. SANS has no terrestrial equivalent and is a top research priority for long missions.",
+      "sourceIds": ["src:pub-sans", "src:hsrb-sans"],
+      "statements": [
+        { "quote": "there is no terrestrial disease equivalent", "sourceId": "src:hsrb-sans" },
+        { "quote": "Approximately 70 percent of astronauts aboard the International Space Station experience some swelling in the back of their eyes", "sourceId": "src:pub-sans" }
+      ],
+      "indicators": [
+        { "label": "Eye imaging (fundoscopy, OCT) and vision", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-sans", "signalIds": [] },
+        { "label": "Intracranial pressure", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:hsrb-sans", "signalIds": [] }
+      ],
+      "signalLinks": [],
+      "missingMeasurements": ["Ocular imaging", "Visual acuity", "Intracranial pressure"],
+      "detectionMethods": [],
+      "mitigations": [],
+      "coverage": "not-measured",
+      "limitations": ["ORBITAL measures no ocular or neurological parameter. NASA's investigated countermeasures (supplements, mechanical fluid-shift interventions) are research, not recommendations."]
+    },
+    {
+      "id": "decompression-sickness",
+      "name": "Risk of Decompression Sickness",
+      "formalName": "Risk of Mission Impacts and Long-Term Health Issues due to Decompression Sickness",
+      "description": "Moving too quickly from higher to lower pressure without enough denitrogenation (for example before a spacewalk) can cause nitrogen bubbles that damage tissues. NASA uses prebreathe protocols and has standards for prevention and treatment.",
+      "sourceIds": ["src:pub-dcs", "src:hsrb-dcs"],
+      "statements": [
+        { "quote": "NASA standards exist for DCS prevention and treatment", "sourceId": "src:hsrb-dcs" },
+        { "quote": "The effects of fractional gravity and exploration atmospheres on DCS risk are currently unknown", "sourceId": "src:hsrb-dcs" }
+      ],
+      "indicators": [
+        { "label": "Pressure transitions and prebreathe compliance", "layer": "operational", "evidence": "nasa-stated", "sourceId": "src:hsrb-dcs", "signalIds": [] }
+      ],
+      "signalLinks": [],
+      "missingMeasurements": ["Suit/habitat pressure profiles", "Prebreathe protocol records"],
+      "detectionMethods": [],
+      "mitigations": [
+        { "summary": "Denitrogenation (prebreathe) protocols", "quote": "Denitrogenation protocols (removing nitrogen from the body) are employed to minimize the formulation of gas emboli (bubbles) forming during an EVA", "sourceId": "src:hsrb-dcs" }
+      ],
+      "coverage": "not-measured",
+      "limitations": ["Out of ORBITAL's scope. Note: the 'HSRB resources' link on NASA's public DCS page pointed to the behavioural-health HSRB page when retrieved; ORBITAL cites the DCS HSRB page directly."]
+    },
+    {
+      "id": "host-microorganism",
+      "name": "Risk of Host-Microorganism Interactions",
+      "formalName": "Risk of Adverse Health Effects Due to Host-Microorganism Interactions",
+      "description": "Astronauts' skin and gut microbial communities change in space and some microbes appear more virulent, but how this affects disease risk is unknown. Preventive measures limit, but cannot fully prevent, infection.",
+      "sourceIds": ["src:pub-host-microorganism", "src:hsrb-host-microorganism"],
+      "statements": [
+        { "quote": "microbial infection of astronauts cannot be completely prevented and does occur", "sourceId": "src:hsrb-host-microorganism" }
+      ],
+      "indicators": [
+        { "label": "Microbiome and infection markers", "layer": "physiological", "evidence": "nasa-stated", "sourceId": "src:pub-host-microorganism", "signalIds": [] }
+      ],
+      "signalLinks": [],
+      "missingMeasurements": ["Microbiome sampling", "Infection reporting"],
+      "detectionMethods": [],
+      "mitigations": [
+        { "summary": "Limiting crew exposure to large groups before launch", "quote": "limiting flight crew exposure to large groups in the two weeks prior to launch", "sourceId": "src:pub-host-microorganism" }
+      ],
+      "coverage": "not-measured",
+      "limitations": ["Out of ORBITAL's scope."]
+    },
+    {
+      "id": "eva-injury-performance",
+      "name": "Risk of Injury and Compromised Performance from Spacewalks",
+      "formalName": "Risk of Mission Impacting Injury and Compromised Performance and Long-Term Health Effects due to EVA Operations (EVA Risk)",
+      "description": "Spacewalks carry significant physical and mental demands and injury risk, which will increase as exploration spacewalks become more frequent and longer.",
+      "sourceIds": ["src:pub-eva", "src:hsrb-eva"],
+      "statements": [
+        { "quote": "spacewalks will occur more frequently and last longer, creating new physical and mental demands", "sourceId": "src:pub-eva" }
+      ],
+      "indicators": [
+        { "label": "Suit injuries, EVA workload and duration", "layer": "operational", "evidence": "nasa-stated", "sourceId": "src:pub-eva", "signalIds": [] }
+      ],
+      "signalLinks": [],
+      "missingMeasurements": ["EVA schedules and suit telemetry"],
+      "detectionMethods": [],
+      "mitigations": [
+        { "summary": "Prebreathe protocols before spacewalks", "quote": "Researchers have created “prebreathe protocols” to ensure crew members are exposed to high levels of oxygen before spacewalks", "sourceId": "src:pub-eva" }
+      ],
+      "coverage": "not-measured",
+      "limitations": ["The simulated mission contains no spacewalks."]
+    },
+    {
+      "id": "dynamic-loads",
+      "name": "Risk of injury from dynamic loads",
+      "formalName": "Risk of In-Mission Injury and Performance Decrements and Long-term Health Effects due to Dynamic Loads (Dynamic Loads Risk)",
+      "description": "Landing and other dynamic phases of flight can injure crew, especially after bone and muscle weakening. NASA notes current standards and tools do not adequately capture the spaceflight environment.",
+      "sourceIds": ["src:pub-dynamic-loads", "src:hsrb-dynamic-loads"],
+      "statements": [
+        { "quote": "these do not adequately mitigate the risk of injury due to the unique spaceflight environment", "sourceId": "src:hsrb-dynamic-loads" }
+      ],
+      "indicators": [
+        { "label": "Vehicle loads, seating and restraint configuration", "layer": "operational", "evidence": "nasa-stated", "sourceId": "src:pub-dynamic-loads", "signalIds": [] }
+      ],
+      "signalLinks": [],
+      "missingMeasurements": ["Vehicle load data"],
+      "detectionMethods": [],
+      "mitigations": [],
+      "coverage": "not-measured",
+      "limitations": ["Out of ORBITAL's scope."]
+    },
+    {
+      "id": "radiation-cancer",
+      "name": "Risk of radiation-induced cancers",
+      "formalName": "Risk of Radiation Carcinogenesis",
+      "description": "Space radiation increases lifetime cancer risk and may affect other tissues and the central nervous system. Shielding helps against solar particle events but does not mitigate galactic cosmic radiation.",
+      "sourceIds": ["src:pub-radiation", "src:hsrb-radiation"],
+      "statements": [
+        { "quote": "Shielding is effective against some radiation exposure, such as solar particle events (SPE) but does not mitigate Galactic Cosmic Radiation (GCR) exposure", "sourceId": "src:hsrb-radiation" }
+      ],
+      "indicators": [
+        { "label": "Radiation dose", "layer": "operational", "evidence": "nasa-stated", "sourceId": "src:pub-radiation", "signalIds": [] }
+      ],
+      "signalLinks": [],
+      "missingMeasurements": ["Personal dosimetry"],
+      "detectionMethods": [],
+      "mitigations": [],
+      "coverage": "not-measured",
+      "limitations": ["ORBITAL has no dosimetry. Cognitive measures are deliberately NOT linked to radiation."]
+    },
+    {
+      "id": "systems-operations-support",
+      "name": "Risk of inadequate systems operations support",
+      "formalName": "Risk of Adverse Mission Outcomes Due to Earth Independent Human-Systems Operations (EIHSO Risk)",
+      "description": "As missions travel farther from Earth, crews will need to operate and repair systems more independently, without real-time ground support.",
+      "sourceIds": ["src:pub-systems-operations", "src:hsrb-systems-operations"],
+      "statements": [
+        { "quote": "as the distance from Earth increases, crew will need to be more independent and be able to handle greater operational complexity", "sourceId": "src:hsrb-systems-operations" }
+      ],
+      "indicators": [
+        { "label": "Task performance with system interfaces", "layer": "operational", "evidence": "nasa-stated", "sourceId": "src:hsrb-systems-operations", "signalIds": [] }
+      ],
+      "signalLinks": [],
+      "missingMeasurements": ["Operational task performance"],
+      "detectionMethods": [],
+      "mitigations": [
+        { "summary": "Pre-mission systems and emergency training", "quote": "Crew members also receive training before a mission to familiarize themselves with various systems and respond to emergencies themselves", "sourceId": "src:pub-systems-operations" }
+      ],
+      "coverage": "not-measured",
+      "limitations": ["Out of ORBITAL's scope. ORBITAL itself aims for an Earth-independent, offline design."]
+    }
+  ]
+}

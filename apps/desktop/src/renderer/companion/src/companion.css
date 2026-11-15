@@ -1,0 +1,300 @@
+@import 'tailwindcss';
+@import '../../shared/tokens.css';
+
+@theme inline {
+  --color-surface: var(--o-surface);
+  --color-surface-2: var(--o-surface-2);
+  --color-line: var(--o-line);
+  --color-ink: var(--o-ink);
+  --color-ink-2: var(--o-ink-2);
+  --color-ink-3: var(--o-ink-3);
+  --color-accent: var(--o-accent);
+  --color-teal: var(--o-teal);
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+}
+
+/* The window itself is fully transparent — only the companion, its bubble and its panels paint pixels. */
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  background: transparent !important;
+  overflow: hidden;
+  user-select: none;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.companion-panel,
+.companion-bubble {
+  box-shadow: 0 8px 28px rgb(0 0 0 / 0.22), 0 1px 2px rgb(0 0 0 / 0.1);
+  animation: panel-in 0.2s ease-out;
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Artwork: contain-fit, bottom-anchored, never stretched ─────────────────── */
+.companion-motion,
+.companion-breathe {
+  position: absolute;
+  inset: 0;
+}
+.companion-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  pointer-events: none;
+  /* A soft contact shadow so the cutout sits naturally on light and dark desktops. */
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.18));
+}
+.companion-shadow {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -6px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.22), transparent);
+  animation: shadow-float 3.8s ease-in-out infinite;
+}
+
+/* ── Motion presets (transform only — the drawing itself is never altered) ──── */
+.companion-breathe {
+  transform-origin: 50% 100%;
+}
+.motion-float-breathe {
+  animation: float 3.8s ease-in-out infinite;
+}
+.motion-float-breathe .companion-breathe {
+  animation: breathe 3.8s ease-in-out infinite;
+}
+.motion-bounce {
+  animation: hop 0.9s cubic-bezier(0.3, 0.7, 0.4, 1) 1;
+  transform-origin: 50% 100%;
+}
+.motion-react {
+  animation: react 0.65s cubic-bezier(0.3, 0.7, 0.4, 1) 1;
+  transform-origin: 50% 100%;
+}
+.motion-celebrate {
+  animation: celebrate 1.8s cubic-bezier(0.3, 0.7, 0.4, 1) 1;
+  transform-origin: 50% 100%;
+}
+.motion-sleep {
+  transform: translateY(4px);
+}
+.motion-sleep .companion-breathe {
+  animation: sleep-breathe 4.6s ease-in-out infinite;
+}
+.motion-sleep .companion-art {
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.18)) saturate(0.92) brightness(0.97);
+}
+.motion-wake {
+  animation: wake 0.9s ease-out 1;
+  transform-origin: 50% 100%;
+}
+.shadow-sleep {
+  animation: none;
+  opacity: 0.9;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes shadow-float {
+  0%, 100% { transform: scaleX(1); opacity: 1; }
+  50% { transform: scaleX(0.9); opacity: 0.75; }
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.008, 1.018); }
+}
+@keyframes sleep-breathe {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.012, 1.028); }
+}
+@keyframes hop {
+  0% { transform: translateY(0) scale(1, 1); }
+  20% { transform: translateY(0) scale(1.04, 0.96); }
+  45% { transform: translateY(-14px) scale(0.98, 1.03); }
+  70% { transform: translateY(0) scale(1.03, 0.97); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+@keyframes react {
+  0% { transform: scale(1, 1); }
+  30% { transform: translateY(-8px) scale(0.98, 1.03) rotate(-2deg); }
+  60% { transform: translateY(0) scale(1.03, 0.97) rotate(1deg); }
+  100% { transform: scale(1, 1) rotate(0); }
+}
+@keyframes celebrate {
+  0% { transform: translateY(0) rotate(0); }
+  15% { transform: translateY(-18px) rotate(-4deg); }
+  30% { transform: translateY(0) rotate(0); }
+  45% { transform: translateY(-14px) rotate(4deg); }
+  60% { transform: translateY(0) rotate(0); }
+  75% { transform: translateY(-6px) rotate(-2deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+@keyframes wake {
+  0% { transform: translateY(4px) scale(1, 1); }
+  40% { transform: translateY(0) scale(0.98, 1.05); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+
+/* ── Raster rig (Mochi): layers, tail swish, blink lids ─────────────────────── */
+.rig {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.18));
+}
+.rig-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.tail-swish { animation: swish 1.8s ease-in-out infinite; }
+.tail-happy { animation: swish 0.5s ease-in-out infinite; }
+.tail-still { transform: none; }
+@keyframes swish {
+  0%, 100% { transform: scaleX(var(--smin)) rotate(calc(var(--deg) * -1)); }
+  50% { transform: scaleX(var(--smax)) rotate(var(--deg)); }
+}
+.eyelid {
+  position: absolute;
+  border-radius: 50%;
+  transform: scaleY(0);
+  transform-origin: 50% 0%;
+  transition: transform 70ms ease-in;
+  pointer-events: none;
+}
+.eyelid.closed { transform: scaleY(1); }
+.motion-curious { animation: curious 2.2s ease-in-out 1; transform-origin: 50% 100%; }
+@keyframes curious {
+  0%, 100% { transform: rotate(0); }
+  20%, 65% { transform: rotate(-3.5deg) translateY(-2px); }
+}
+
+/* ── Species motion profiles: each species moves in its own way ──────────── */
+/* Dog: quick, bouncy */
+.mp-dog .motion-float-breathe { animation: dog-bob 1.3s ease-in-out infinite; }
+.mp-dog .motion-float-breathe .companion-breathe { animation: none; }
+.mp-dog .motion-celebrate { animation: dog-celebrate 1.8s cubic-bezier(0.3, 0.7, 0.4, 1) 1; transform-origin: 50% 100%; }
+.mp-dog .motion-curious { animation: dog-curious 2.2s ease-in-out 1; transform-origin: 50% 100%; }
+@keyframes dog-bob { 50% { transform: translateY(-3px); } }
+@keyframes dog-celebrate {
+  0%, 30%, 60%, 100% { transform: translateY(0) scale(1, 1); }
+  10%, 40% { transform: translateY(0) scale(1.06, 0.92); }
+  20%, 50% { transform: translateY(-22px) scale(0.96, 1.05); }
+  75% { transform: translateY(-8px) rotate(3deg); }
+}
+@keyframes dog-curious { 0%, 100% { transform: rotate(0); } 25%, 70% { transform: rotate(-6deg); } }
+
+/* Cat: slow, deliberate, stretches */
+.mp-cat .motion-float-breathe { animation: cat-sway 6s ease-in-out infinite; transform-origin: 50% 100%; }
+.mp-cat .motion-float-breathe .companion-breathe { animation: none; }
+.mp-cat .motion-bounce { animation: cat-pounce 1s ease-in-out 1; transform-origin: 50% 100%; }
+.mp-cat .motion-celebrate { animation: cat-celebrate 1.8s ease-in-out 1; transform-origin: 50% 100%; }
+.mp-cat .motion-react { animation: cat-react 0.7s ease-in-out 1; transform-origin: 50% 100%; }
+@keyframes cat-sway { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); } }
+@keyframes cat-pounce { 0%, 100% { transform: scale(1, 1); } 40% { transform: scale(1.04, 0.92) translateY(2px); } 70% { transform: translateY(-10px); } }
+@keyframes cat-celebrate {
+  0%, 100% { transform: scale(1, 1); }
+  25% { transform: scale(1.08, 0.9); }
+  45% { transform: scale(0.95, 1.06) translateY(-14px); }
+  65% { transform: translateY(0) scale(1.02, 0.98); }
+}
+@keyframes cat-react { 0%, 100% { transform: rotate(0); } 40% { transform: rotate(3deg) translateY(-4px); } }
+
+/* Alien: hovers (its SVG bobs and draws its own shadow), spins when happy */
+.mp-alien .companion-shadow { display: none; }
+.mp-alien .motion-float-breathe, .mp-alien .motion-float-breathe .companion-breathe { animation: none; }
+.mp-alien .motion-celebrate { animation: alien-spin 1.8s ease-in-out 1; transform-origin: 50% 60%; }
+.mp-alien .motion-react { animation: alien-react 0.7s ease-in-out 1; transform-origin: 50% 60%; }
+.mp-alien .motion-sleep { transform: none; }
+@keyframes alien-spin { 0% { transform: rotate(0) translateY(0); } 40% { transform: rotate(180deg) translateY(-10px); } 80%, 100% { transform: rotate(360deg) translateY(0); } }
+@keyframes alien-react { 50% { transform: translateY(-10px) scale(1.04); } }
+
+/* ── Overlays (effects only — not character drawings) ──────────────────────── */
+.overlay-zzz {
+  position: absolute;
+  right: 6%;
+  top: 2%;
+  font-weight: 700;
+  color: var(--o-ink-2);
+  pointer-events: none;
+}
+.overlay-zzz span {
+  position: absolute;
+  opacity: 0;
+  animation: zzz 3.6s ease-in-out infinite;
+}
+.overlay-zzz span:nth-child(1) { font-size: 12px; animation-delay: 0s; }
+.overlay-zzz span:nth-child(2) { font-size: 15px; animation-delay: 1.2s; }
+.overlay-zzz span:nth-child(3) { font-size: 19px; animation-delay: 2.4s; }
+@keyframes zzz {
+  0% { opacity: 0; transform: translate(0, 0); }
+  20% { opacity: 0.85; }
+  100% { opacity: 0; transform: translate(14px, -38px); }
+}
+.overlay-sparkles {
+  position: absolute;
+  left: 50%;
+  top: 4%;
+  pointer-events: none;
+}
+.overlay-sparkles svg {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  fill: var(--crew-yellow);
+  opacity: 0;
+  animation: sparkle 1.4s ease-out var(--d) 1 both;
+}
+@keyframes sparkle {
+  0% { opacity: 0; transform: rotate(var(--a)) translateY(0) scale(0.4); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(var(--a)) translateY(-78px) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-float-breathe,
+  .motion-float-breathe .companion-breathe,
+  .motion-bounce,
+  .motion-react,
+  .motion-celebrate,
+  .motion-sleep .companion-breathe,
+  .motion-wake,
+  .companion-shadow,
+  .overlay-sparkles svg,
+  .tail-swish,
+  .tail-happy,
+  .motion-curious,
+  [class*='mp-'] [class*='motion-'] {
+    animation: none !important;
+  }
+  .overlay-zzz span {
+    animation: none;
+    opacity: 0.7;
+  }
+  .overlay-zzz span:nth-child(2) { transform: translate(8px, -14px); }
+  .overlay-zzz span:nth-child(3) { transform: translate(16px, -30px); }
+}

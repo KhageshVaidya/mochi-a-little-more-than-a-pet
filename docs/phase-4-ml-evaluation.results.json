@@ -1,0 +1,259 @@
+{
+  "generatedBy": "tests/phase4-intelligence.test.ts (ORBITAL_WRITE_EVAL=1)",
+  "modelHash": "69db990e",
+  "threshold": 0.5248960591919638,
+  "training": {
+    "members": 40,
+    "rows": 5680,
+    "seeds": "900001–900040",
+    "quantile": 0.99,
+    "scoreMedian": 0.42847693921569496
+  },
+  "cohort": [
+    {
+      "scenario": "healthy-adaptation",
+      "members": 16,
+      "dailyFalsePositiveRate": {
+        "scnd": 0.0027573529411764708,
+        "ml": 0.0059742647058823525,
+        "trend": 0.0027573529411764708
+      },
+      "membersWithFalseAlarm": {
+        "scnd": 2,
+        "ml": 2,
+        "trend": 3
+      },
+      "detection": {
+        "scnd": {
+          "detected": 0,
+          "medianDelay": null,
+          "minDelay": null,
+          "maxDelay": null
+        },
+        "ml": {
+          "detected": 0,
+          "medianDelay": null,
+          "minDelay": null,
+          "maxDelay": null
+        },
+        "trend": {
+          "detected": 0,
+          "medianDelay": null,
+          "minDelay": null,
+          "maxDelay": null
+        }
+      }
+    },
+    {
+      "scenario": "sleep-disruption",
+      "members": 8,
+      "dailyFalsePositiveRate": {
+        "scnd": 0,
+        "ml": 0,
+        "trend": 0
+      },
+      "membersWithFalseAlarm": {
+        "scnd": 0,
+        "ml": 0,
+        "trend": 0
+      },
+      "detection": {
+        "scnd": {
+          "detected": 8,
+          "medianDelay": 28,
+          "minDelay": 20,
+          "maxDelay": 33
+        },
+        "ml": {
+          "detected": 8,
+          "medianDelay": 23.5,
+          "minDelay": 20,
+          "maxDelay": 34
+        },
+        "trend": {
+          "detected": 8,
+          "medianDelay": 43,
+          "minDelay": 36,
+          "maxDelay": 52
+        }
+      }
+    },
+    {
+      "scenario": "physical-deterioration",
+      "members": 8,
+      "dailyFalsePositiveRate": {
+        "scnd": 0,
+        "ml": 0,
+        "trend": 0
+      },
+      "membersWithFalseAlarm": {
+        "scnd": 0,
+        "ml": 0,
+        "trend": 0
+      },
+      "detection": {
+        "scnd": {
+          "detected": 3,
+          "medianDelay": 105,
+          "minDelay": 89,
+          "maxDelay": 124
+        },
+        "ml": {
+          "detected": 8,
+          "medianDelay": 62,
+          "minDelay": 46,
+          "maxDelay": 113
+        },
+        "trend": {
+          "detected": 8,
+          "medianDelay": 45,
+          "minDelay": 29,
+          "maxDelay": 51
+        }
+      }
+    },
+    {
+      "scenario": "psych-deterioration",
+      "members": 8,
+      "dailyFalsePositiveRate": {
+        "scnd": 0,
+        "ml": 0,
+        "trend": 0
+      },
+      "membersWithFalseAlarm": {
+        "scnd": 0,
+        "ml": 0,
+        "trend": 0
+      },
+      "detection": {
+        "scnd": {
+          "detected": 8,
+          "medianDelay": 24,
+          "minDelay": 13,
+          "maxDelay": 31
+        },
+        "ml": {
+          "detected": 8,
+          "medianDelay": 22.5,
+          "minDelay": 20,
+          "maxDelay": 25
+        },
+        "trend": {
+          "detected": 8,
+          "medianDelay": 43.5,
+          "minDelay": 12,
+          "maxDelay": 54
+        }
+      }
+    },
+    {
+      "scenario": "incomplete-telemetry",
+      "members": 8,
+      "dailyFalsePositiveRate": {
+        "scnd": 0,
+        "ml": 0,
+        "trend": 0
+      },
+      "membersWithFalseAlarm": {
+        "scnd": 0,
+        "ml": 0,
+        "trend": 0
+      },
+      "detection": {
+        "scnd": {
+          "detected": 0,
+          "medianDelay": null,
+          "minDelay": null,
+          "maxDelay": null
+        },
+        "ml": {
+          "detected": 0,
+          "medianDelay": null,
+          "minDelay": null,
+          "maxDelay": null
+        },
+        "trend": {
+          "detected": 0,
+          "medianDelay": null,
+          "minDelay": null,
+          "maxDelay": null
+        }
+      }
+    }
+  ],
+  "crew": [
+    {
+      "label": "CM-01",
+      "scenario": "healthy-adaptation",
+      "onsetDay": null,
+      "scndFirst": null,
+      "mlFirst": null,
+      "trendFirst": null,
+      "mlWithheldDays": 0,
+      "scndInsufficientDays": 0
+    },
+    {
+      "label": "CM-02",
+      "scenario": "sleep-disruption",
+      "onsetDay": 45,
+      "scndFirst": 61,
+      "mlFirst": 58,
+      "trendFirst": 93,
+      "mlWithheldDays": 0,
+      "scndInsufficientDays": 0
+    },
+    {
+      "label": "CM-03",
+      "scenario": "physical-deterioration",
+      "onsetDay": 55,
+      "scndFirst": null,
+      "mlFirst": 132,
+      "trendFirst": 93,
+      "mlWithheldDays": 0,
+      "scndInsufficientDays": 0
+    },
+    {
+      "label": "CM-04",
+      "scenario": "psych-deterioration",
+      "onsetDay": 85,
+      "scndFirst": 108,
+      "mlFirst": 109,
+      "trendFirst": 116,
+      "mlWithheldDays": 0,
+      "scndInsufficientDays": 0
+    },
+    {
+      "label": "CM-05",
+      "scenario": "incomplete-telemetry",
+      "onsetDay": null,
+      "scndFirst": null,
+      "mlFirst": null,
+      "trendFirst": null,
+      "mlWithheldDays": 136,
+      "scndInsufficientDays": 118
+    }
+  ],
+  "forecasts": [
+    {
+      "id": "exercise.performance",
+      "n": 508,
+      "maeTrend": 5.4247047244094455,
+      "maeNaive": 4.6141732283464565,
+      "coverage80": 0.6122047244094488
+    },
+    {
+      "id": "hr.resting",
+      "n": 640,
+      "maeTrend": 0.8478847346230163,
+      "maeNaive": 0.7463504464285716,
+      "coverage80": 0.5890625
+    },
+    {
+      "id": "sleep.duration",
+      "n": 640,
+      "maeTrend": 0.3402658451140873,
+      "maeNaive": 0.2867309523809522,
+      "coverage80": 0.5796875
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../node_modules/.tsc/desktop-node",
+    "rootDir": ".",
+    "types": [
+      "node",
+      "electron-vite/node"
+    ]
+  },
+  "include": [
+    "electron.vite.config.ts",
+    "src/main",
+    "src/preload"
+  ],
+  "exclude": [
+    "src/main/**/*.test.ts"
+  ],
+  "references": [
+    {
+      "path": "../../packages/contracts"
+    },
+    {
+      "path": "../../packages/signals"
+    },
+    {
+      "path": "../../packages/simulation"
+    },
+    {
+      "path": "../../packages/engine"
+    },
+    {
+      "path": "../../packages/gamification"
+    },
+    {
+      "path": "../../packages/companion"
+    },
+    {
+      "path": "../../packages/data-sources"
+    },
+    {
+      "path": "../../packages/recommendations"
+    }
+  ]
+}

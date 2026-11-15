@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": { "outDir": "../node_modules/.tsc/tests", "rootDir": ".", "types": ["node"] },
+  "include": ["."],
+  "references": [
+    { "path": "../packages/contracts" },
+    { "path": "../packages/signals" },
+    { "path": "../packages/simulation" },
+    { "path": "../packages/engine" }
+  ]
+}

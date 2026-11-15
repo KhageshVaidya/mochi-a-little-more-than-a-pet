@@ -1,0 +1,191 @@
+@import 'tailwindcss';
+@import '../../shared/tokens.css';
+
+/* Map ORBITAL tokens into Tailwind utilities: bg-surface, text-ink-2, border-line, … */
+@theme inline {
+  --color-bg: var(--o-bg);
+  --color-sidebar: var(--o-sidebar);
+  --color-surface: var(--o-surface);
+  --color-surface-2: var(--o-surface-2);
+  --color-surface-3: var(--o-surface-3);
+  --color-line: var(--o-line);
+  --color-line-strong: var(--o-line-strong);
+  --color-ink: var(--o-ink);
+  --color-ink-2: var(--o-ink-2);
+  --color-ink-3: var(--o-ink-3);
+  --color-accent: var(--o-accent);
+  --color-accent-soft: var(--o-accent-soft);
+  --color-teal: var(--o-teal);
+  --color-teal-soft: var(--o-teal-soft);
+  --color-watch: var(--o-watch);
+  --color-watch-soft: var(--o-watch-soft);
+  --color-attention: var(--o-attention);
+  --color-attention-soft: var(--o-attention-soft);
+  --color-synthetic: var(--o-synthetic);
+  --color-synthetic-soft: var(--o-synthetic-soft);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+
+  --radius-card: 18px;
+  --radius-control: 10px;
+  --shadow-card: var(--o-shadow-card);
+  --shadow-raised: var(--o-shadow-raised);
+}
+
+/* ── Type scale (Apple-like, 7 steps) ───────────────────────────────────────── */
+@utility t-display {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+}
+@utility t-large {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+}
+@utility t-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+@utility t-headline {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: -0.006em;
+}
+@utility t-body {
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -0.003em;
+}
+@utility t-footnote {
+  font-size: 13px;
+  line-height: 18px;
+}
+@utility t-caption {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.005em;
+}
+@utility t-eyebrow {
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+@utility drag {
+  -webkit-app-region: drag;
+}
+@utility no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────────── */
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--o-bg);
+    color: var(--o-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    user-select: none;
+  }
+  ::selection {
+    background: var(--o-accent-soft);
+  }
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--o-focus);
+    border-radius: var(--radius-control);
+  }
+  button {
+    cursor: default;
+  }
+  /* Quiet, native-feeling scrollbars */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--o-line-strong);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* Mission-day slider */
+.o-range {
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--o-accent) 0%,
+    var(--o-accent) var(--o-fill, 0%),
+    var(--o-surface-3) var(--o-fill, 0%),
+    var(--o-surface-3) 100%
+  );
+}
+.o-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 0.5px solid rgb(0 0 0 / 0.12);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Print (Health Reports → Save as PDF) ──────────────────────────────────── */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  html,
+  body,
+  #root,
+  .print-root,
+  .print-main {
+    height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+  .report {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}

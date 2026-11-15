@@ -1,0 +1,38 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "packages/contracts"
+    },
+    {
+      "path": "packages/signals"
+    },
+    {
+      "path": "packages/simulation"
+    },
+    {
+      "path": "packages/engine"
+    },
+    {
+      "path": "packages/gamification"
+    },
+    {
+      "path": "packages/data-sources"
+    },
+    {
+      "path": "packages/recommendations"
+    },
+    {
+      "path": "packages/companion"
+    },
+    {
+      "path": "apps/desktop/tsconfig.node.json"
+    },
+    {
+      "path": "apps/desktop/tsconfig.web.json"
+    },
+    {
+      "path": "tests"
+    }
+  ]
+}

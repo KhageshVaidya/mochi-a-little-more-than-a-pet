@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "outDir": "../../node_modules/.tsc/signals", "rootDir": ".", "types": ["node"] },
+  "include": ["src", "test"], "references": [{ "path": "../contracts" }]
+}

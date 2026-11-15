@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 210" width="200" height="210">
+<!-- ORBITAL placeholder companion artwork (vector). Replace with team artwork; see assets/pets/README.md -->
+<style>
+  * { stroke-linejoin: round; stroke-linecap: round; }
+  .ink { stroke: #2b2226; stroke-width: 3; }
+  .blink { transform-box: fill-box; transform-origin: 50% 0%; animation: blink 5.2s infinite; }
+  @keyframes blink { 0%, 93%, 100% { transform: scaleY(0); } 95.5% { transform: scaleY(1); } }
+  .wag { animation: wag 0.22s ease-in-out infinite alternate; } @keyframes wag { from { transform: rotate(-22deg); } to { transform: rotate(24deg); } }
+          .flop { animation: perk 0.5s ease-in-out infinite alternate; } @keyframes perk { to { transform: rotate(-12deg); } }
+          .chest { animation: pant 0.4s ease-in-out infinite; } @keyframes pant { 50% { transform: scale(1.015, 1.04); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+<g class="wag" style="transform-origin:138px 168px"><path d="M138 168 C 160 160, 172 140, 168 118" fill="none" stroke-width="11" stroke="#2b2226"/><path d="M138 168 C 160 160, 172 140, 168 118" fill="none" stroke-width="6" stroke="#d9a877"/></g>
+  <ellipse cx="100" cy="203" rx="46" ry="5" fill="rgba(0,0,0,0.12)"/>
+  <g class="chest" style="transform-origin:100px 200px">
+    <path class="ink" fill="#d9a877" d="M62 200 C 56 160, 66 128, 100 124 C 134 128, 144 160, 138 200 Z"/>
+    <path fill="#f3dcc0" d="M82 198 C 80 172, 86 150, 100 148 C 114 150, 120 172, 118 198 Z"/>
+    <path class="ink" fill="#d9a877" d="M74 200 C 72 188, 78 182, 86 184 C 92 186, 92 196, 90 200 Z"/>
+    <path class="ink" fill="#d9a877" d="M126 200 C 128 188, 122 182, 114 184 C 108 186, 108 196, 110 200 Z"/>
+  </g>
+  <g class="head" style="transform-origin:100px 120px">
+    <g class="flop" style="transform-origin:62px 62px"><path class="ink" fill="#b9824f" d="M64 58 C 44 60, 36 92, 46 112 C 54 118, 64 108, 68 92 Z"/></g>
+    <g class="flop r" style="transform-origin:138px 62px"><path class="ink" fill="#b9824f" d="M136 58 C 156 60, 164 92, 154 112 C 146 118, 136 108, 132 92 Z"/></g>
+    <circle class="ink" cx="100" cy="82" r="40" fill="#d9a877"/>
+    <ellipse cx="100" cy="98" rx="22" ry="17" fill="#f3dcc0"/>
+    <path class="ink" d="M78 79 q6 -7 12 0" fill="none"/><path class="ink" d="M110 79 q6 -7 12 0" fill="none"/>
+    <ellipse class="ink" cx="100" cy="90" rx="7" ry="5" fill="#2b2226"/>
+    <path class="ink" d="M90 99 q10 14 20 0 z" fill="#6b2a2a"/><path d="M96 104 q4 8 8 0 z" fill="#e07a86"/>
+  </g>
+</svg>

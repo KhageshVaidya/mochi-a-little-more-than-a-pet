@@ -1,0 +1,6 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "outDir": "../../node_modules/.tsc/companion", "rootDir": ".", "types": ["node"] },
+  "include": ["src", "test"],
+  "references": [{ "path": "../contracts" }]
+}

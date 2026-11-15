@@ -1,0 +1,40 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../node_modules/.tsc/desktop-web",
+    "rootDir": "src/renderer",
+    "lib": [
+      "ES2023",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "jsx": "react-jsx",
+    "types": []
+  },
+  "include": [
+    "src/renderer"
+  ],
+  "references": [
+    {
+      "path": "../../packages/contracts"
+    },
+    {
+      "path": "../../packages/signals"
+    },
+    {
+      "path": "../../packages/simulation"
+    },
+    {
+      "path": "../../packages/engine"
+    },
+    {
+      "path": "../../packages/gamification"
+    },
+    {
+      "path": "../../packages/companion"
+    },
+    {
+      "path": "../../packages/data-sources"
+    }
+  ]
+}
