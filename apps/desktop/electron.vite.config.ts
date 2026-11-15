@@ -7,8 +7,6 @@ import tailwindcss from '@tailwindcss/vite';
 // npm workspace scripts run with cwd = apps/desktop.
 const r = (p: string) => resolve(process.cwd(), p);
 
-/** Workspace packages ship TypeScript source, so they must be bundled, not externalized. */
-const WORKSPACE_PACKAGES = ['@orbital/contracts', '@orbital/signals', '@orbital/simulation', '@orbital/engine', '@orbital/gamification', '@orbital/companion', '@orbital/data-sources', '@orbital/recommendations'];
 
 /** Strict CSP injected into each renderer's index.html. Dev adds only what Vite HMR needs. */
 function cspPlugin(): Plugin {
@@ -36,7 +34,8 @@ function cspPlugin(): Plugin {
 export default defineConfig({
   main: {
     build: {
-      externalizeDeps: { exclude: WORKSPACE_PACKAGES },
+      // Bundle every dependency (Electron and Node built-ins stay external) so packaged builds need no node_modules.
+      externalizeDeps: false,
       rolldownOptions: { input: { index: r('src/main/index.ts') } },
     },
   },

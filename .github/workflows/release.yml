@@ -1,0 +1,98 @@
+# Builds Mochi installers on native runners, smoke-tests the packaged app on each, and uploads the installers to
+# the workflow run. A GitHub Release is created ONLY when this workflow is started manually from `main` with
+# `publish: true` and a tag — and always as a DRAFT, for a final human review before anyone can download it.
+name: Build installers
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Create a DRAFT GitHub Release with these installers (from main only)'
+        type: boolean
+        default: false
+      tag:
+        description: 'Release tag, e.g. v0.1.0 (required when publish is true; notes come from docs/release-notes/<tag>.md)'
+        type: string
+        default: ''
+permissions:
+  contents: read
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS Apple Silicon
+            os: macos-15
+            args: --mac --arm64
+          - name: macOS Intel
+            os: macos-15-intel
+            args: --mac --x64
+          - name: Windows x64
+            os: windows-latest
+            args: --win --x64
+    env:
+      # Unsigned unless signing secrets are configured (see docs/RELEASING.md).
+      MOCHI_ARTIFACT_SUFFIX: ${{ secrets.CSC_LINK == '' && '-unsigned' || '' }}
+      CSC_IDENTITY_AUTO_DISCOVERY: ${{ secrets.CSC_LINK == '' && 'false' || 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Package
+        working-directory: apps/desktop
+        run: npx electron-builder ${{ matrix.args }} --publish never
+        env:
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      - name: Smoke-test the packaged app (light and dark)
+        run: node apps/desktop/scripts/smoke-packaged.mjs
+        env:
+          MOCHI_SMOKE_TIMEOUT_MS: '300000'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mochi-${{ matrix.os }}
+          path: |
+            apps/desktop/release/*.dmg
+            apps/desktop/release/*.exe
+          if-no-files-found: error
+
+  draft-release:
+    needs: build
+    # Every platform must have built AND passed its packaged-app smoke test.
+    if: ${{ inputs.publish && inputs.tag != '' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Checksums
+        working-directory: dist
+        run: sha256sum * | tee SHA256SUMS.txt
+      - name: Create DRAFT release (publish it manually after review)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          notes="docs/release-notes/${TAG}.md"
+          test -f "$notes" || { echo "Missing $notes"; exit 1; }
+          gh release create "$TAG" dist/* \
+            --repo "${{ github.repository }}" --draft \
+            --target "${{ github.sha }}" \
+            --title "Mochi ${TAG}" \
+            --notes-file "$notes"

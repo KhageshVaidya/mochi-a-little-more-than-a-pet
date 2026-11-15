@@ -2,14 +2,17 @@
   "name": "@orbital/desktop",
   "private": true,
   "version": "0.1.0",
-  "description": "ORBITAL desktop application",
+  "description": "Mochi — A Little More Than a Pet. Desktop companion and Dr G Zero astronaut wellbeing intelligence (NASA Space Apps demonstration).",
   "type": "module",
   "main": "./out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
-    "smoke": "electron-vite build && node scripts/smoke.mjs"
+    "smoke": "electron-vite build && node scripts/smoke.mjs",
+    "dist:mac": "electron-vite build && electron-builder --mac --arm64 --x64",
+    "dist:mac:arm64": "electron-vite build && electron-builder --mac --arm64",
+    "dist:win": "electron-vite build && electron-builder --win --x64"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",
@@ -30,6 +33,7 @@
     "@vitejs/plugin-react": "6.3.0",
     "clsx": "^2.1.1",
     "electron": "45.3.2",
+    "electron-builder": "26.18.1",
     "electron-vite": "6.0.0",
     "lucide-react": "1.73.0",
     "motion": "14.14.0",
@@ -40,5 +44,6 @@
     "tailwindcss": "4.3.5",
     "vite": "8.3.8",
     "zustand": "5.1.0"
-  }
+  },
+  "author": "Mochi project contributors"
 }

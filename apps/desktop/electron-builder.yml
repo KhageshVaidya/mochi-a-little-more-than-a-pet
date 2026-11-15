@@ -1,0 +1,45 @@
+# Mochi — A Little More Than a Pet · packaging (electron-builder)
+# Builds are UNSIGNED unless signing credentials are provided (see docs/RELEASING.md).
+appId: space.mochi.app
+productName: Mochi
+copyright: Copyright © 2026 Mochi project contributors
+artifactName: Mochi-${version}-${os}-${arch}${env.MOCHI_ARTIFACT_SUFFIX}.${ext}
+directories:
+  output: release
+  buildResources: build
+# The main process bundles all of its dependencies (electron.vite.config.ts), so only the build output ships.
+files:
+  - out/**/*
+  - package.json
+  - '!**/node_modules/**'
+npmRebuild: false
+asar: true
+extraResources:
+  # Companion character packages (artwork + manifests). The manifest references the original artwork, so it ships unchanged.
+  - from: ../../assets/pets
+    to: assets/pets
+    filter:
+      - '**/*'
+      - '!**/.DS_Store'
+mac:
+  category: public.app-category.healthcare-fitness
+  icon: build/icon.png
+  target:
+    - target: dmg
+  # Unsigned by default. Set CSC_LINK / CSC_KEY_PASSWORD (Developer ID) and APPLE_* for notarisation.
+  identity: null
+  hardenedRuntime: true
+  minimumSystemVersion: '12.0'
+dmg:
+  title: Mochi ${version}
+win:
+  icon: build/icon.png
+  target:
+    - target: nsis
+      arch: [x64]
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: Mochi
+publish: null
