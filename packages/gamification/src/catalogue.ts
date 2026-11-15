@@ -56,7 +56,7 @@ export const ACHIEVEMENTS: AchievementDef[] = [
   { id: 'gentle-reset', title: 'Gentle reset', description: '3 recovery or mindfulness sessions.', category: 'recovery', kinds: ['recovery.session', 'mindfulness.session'], count: 3 },
   { id: 'prescription-pro', title: 'Prescription pro', description: '20 prescribed exercise sessions — no more, no less.', category: 'exercise', kinds: ['exercise.session'], count: 20 },
   { id: 'sharp-mind', title: 'Sharp mind', description: '10 cognitive challenges completed.', category: 'cognitive', kinds: ['cognitive-game.played'], count: 10 },
-  { id: 'personal-best', title: 'Personal best', description: 'Beat your own best score in an ORBITAL game.', category: 'cognitive', personalBest: true },
+  { id: 'personal-best', title: 'Personal best', description: 'Beat your own best score in one of the brain games.', category: 'cognitive', personalBest: true },
   { id: 'better-together', title: 'Better together', description: 'Joined a crew activity.', category: 'crew', kinds: ['crew-activity.joined'], count: 1 },
   { id: 'reaching-out', title: 'Reaching out', description: 'Asked for support. That takes strength — and it is always welcome.', category: 'social', kinds: ['help.requested'], count: 1 },
   { id: 'careful-observer', title: 'Careful observer', description: '10 scheduled measurements completed.', category: 'measurement', kinds: ['measurement.completed'], count: 10 },

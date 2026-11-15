@@ -87,7 +87,7 @@ export function dailyMissions(day: number, ctx: MissionContext, dayEvents: reado
     const progress = Math.min(target, count(dayEvents, counts));
     return { id: `d${day}:${id}`, cadence: 'daily', title, description, category, counts, target, progress, completed: progress >= target, bonusXp: 10, reason };
   };
-  const out: Mission[] = [m('checkin', 'Morning check-in', 'Two minutes to tell ORBITAL how you are.', 'check-in', ['checkin.completed'])];
+  const out: Mission[] = [m('checkin', 'Morning check-in', 'Two minutes to say how you are.', 'check-in', ['checkin.completed'])];
   if (ctx.restDay) out.push(m('rest', 'Enjoy your rest day', 'Planned rest is part of the training programme.', 'rest', ['rest.day'], 1, 'Scheduled rest day'));
   else if (ctx.sleepBelowUsual)
     out.push(m('cosy', 'A cosy evening', 'A recovery or mindfulness session — wind down your way.', 'recovery', ['recovery.session', 'mindfulness.session'], 1, 'Recent sleep has been shorter than your usual'));
@@ -134,7 +134,7 @@ export function weeklyMissions(day: number, weekEvents: readonly EngagementEvent
   return [
     m('checkins', 'Check in on 4 days', 'Consistency beats intensity.', 'check-in', ['checkin.completed'], 4),
     week % 2 === 0
-      ? m('cognitive', 'Two cognitive challenges', 'Any ORBITAL game or task counts.', 'cognitive', ['cognitive-game.played'], 2)
+      ? m('cognitive', 'Two cognitive challenges', 'Any brain game or task counts.', 'cognitive', ['cognitive-game.played'], 2)
       : m('recharge', 'Two recharge moments', 'Rest days, recovery or mindfulness all count.', 'recovery', ['rest.day', 'recovery.session', 'mindfulness.session'], 2),
   ];
 }

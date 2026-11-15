@@ -63,6 +63,22 @@ export interface DialogueResult {
   memoryConfirmed?: { kind: MemoryKind; text: string };
   journalCompleted?: Omit<JournalEntry, 'id' | 'subjectId' | 'missionDay' | 'createdAt' | 'updatedAt'>;
   mood?: number;
+  /** Deterministic app action requested by the astronaut (handled by the main process). */
+  action?: { type: 'open-dashboard'; section: string };
+}
+
+/**
+ * "Open Dr G Zero", "show me my health", "weekly report", "what changed this week", "how is the crew".
+ * Deterministic so the dashboard opens reliably without the model. Returns the dashboard section or null.
+ */
+export function dashboardCommand(text: string): string | null {
+  const t = text.toLowerCase();
+  if (/\b(dr\.?\s?g\s?zero|dr\.?\s?g0|dashboard)\b/.test(t) && /\b(open|show|launch|go to|bring up|take me)\b/.test(t)) return 'overview';
+  if (/\b(show|open|see)\b.*\b(my )?(health|vitals|physical)\b/.test(t)) return 'physical';
+  if (/\b(weekly|week'?s)\s+report\b|\b(show|open)\b.*\breport\b/.test(t)) return 'reports';
+  if (/\bwhat('?s| has)? changed\b.*\bweek\b|\bthis week\b.*\bchanged\b/.test(t)) return 'brain';
+  if (/\bhow('?s| is| are)\b.*\bcrew\b|\b(show|open)\b.*\bcrew\b/.test(t)) return 'crew';
+  return null;
 }
 
 export const initialState = (): DialogueState => ({ mode: 'chat', used: {}, turn: 0 });
@@ -151,7 +167,7 @@ export function respond(prev: DialogueState, req: ChatRequest, ctx: CompanionCon
   // ── 0. Safety first, in every mode ────────────────────────────────────────
   if (req.action === 'talk-to-someone' || (text && screenSafety(text).urgent)) {
     state = { ...state, mode: 'support', journal: undefined, pendingMemory: undefined };
-    return out(SUPPORT_REPLY, { voice: 'safety', urgent: true, quickReplies: [{ label: 'Open ORBITAL support', request: { action: 'end' } }] });
+    return out(SUPPORT_REPLY, { voice: 'safety', urgent: true, quickReplies: [{ label: 'Open support in Dr G Zero', request: { action: 'end' } }] });
   }
 
   // ── Memory confirmation ─────────────────────────────────────────────────────
@@ -163,7 +179,7 @@ export function respond(prev: DialogueState, req: ChatRequest, ctx: CompanionCon
 
   // ── Journal flow ────────────────────────────────────────────────────────────
   if (req.action === 'start-journal') {
-    if (!ctx.journalingEnabled) return out('Journaling is turned off. You can switch it on in ORBITAL’s Journal page any time.');
+    if (!ctx.journalingEnabled) return out('Journaling is turned off. You can switch it on in Dr G Zero’s Journal page any time.');
     const q = line('journalInvite');
     state = { ...state, mode: 'journal', journal: { turns: [{ question: q, answer: null }], feelings: [], asked: [] } };
     return out(q, { quickReplies: journalQuick() });
@@ -235,6 +251,8 @@ export function respond(prev: DialogueState, req: ChatRequest, ctx: CompanionCon
 
   // ── Free chat (rule-based intents) ──────────────────────────────────────────
   if (req.action === 'end') return out(line('goodbye'));
+  const section = text ? dashboardCommand(text) : null;
+  if (section) return out(section === 'overview' ? 'Opening Dr G Zero.' : 'Opening that in Dr G Zero.', { action: { type: 'open-dashboard', section } });
   const like = text.match(KW.favGame) ?? text.match(KW.like);
   if (like) {
     const thing = (like[3] ?? like[2] ?? '').trim().replace(/[.!?]+$/, '');
@@ -257,7 +275,7 @@ export function respond(prev: DialogueState, req: ChatRequest, ctx: CompanionCon
   if (KW.journal.test(text)) return respond(state, { action: 'start-journal' }, ctx, voice, now, seed);
   if (KW.bye.test(text)) return out(line('goodbye'));
   if (KW.thanks.test(text)) return out(line('thanks'), { llmEligible: true });
-  if (KW.joke.test(text)) return out(line('joke'), { llmEligible: false });
+  if (KW.joke.test(text)) return out(line('joke'), { llmEligible: true });
   if (KW.howAreYou.test(text)) return out(line('howAreYouCompanion'), { llmEligible: true });
   if (KW.lonely.test(text)) return out(line('lonely'), { llmEligible: true, quickReplies: [{ label: 'Tell you more', request: { action: 'start-journal' } }] });
   if (KW.stressed.test(text)) return out(line('stressed'), { llmEligible: true, quickReplies: [{ label: 'Talk about it', request: { action: 'start-journal' } }, { label: 'A calm game', request: { text: 'game' } }] });

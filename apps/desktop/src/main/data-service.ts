@@ -95,8 +95,13 @@ export class DataService {
     }
   }
 
+  private profileOverlay: (p: AstronautProfile) => AstronautProfile = (p) => p;
+  /** Display-only identity overlay (e.g. private local demo names). Data, scenarios and ids are unchanged. */
+  setProfileOverlay(fn: (p: AstronautProfile) => AstronautProfile): void {
+    this.profileOverlay = fn;
+  }
   profiles(): AstronautProfile[] {
-    return crewProfiles();
+    return crewProfiles().map(this.profileOverlay);
   }
 
   private subject(id: AstronautId): SubjectData {

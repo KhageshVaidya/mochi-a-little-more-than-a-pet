@@ -28,7 +28,7 @@ export function Companion() {
 
   useEffect(() => {
     void window.orbital.invoke('companion:manifest').then(setManifest);
-  }, [prefs?.pet.companionId]);
+  }, [prefs?.pet.companionId, prefs?.pet.companionByProfile, mission?.astronautId]);
 
   if (!prefs) return null;
   const pet = prefs.pet;
@@ -42,19 +42,19 @@ export function Companion() {
     <>
       <SectionHeader
         title="Desktop Companion"
-        subtitle="Your companion lives on the desktop in its own window, independent of this dashboard. It celebrates healthy routines — rest included — and is never sad or disappointed."
+        subtitle="Mochi lives on your desktop in its own window — click it to chat. Each astronaut has their own companion. It celebrates healthy routines, rest included, and is never sad or disappointed."
       />
 
       <div className="mb-5 grid grid-cols-4 gap-4" role="radiogroup" aria-label="Choose your companion">
         {catalog.map((c) => {
-          const selected = c.id === pet.companionId;
+          const selected = c.id === manifest?.id; // each astronaut has their own companion
           return (
             <button
               key={c.id}
               role="radio"
               aria-checked={selected}
               data-companion-option={c.id}
-              onClick={() => void setPrefs({ pet: { companionId: c.id } })}
+              onClick={() => mission && void setPrefs({ pet: { companionByProfile: { ...pet.companionByProfile, [mission.astronautId]: c.id } } })}
               className={cn(
                 'flex flex-col rounded-card border bg-surface p-4 text-left shadow-card transition-[border-color,box-shadow] duration-200',
                 selected ? 'border-accent ring-4 ring-accent-soft' : 'border-line hover:border-line-strong',
@@ -87,7 +87,7 @@ export function Companion() {
             <div className="p-7">
               <div className="flex items-center gap-2.5">
                 <h2 className="t-title text-ink">{manifest.displayName}</h2>
-                {manifest.official && <Pill tone="accent">Official ORBITAL companion</Pill>}
+                {manifest.official && <Pill tone="accent">Official companion</Pill>}
                 <Pill tone={pet.visible ? 'teal' : 'neutral'}>{pet.visible ? 'On desktop' : 'Hidden'}</Pill>
               </div>
               <p className="t-body mt-2 max-w-xl text-ink-2">
@@ -115,7 +115,7 @@ export function Companion() {
           <SettingRow title="Show companion" description="Also available from View → Show Companion (⇧⌘P).">
             <Switch label="Show companion" checked={pet.visible} onChange={(visible) => void setPrefs({ pet: { visible } })} />
           </SettingRow>
-          <SettingRow title="Float above other windows" description="Stays below system notifications and ORBITAL alerts.">
+          <SettingRow title="Float above other windows" description="Stays below system notifications and Dr G Zero alerts.">
             <Switch label="Always on top" checked={pet.alwaysOnTop} onChange={(alwaysOnTop) => void setPrefs({ pet: { alwaysOnTop } })} />
           </SettingRow>
           <SettingRow title="Interactions" description="When off, the companion is display-only and every click passes straight through to your desktop.">

@@ -176,5 +176,5 @@
       "signoff": "Mochi out!"
     }
   },
-  "credits": "Character artwork supplied by the ORBITAL team. mochi-reference.jpg is the unchanged original. mochi.png is a transparent cutout with the enclosed white tail patch refilled from surrounding fur (tools/artwork-cutout.mjs --fill-enclosed-white 300); mochi-body.png / mochi-tail.png are animation layers (tools/companion-rig.mjs)."
+  "credits": "Character artwork supplied by the project team. mochi-reference.jpg is the unchanged original. mochi.png is a transparent cutout with the enclosed white tail patch refilled from surrounding fur (tools/artwork-cutout.mjs --fill-enclosed-white 300); mochi-body.png / mochi-tail.png are animation layers (tools/companion-rig.mjs)."
 }

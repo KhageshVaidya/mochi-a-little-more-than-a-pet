@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { BookOpen, Brain, Download, Lock, Pencil, Sparkles, Trash2 } from 'lucide-react';
-import type { JournalEntry, LlmStatus, MemoryItem, MemoryKind } from '@orbital/contracts';
+import { BookOpen, Download, Lock, PenLine, Pencil, Sparkles, Trash2 } from 'lucide-react';
+import type { JournalEntry, MemoryItem, MemoryKind } from '@orbital/contracts';
 import { useApp, useAstronaut } from '../stores/app';
 import { cn } from '../lib/cn';
 import { Card, CardHeader, Pill, SectionHeader, SettingRow, Switch } from '../components/ui';
@@ -13,15 +13,7 @@ const MEMORY_KINDS: { id: MemoryKind; label: string }[] = [
   { id: 'goal', label: 'Goal' },
   { id: 'companion-preference', label: 'Companion preference' },
 ];
-const LLM_STATE: Record<LlmStatus['state'], string> = {
-  disabled: 'Off',
-  ready: 'Ready',
-  'no-credentials': 'No API credentials found',
-  'model-unavailable': 'Configured model not available',
-  offline: 'Offline — using built-in phrases',
-  error: 'Error — using built-in phrases',
-  checking: 'Checking…',
-};
+
 
 function EntryCard({ e, onSave, onDelete }: { e: JournalEntry; onSave(e: JournalEntry): void; onDelete(): void }) {
   const [editing, setEditing] = useState(false);
@@ -109,7 +101,9 @@ export function Journal() {
   const p = useAstronaut();
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [memory, setMemory] = useState<MemoryItem[]>([]);
-  const [llm, setLlm] = useState<LlmStatus | null>(null);
+  const [draft, setDraft] = useState('');
+  const [draftFeelings, setDraftFeelings] = useState<string[]>([]);
+  const day = useApp((s) => s.mission?.day ?? 0);
   const [newMem, setNewMem] = useState<{ kind: MemoryKind; text: string }>({ kind: 'preferred-activity', text: '' });
   const [exported, setExported] = useState<string | null>(null);
 
@@ -117,7 +111,6 @@ export function Journal() {
     if (!p) return;
     void window.orbital.invoke('journal:list', { astronautId: p.id }).then(setEntries);
     void window.orbital.invoke('memory:list', { astronautId: p.id }).then(setMemory);
-    void window.orbital.invoke('llm:status').then(setLlm);
   }, [p?.id]);
   if (!p || !prefs) return null;
 
@@ -152,12 +145,48 @@ export function Journal() {
             }
           />
           {exported && <p className="t-caption px-6 pt-2 text-teal">{exported}</p>}
+          <div className="mx-6 mt-3 rounded-[12px] border border-line p-3" data-testid="journal-new">
+            <p className="t-caption mb-1.5 flex items-center gap-1.5 font-semibold text-ink-2">
+              <PenLine size={12} /> New entry · day {day}
+            </p>
+            <textarea
+              id="journal-new-text"
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              placeholder="Write as much or as little as you like. Only you can see this."
+              rows={3}
+              maxLength={4000}
+              className="t-footnote w-full resize-y rounded-[8px] border border-line bg-surface-2 px-2.5 py-2 text-ink outline-none focus:border-accent"
+            />
+            <div className="mt-2 flex flex-wrap items-center gap-1.5">
+              {FEELINGS.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setDraftFeelings((x) => (x.includes(f) ? x.filter((y) => y !== f) : [...x, f]))}
+                  className={cn('t-caption rounded-full border px-2 py-0.5', draftFeelings.includes(f) ? 'border-accent bg-accent-soft text-accent' : 'border-line text-ink-3')}
+                >
+                  {f}
+                </button>
+              ))}
+              <button
+                disabled={!draft.trim()}
+                onClick={async () => {
+                  setEntries(await window.orbital.invoke('journal:create', { astronautId: p.id, day, text: draft.trim(), feelings: draftFeelings }));
+                  setDraft('');
+                  setDraftFeelings([]);
+                }}
+                className="t-caption ml-auto rounded-full bg-accent px-3 py-1 font-medium text-bg disabled:opacity-40"
+              >
+                Save entry
+              </button>
+            </div>
+          </div>
           <div className="mt-2 pb-2">
             {entries.length === 0 && (
               <div className="flex flex-col items-center px-6 py-12 text-center">
                 <BookOpen size={22} className="text-ink-3" />
                 <p className="t-body mt-2 text-ink-2">No entries yet.</p>
-                <p className="t-caption mt-1 max-w-sm text-ink-3">Open your companion’s menu → Chat → “Tell you about my day”. It’s always optional — skip or stop whenever you like.</p>
+                <p className="t-caption mt-1 max-w-sm text-ink-3">Write one above, or tell Mochi about your day in chat. It’s always optional.</p>
               </div>
             )}
             {entries.map((e) => (
@@ -221,22 +250,9 @@ export function Journal() {
               <SettingRow title="Share chat mood check-ins with the monitor" description="Your 0–10 answers count as self-reported mood. Free text is never used.">
                 <Switch label="Share check-ins" checked={prefs.privacy.shareCheckinsWithMonitor} onChange={(v) => void setPrefs({ privacy: { shareCheckinsWithMonitor: v } })} />
               </SettingRow>
-              <SettingRow title="AI-phrased small talk" description={`Uses ${llm?.smallModel ?? 'a small model'} for ordinary chat wording. Sends only the current conversation — never journal, memory or health data. Safety and journal replies never use AI.`}>
-                <Switch
-                  label="AI phrasing"
-                  checked={prefs.privacy.llmEnabled}
-                  onChange={async (v) => {
-                    setLlm({ ...(llm ?? { smallModel: '', deepModel: '' }), enabled: v, state: v ? 'checking' : 'disabled' } as LlmStatus);
-                    setLlm(await window.orbital.invoke('llm:configure', { enabled: v }));
-                  }}
-                />
-              </SettingRow>
-              {prefs.privacy.llmEnabled && llm && (
-                <p className="t-caption flex items-center gap-1.5 px-6 pb-4 text-ink-3">
-                  <Brain size={12} /> Status: {LLM_STATE[llm.state]}
-                  {llm.detail && <span className="truncate"> — {llm.detail}</span>}
-                </p>
-              )}
+              <p className="t-caption px-6 pb-4 text-ink-3">
+                Mochi’s conversation model runs locally (Dr G Zero › Settings). It never receives your journal entries or health data.
+              </p>
             </div>
           </Card>
           <p className="t-caption flex items-start gap-1.5 px-1 text-ink-3">

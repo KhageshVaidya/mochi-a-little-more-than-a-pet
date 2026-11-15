@@ -389,7 +389,7 @@ export const SIGNALS: readonly SignalDefinitionInput[] = [
     plausibleRange: [100, 2000],
     hrpRisks: ['behavioral-psychiatric', 'sleep-schedules'],
     baseline: daily,
-    explanation: 'Median response time on ORBITAL’s brief vigilance task (inspired by psychomotor vigilance testing).',
+    explanation: 'Median response time on Dr G Zero’s brief vigilance task (inspired by psychomotor vigilance testing).',
     brainProfile: true,
   },
   {
@@ -417,7 +417,7 @@ export const SIGNALS: readonly SignalDefinitionInput[] = [
     plausibleRange: [0, 100],
     hrpRisks: ['behavioral-psychiatric'],
     baseline: daily,
-    explanation: 'Accuracy on ORBITAL’s short pattern-memory task.',
+    explanation: 'Accuracy on Dr G Zero’s short pattern-memory task.',
     brainProfile: true,
   },
   {

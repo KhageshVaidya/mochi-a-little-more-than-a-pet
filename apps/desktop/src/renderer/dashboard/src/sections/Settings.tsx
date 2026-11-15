@@ -2,6 +2,7 @@ import { Monitor, Moon, Sun } from 'lucide-react';
 import type { ThemePreference } from '@orbital/contracts';
 import { useApp } from '../stores/app';
 import { useHrpKnowledge } from '../lib/data';
+import { AiSettingsCard } from '../components/ai-settings';
 import { Card, CardHeader, Pill, SectionHeader, SegmentedControl, SettingRow } from '../components/ui';
 
 const SWATCHES = [
@@ -31,7 +32,7 @@ export function Settings() {
   if (!prefs) return null;
   return (
     <>
-      <SectionHeader title="Mission Settings" subtitle="Appearance, data sources and system information." />
+      <SectionHeader title="Settings" subtitle="Appearance, Mochi’s conversational AI, data sources and system information." />
 
       <Card>
         <CardHeader title="Appearance" />
@@ -51,10 +52,12 @@ export function Settings() {
         </div>
       </Card>
 
+      <AiSettingsCard />
+
       <Card className="mt-5">
         <CardHeader title="Data sources" />
         <div className="mt-3">
-          <SettingRow title="ORBITAL simulation" description="All physiological and wellbeing values in this build are synthetic and labelled as such.">
+          <SettingRow title="Synthetic mission simulation" description="All physiological and wellbeing values in this build are synthetic and labelled as such.">
             <Pill tone="synthetic">Active</Pill>
           </SettingRow>
           <HrpSettingRow />

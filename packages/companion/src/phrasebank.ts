@@ -95,7 +95,7 @@ export const LINES: Record<Category, string[]> = {
     'What’s an astronaut’s favourite key on the keyboard? The space bar!',
   ],
   memoryAsk: ['Shall I remember that you like {memory}?', 'Ooh — want me to remember “{memory}”? You can always change it later.'],
-  memorySaved: ['Remembered! You can see or delete it in ORBITAL any time.', 'Saved to my memory — you’re in charge of it.'],
+  memorySaved: ['Remembered! You can see or delete it in Dr G Zero any time.', 'Saved to my memory — you’re in charge of it.'],
   memoryDismissed: ['Okay, I won’t remember that.', 'No problem — forgotten.'],
   suggestionAccepted: ['Lovely. I’ll be right here cheering.', 'Great choice!'],
   suggestionDeclined: ['No worries at all.', 'Totally fine — another time, maybe.'],

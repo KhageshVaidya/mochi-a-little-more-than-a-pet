@@ -10,7 +10,9 @@ const { DataService } = await import('./data-service');
 const { GameService } = await import('./game-service');
 const { ConversationService } = await import('./conversation-service');
 const { loadCompanionManifest } = await import('./companion-assets');
-import type { CompanionLanguageModel, RephraseRequest } from './llm';
+import type { AiService } from './ai-service';
+import type { AiStatus } from '@orbital/contracts';
+import type { ModelMessage } from '@orbital/companion';
 
 const dir = mkdtempSync(join(tmpdir(), 'orbital-convo-'));
 afterAll(() => rmSync(dir, { recursive: true, force: true }));
@@ -22,42 +24,62 @@ const game = new GameService(storage, data, (e) => events.push(e));
 const manifest = loadCompanionManifest('mochi', resolve(__dirname, '../../../../assets'));
 let prefs: Prefs = structuredClone(DEFAULT_PREFS);
 let selection = { astronautId: 'CM-04' as const, day: 130 };
-const calls: RephraseRequest[] = [];
-let llmBehaviour: 'ok' | 'throw' = 'ok';
-const fakeLlm: CompanionLanguageModel = {
-  id: 'fake',
-  status: () => ({ enabled: true, state: 'ready', smallModel: 'x', deepModel: 'y' }),
-  check: async () => ({ enabled: true, state: 'ready', smallModel: 'x', deepModel: 'y' }),
-  rephrase: async (req) => {
-    calls.push(req);
-    if (llmBehaviour === 'throw') throw new Error('offline');
-    return 'Rephrased by the small model.';
+const calls: ModelMessage[][] = [];
+const streamed: string[] = [];
+const opened: string[] = [];
+let aiMode: 'off' | 'ok' | 'fail' = 'off';
+const status = (): AiStatus => ({ provider: 'ollama', state: aiMode === 'off' ? 'unreachable' : 'ready', activeModel: aiMode === 'off' ? null : 'fake-model', preferredModel: 'fake-model', fallbackModel: 'fake-fallback', installedModels: [], ollamaVersion: null, lastTurn: null, simpleMode: aiMode === 'off' });
+/** Fake conversational model: records exactly what it receives and streams a reply. */
+const fakeAi = {
+  status,
+  generate: async (messages: ModelMessage[], onText: (t: string, done: boolean) => void) => {
+    calls.push(messages);
+    if (aiMode !== 'ok') return null;
+    onText('Oof.', false);
+    onText('Oof. Long day?', true);
+    return { text: 'Oof. Long day?', model: 'fake-model', provider: 'ollama' as const, firstTokenMs: 10, totalMs: 20, rawChars: 14, reasoningChars: 0 };
   },
-};
+} as unknown as AiService;
 const convo = new ConversationService(storage, data, game, {
   prefs: () => prefs,
   selection: () => selection,
   manifest: () => manifest,
   emit: (e) => events.push(e),
-  llm: () => fakeLlm,
+  ai: () => fakeAi,
+  stream: (_id, text) => streamed.push(text),
+  openDashboard: (section) => opened.push(section),
 });
 
 describe('ConversationService', () => {
-  it('works fully offline with templates when the language model is disabled', async () => {
+  it('works fully offline in visible simple mode when no model is available (never claims to be AI)', async () => {
     const r = await convo.chat({ action: 'open' });
     expect(r.voice).toBe('template');
+    expect(r.simpleMode).toBe(true);
     expect(r.reply.length).toBeGreaterThan(0);
     expect(calls).toHaveLength(0);
   });
 
-  it('uses the small model only for eligible small talk, and falls back to templates on failure', async () => {
-    prefs = { ...prefs, privacy: { ...prefs.privacy, llmEnabled: true } };
-    const ok = await convo.chat({ text: 'how are you?' });
-    expect(ok.voice).toBe('llm');
-    llmBehaviour = 'throw';
+  it('the model answers ordinary conversation (streamed) and failures fall back to labelled templates', async () => {
+    aiMode = 'ok';
+    const ok = await convo.chat({ text: 'I had a terrible day.' });
+    expect(ok).toMatchObject({ voice: 'model', model: 'fake-model', simpleMode: false, reply: 'Oof. Long day?' });
+    expect(streamed).toContain('Oof.');
+    const last = calls.at(-1)!;
+    expect(last[0]!.role).toBe('system');
+    expect(last.at(-1)).toEqual({ role: 'user', content: 'I had a terrible day.' });
+    aiMode = 'fail';
     const fallback = await convo.chat({ text: 'how are you?' });
     expect(fallback.voice).toBe('template');
-    llmBehaviour = 'ok';
+    expect(fallback.model).toBeUndefined();
+    aiMode = 'ok';
+  });
+
+  it('"Open Dr G Zero" and "show me my health" are deterministic commands, never sent to the model', async () => {
+    const before = calls.length;
+    expect((await convo.chat({ text: 'Mochi, open Dr G Zero' })).action).toEqual({ type: 'open-dashboard', section: 'overview' });
+    expect((await convo.chat({ text: 'show me my health' })).action).toEqual({ type: 'open-dashboard', section: 'physical' });
+    expect(opened).toEqual(['overview', 'physical']);
+    expect(calls.length).toBe(before);
   });
 
   it('never sends journal content to the language model', async () => {
@@ -65,7 +87,10 @@ describe('ConversationService', () => {
     await convo.chat({ action: 'start-journal' });
     await convo.chat({ text: 'Private: argued with mission control today, felt awful' });
     await convo.chat({ action: 'end' });
-    expect(calls.length).toBe(before); // no LLM calls during the journal
+    expect(calls.length).toBe(before); // no model calls during the journal
+    // …and later ordinary conversation never carries journal answers into the model's context.
+    await convo.chat({ text: 'anyway, how are you?' });
+    expect(calls.length).toBe(before + 1);
     for (const c of calls) expect(JSON.stringify(c)).not.toMatch(/argued with mission control/);
     const j = convo.journal('CM-04');
     expect(j).toHaveLength(1);

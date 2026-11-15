@@ -118,7 +118,7 @@ export type HrpRegistry = z.infer<typeof HrpRegistry>;
 
 /** Fixed, non-diagnostic caveat shown wherever a risk is linked to an alert or a signal. */
 export const RISK_LINK_CAVEAT =
-  'This links the measurement to a NASA research area to explain why ORBITAL monitors it. It does not mean you are experiencing this risk, and it is not a diagnosis.';
+  'This links the measurement to a NASA research area to explain why Dr G Zero monitors it. It does not mean you are experiencing this risk, and it is not a diagnosis.';
 
 /** Risk context attached to an alert by the main process (never by a language model). */
 export const AlertRiskLink = z.object({

@@ -170,7 +170,7 @@ export function createNasaHrpSource(signals?: readonly SignalDefinition[]): Refe
       const reg = state.status === 'ok' ? state.registry : null;
       return {
         title: 'NASA Human Research Program — risk knowledge (offline snapshot)',
-        summary: 'Curated, cited snapshot of NASA HRP public risk pages and Human System Risk Board pages, mapped to ORBITAL signals.',
+        summary: 'Curated, cited snapshot of NASA HRP public risk pages and Human System Risk Board pages, mapped to Dr G Zero signals.',
         licenceOrTerms: 'Public NASA web content; quoted briefly with attribution and links. No NASA endorsement implied.',
         limitations: reg ? [reg.disclaimer] : ['Registry failed validation and is unavailable.'],
         citation: 'https://www.nasa.gov/hrp/risks/',

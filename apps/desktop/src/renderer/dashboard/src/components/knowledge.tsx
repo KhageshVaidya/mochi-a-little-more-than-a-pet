@@ -7,8 +7,8 @@ import { Pill } from './ui';
 /** Shared NASA HRP knowledge display pieces (Phase 3): evidence chips and allow-listed source links. */
 export const EVIDENCE_META: Record<EvidenceClass, { label: string; tone: 'teal' | 'accent' | 'neutral'; help: string }> = {
   'nasa-stated': { label: 'NASA-stated', tone: 'teal', help: 'The cited NASA page names this explicitly.' },
-  'nasa-related': { label: 'NASA-related', tone: 'accent', help: 'NASA names the broader area; this measurement is ORBITAL’s way of capturing it.' },
-  'orbital-hypothesis': { label: 'ORBITAL hypothesis', tone: 'neutral', help: 'ORBITAL’s own proposed link, not stated by NASA.' },
+  'nasa-related': { label: 'NASA-related', tone: 'accent', help: 'NASA names the broader area; this measurement is Dr G Zero’s way of capturing it.' },
+  'orbital-hypothesis': { label: 'Dr G Zero hypothesis', tone: 'neutral', help: 'Dr G Zero’s own proposed link, not stated by NASA.' },
 };
 
 export function EvidenceChip({ evidence }: { evidence: EvidenceClass }) {

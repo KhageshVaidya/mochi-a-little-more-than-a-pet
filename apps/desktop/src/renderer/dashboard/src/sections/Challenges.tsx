@@ -128,7 +128,7 @@ export function Challenges() {
       return setGame('signal-catch');
     }
     if (k === 'journal.written') return navigate('journal');
-    if (k === 'companion.chat') return navigate('companion');
+    if (k === 'companion.chat') return void window.orbital.invoke('companion:openChat'); // opens Mochi's conversation
     if (k === 'exercise.session') return void log('exercise.session', 30);
     void log(k as LogActivity['kind']);
   };

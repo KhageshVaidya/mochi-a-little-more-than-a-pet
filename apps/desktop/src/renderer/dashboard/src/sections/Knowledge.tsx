@@ -17,7 +17,7 @@ import { Card, EmptyState, Pill, SectionHeader, SegmentedControl } from '../comp
 
 /**
  * NASA Research & Risk Knowledge (Phase 3). Browses the offline, cited NASA HRP registry.
- * Every NASA claim is shown as a quote with its source; ORBITAL's own hypotheses are labelled as such.
+ * Every NASA claim is shown as a quote with its source; Dr G Zero's own hypotheses are labelled as such.
  * Nothing here is about the selected astronaut's data: it is reference material.
  */
 
@@ -25,7 +25,7 @@ const COVERAGE_META: Record<OrbitalCoverage, { label: string; tone: 'teal' | 'ac
   'proxies-measured': { label: 'Proxies measured', tone: 'teal' },
   partial: { label: 'Partly measured', tone: 'accent' },
   'countermeasure-only': { label: 'Countermeasure tracked only', tone: 'watch' },
-  'not-measured': { label: 'Not measured by ORBITAL', tone: 'neutral' },
+  'not-measured': { label: 'Not measured by Dr G Zero', tone: 'neutral' },
 };
 
 const LAYER_LABEL: Record<IndicatorLayer, string> = {
@@ -52,7 +52,7 @@ export function Knowledge() {
       <div>
         <SectionHeader eyebrow="Reference · offline" title="NASA Research & Risk Knowledge" />
         <Card>
-          <EmptyState icon={<Library size={22} />} title="Knowledge registry unavailable" body="The bundled NASA HRP registry failed validation, so ORBITAL shows nothing rather than unverified content." meta={k.errors.slice(0, 3).join(' · ')} />
+          <EmptyState icon={<Library size={22} />} title="Knowledge registry unavailable" body="The bundled NASA HRP registry failed validation, so Dr G Zero shows nothing rather than unverified content." meta={k.errors.slice(0, 3).join(' · ')} />
         </Card>
       </div>
     );
@@ -77,7 +77,7 @@ function KnowledgeBody({ reg, filter, setFilter, selected, setSelected }: { reg:
       <SectionHeader
         eyebrow={`Reference · offline snapshot · registry v${reg.registryVersion} · retrieved ${reg.snapshotDate}`}
         title="NASA Research & Risk Knowledge"
-        subtitle={`The ${counts.total} human-system risks NASA’s Human Research Program studies, how each relates to what ORBITAL measures, and what NASA itself says — with links to the original pages.`}
+        subtitle={`The ${counts.total} human-system risks NASA’s Human Research Program studies, how each relates to what Dr G Zero measures, and what NASA itself says — with links to the original pages.`}
       />
 
       <Card className="mb-6 px-6 py-4">
@@ -85,7 +85,7 @@ function KnowledgeBody({ reg, filter, setFilter, selected, setSelected }: { reg:
           <div className="max-w-3xl">
             <p className="t-footnote text-ink-2">{reg.disclaimer}</p>
             <p className="t-caption mt-2 text-ink-3">
-              ORBITAL observes indirect proxies for <span className="font-semibold text-ink-2 tabular">{counts.measured}</span> of {counts.total} risks. Catalogue:{' '}
+              Dr G Zero observes indirect proxies for <span className="font-semibold text-ink-2 tabular">{counts.measured}</span> of {counts.total} risks. Catalogue:{' '}
               <SourceButton source={catalogue} />
             </p>
           </div>
@@ -109,7 +109,7 @@ function KnowledgeBody({ reg, filter, setFilter, selected, setSelected }: { reg:
             onChange={setFilter}
             options={[
               { value: 'all', label: 'All' },
-              { value: 'measured', label: 'ORBITAL relates' },
+              { value: 'measured', label: 'Dr G Zero relates' },
               { value: 'not-measured', label: 'Not measured' },
             ]}
           />
@@ -165,7 +165,7 @@ function RiskDetail({ reg, risk }: { reg: HrpRegistry; risk: RiskEntry }) {
         <h2 className="t-title mt-2 text-ink">{risk.name}</h2>
         <p className="t-caption mt-1 text-ink-3">NASA formal risk: {risk.formalName}</p>
         <p className="t-body mt-3 text-ink-2">{risk.description}</p>
-        <p className="t-caption mt-1 text-ink-3">Summary paraphrased by ORBITAL from the sources below.</p>
+        <p className="t-caption mt-1 text-ink-3">Summary paraphrased by Dr G Zero from the sources below.</p>
       </header>
 
       <Block title="What NASA says">
@@ -181,7 +181,7 @@ function RiskDetail({ reg, risk }: { reg: HrpRegistry; risk: RiskEntry }) {
         </ul>
       </Block>
 
-      <Block title="Indicators — and what ORBITAL actually measures" note={RISK_LINK_CAVEAT}>
+      <Block title="Indicators — and what Dr G Zero actually measures" note={RISK_LINK_CAVEAT}>
         <div className="grid gap-4 md:grid-cols-2">
           {layers.map((l) => (
             <div key={l}>
@@ -200,12 +200,12 @@ function RiskDetail({ reg, risk }: { reg: HrpRegistry; risk: RiskEntry }) {
                         {ind.signalIds.length ? (
                           <>
                             <CheckCircle2 size={13} className="mt-px shrink-0 text-teal" />
-                            <span>ORBITAL measures: {ind.signalIds.map(label).join(', ')}</span>
+                            <span>Dr G Zero measures: {ind.signalIds.map(label).join(', ')}</span>
                           </>
                         ) : (
                           <>
                             <CircleDashed size={13} className="mt-px shrink-0" />
-                            <span>Not measured by ORBITAL</span>
+                            <span>Not measured by Dr G Zero</span>
                           </>
                         )}
                       </p>
@@ -218,7 +218,7 @@ function RiskDetail({ reg, risk }: { reg: HrpRegistry; risk: RiskEntry }) {
       </Block>
 
       {risk.signalLinks.length > 0 && (
-        <Block title="Why ORBITAL links its signals to this risk">
+        <Block title="Why Dr G Zero links its signals to this risk">
           <table className="w-full text-left">
             <thead>
               <tr className="t-caption text-ink-3">
@@ -255,7 +255,7 @@ function RiskDetail({ reg, risk }: { reg: HrpRegistry; risk: RiskEntry }) {
       </Block>
 
       {risk.detectionMethods.length > 0 && (
-        <Block title="Statistical detection in ORBITAL" note="ORBITAL’s own methods, against each astronaut’s personal baseline. Not NASA methods and not clinical thresholds.">
+        <Block title="Statistical detection in Dr G Zero" note="Dr G Zero’s own methods, against each astronaut’s personal baseline. Not NASA methods and not clinical thresholds.">
           <ul className="space-y-1.5">
             {risk.detectionMethods.map((d) => (
               <li key={d.method} className="flex items-start gap-2">
@@ -269,7 +269,7 @@ function RiskDetail({ reg, risk }: { reg: HrpRegistry; risk: RiskEntry }) {
         </Block>
       )}
 
-      <Block title="Mitigations described by NASA" note="Quoted from NASA. Shown for context — ORBITAL does not prescribe interventions.">
+      <Block title="Mitigations described by NASA" note="Quoted from NASA. Shown for context — Dr G Zero does not prescribe interventions.">
         {risk.mitigations.length ? (
           <ul className="space-y-2">
             {risk.mitigations.map((m) => (

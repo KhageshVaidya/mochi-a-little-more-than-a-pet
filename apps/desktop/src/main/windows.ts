@@ -52,7 +52,7 @@ export function createDashboardWindow(opts: { show: boolean }): BrowserWindow {
     minWidth: 1100,
     minHeight: 720,
     show: false,
-    title: 'ORBITAL',
+    title: 'Dr G Zero',
     backgroundColor: themeBackground(),
     titleBarStyle: isMac ? 'hiddenInset' : 'default',
     trafficLightPosition: isMac ? { x: 20, y: 20 } : undefined,
@@ -86,7 +86,7 @@ export function createCompanionWindow(pet: PetPrefs, opts: { show: boolean }): B
     skipTaskbar: true,
     focusable: true,
     alwaysOnTop: pet.alwaysOnTop,
-    title: 'ORBITAL Companion',
+    title: 'Mochi',
     webPreferences: securePrefs('companion.cjs'),
   });
   // 'floating' sits above normal windows but below system notifications and alerts.

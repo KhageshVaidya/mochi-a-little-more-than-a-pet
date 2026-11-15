@@ -1,5 +1,5 @@
 import type { AlertItem, AstronautId, AuditEntry, ChatRequest, ChatResponse, ChatTurn, CompanionEvent, CompanionManifest, HealthRecord, JournalEntry, MemoryItem, Prefs } from '@orbital/contracts';
-import { initialState, journalToMarkdown, respond, type CompanionContext, type DialogueState } from '@orbital/companion';
+import { buildModelMessages, initialState, journalToMarkdown, respond, type CompanionContext, type DialogueState } from '@orbital/companion';
 import { allSignals } from '@orbital/signals';
 import { MISSION_START_UTC } from '@orbital/simulation';
 import { deriveAlerts } from '@orbital/engine';
@@ -8,7 +8,7 @@ import { hrpKnowledge } from './knowledge';
 import type { DataService } from './data-service';
 import type { GameService } from './game-service';
 import type { Storage } from './storage';
-import { tryRephrase, type CompanionLanguageModel } from './llm';
+import type { AiService } from './ai-service';
 
 /**
  * Companion conversation, journal, memory and alerts (Phase 2 B + C4), main process.
@@ -18,7 +18,11 @@ import { tryRephrase, type CompanionLanguageModel } from './llm';
  *  - Journal and memory are private to the individual and editable/deletable by them.
  */
 export class ConversationService {
-  private readonly sessions = new Map<AstronautId, { state: DialogueState; history: ChatTurn[] }>();
+  /**
+   * Per-profile chat sessions. `modelTurns` holds ONLY ordinary conversation (model-eligible exchanges):
+   * journal answers, check-ins, memory flows and safety turns are never added, so they can never reach a model.
+   */
+  private readonly sessions = new Map<AstronautId, { state: DialogueState; history: ChatTurn[]; modelTurns: { from: 'user' | 'companion'; text: string }[] }>();
 
   constructor(
     private readonly storage: Storage,
@@ -29,7 +33,12 @@ export class ConversationService {
       selection: () => { astronautId: AstronautId; day: number };
       manifest: () => CompanionManifest;
       emit: (e: CompanionEvent) => void;
-      llm: () => CompanionLanguageModel | null;
+      /** Conversational model service (local Ollama by default; null in unit tests that don't need it). */
+      ai: () => AiService | null;
+      /** Stream guarded model text to the companion window. */
+      stream?: (turnId: string, text: string, done: boolean) => void;
+      /** Open Dr G Zero (dashboard) at a section — deterministic command from the conversation. */
+      openDashboard?: (section: string) => void;
       /** Phase 4: titles of today's approved recommendations (relayed verbatim; never LLM-rephrased). */
       suggestions?: (id: AstronautId, day: number) => string[];
     },
@@ -38,7 +47,7 @@ export class ConversationService {
   private session(id: AstronautId) {
     let s = this.sessions.get(id);
     if (!s) {
-      s = { state: initialState(), history: [] };
+      s = { state: initialState(), history: [], modelTurns: [] };
       this.sessions.set(id, s);
     }
     return s;
@@ -117,27 +126,67 @@ export class ConversationService {
 
     let reply = r.reply;
     let voiceUsed: ChatResponse['voice'] = r.voice;
-    if (r.llmEligible && !r.urgent && this.deps.prefs().privacy.llmEnabled) {
-      // Only the persona, the draft and the CURRENT chat turns are sent — never journal, memory or health data.
-      const rephrased = await tryRephrase(this.deps.llm(), {
-        persona: { name: m.displayName, traits: m.personality.traits },
-        draft: r.reply,
-        turns: s.history.slice(-6).map((t) => ({ from: t.from, text: t.text })),
-      });
-      if (rephrased) {
-        reply = rephrased;
-        voiceUsed = 'llm';
+    let modelUsed: string | undefined;
+    const turnId = `t:${id}:${now}`;
+    if (r.action?.type === 'open-dashboard') this.deps.openDashboard?.(r.action.section);
+    const ai = this.deps.ai();
+    const simpleMode = !ai || ai.status().simpleMode;
+    const ordinary = r.llmEligible && !r.urgent && !r.action;
+    if (ordinary && req.text) s.modelTurns.push({ from: 'user', text: req.text });
+    if (ordinary && ai && !simpleMode) {
+      // The model answers ordinary conversation. Its input is built ONLY from persona, coarse context, approved
+      // suggestion titles, confirmed memories and this profile's recent chat turns (no journal, no health data).
+      const ctx = this.context(id, day);
+      const messages = buildModelMessages(
+        { name: m.displayName, traits: m.personality.traits },
+        {
+          firstName: ctx.firstName,
+          timeOfDay: ctx.timeOfDay,
+          restDay: ctx.restDay,
+          suggestions: ctx.suggestions ?? [],
+          memories: this.storage.memory(id).map((x) => x.text),
+          achievementsToday: ctx.achievementsToday,
+        },
+        s.modelTurns,
+        { opening: req.action === 'open' },
+      );
+      const out = await ai.generate(messages, (text, done) => this.deps.stream?.(turnId, text, done));
+      if (out) {
+        reply = out.text;
+        voiceUsed = out.provider === 'ollama' ? 'model' : 'llm';
+        modelUsed = out.model;
       }
     }
+    if (ordinary) s.modelTurns = [...s.modelTurns, { from: 'companion' as const, text: reply }].slice(-24);
     s.history.push({ from: 'companion', text: reply, at: new Date().toISOString() });
     s.history = s.history.slice(-40);
-    return { mode: r.state.mode, reply, voice: voiceUsed, quickReplies: r.quickReplies, memoryProposal: r.memoryProposal, urgent: r.urgent, history: s.history };
+    return {
+      mode: r.state.mode,
+      reply,
+      voice: voiceUsed,
+      ...(modelUsed ? { model: modelUsed } : {}),
+      simpleMode,
+      turnId,
+      ...(r.action ? { action: r.action } : {}),
+      quickReplies: r.quickReplies,
+      memoryProposal: r.memoryProposal,
+      urgent: r.urgent,
+      history: s.history,
+    };
   }
 
   // ── Journal ────────────────────────────────────────────────────────────────
   journal(id: AstronautId): JournalEntry[] {
     return this.storage.journal(id);
   }
+  /** A journal entry written directly by the astronaut (their own words, stored verbatim; nothing generated). */
+  createJournal(id: AstronautId, day: number, text: string, feelings: string[]): JournalEntry[] {
+    const ts = new Date().toISOString();
+    this.storage.saveJournal({ id: `j:${id}:${Date.now()}`, subjectId: id, missionDay: day, createdAt: ts, updatedAt: ts, turns: [{ question: 'Journal entry', answer: text }], feelings, events: [], summary: null, possibilities: [] });
+    this.game.record(id, day, 'journal.written');
+    return this.storage.journal(id);
+  }
+
   saveJournal(e: JournalEntry): JournalEntry[] {
     const existing = this.storage.journal(e.subjectId).find((x) => x.id === e.id);
     if (!existing) throw new Error('Unknown journal entry');

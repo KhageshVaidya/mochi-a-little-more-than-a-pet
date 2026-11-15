@@ -28,7 +28,12 @@ const CREW_COMPANION: Record<AstronautId, { name: string; line: (who: string, wh
   'CM-04': { name: 'Mochi', line: (who, what) => `Yay! ${who} said yes to the ${what}!` },
   'CM-05': { name: 'Comet', line: (who, what) => `Arf! ${who} is up for the ${what}!` },
 };
-const firstName = (id: AstronautId) => CREW[id].profile.name.split(' ')[0]!;
+let nameOf = (id: AstronautId) => CREW[id].profile.name;
+const firstName = (id: AstronautId) => nameOf(id).split(' ')[0]!;
+/** Use display names (incl. private local demo identities) for companion messages. */
+export function setCrewNameResolver(fn: (id: AstronautId) => string): void {
+  nameOf = fn;
+}
 
 export class CrewService {
   constructor(

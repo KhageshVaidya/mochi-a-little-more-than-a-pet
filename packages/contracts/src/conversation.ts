@@ -35,8 +35,19 @@ export type MemoryItem = z.infer<typeof MemoryItem>;
 export const ChatResponse = z.object({
   mode: ChatMode,
   reply: z.string(),
-  /** Which layer produced the wording. 'safety' and 'template' never involve a language model. */
-  voice: z.enum(['template', 'llm', 'safety']),
+  /**
+   * Which layer produced the wording. 'safety' and 'template' never involve a language model.
+   * 'model' = the local model (Ollama); 'llm' = the optional remote provider (Anthropic).
+   */
+  voice: z.enum(['template', 'llm', 'safety', 'model']),
+  /** Model id that produced the reply (only for 'model' / 'llm'). */
+  model: z.string().optional(),
+  /** True when Mochi is in simple mode because no conversational model is available. */
+  simpleMode: z.boolean().optional(),
+  /** Correlates with streamed `chat:stream` events. */
+  turnId: z.string().optional(),
+  /** Deterministic action requested by the conversation (e.g. "Open Dr G Zero"). */
+  action: z.object({ type: z.literal('open-dashboard'), section: z.string() }).optional(),
   quickReplies: z.array(z.object({ label: z.string(), request: ChatRequest })),
   memoryProposal: z.object({ kind: MemoryKind, text: z.string() }).optional(),
   urgent: z.boolean(),
@@ -71,5 +82,23 @@ export const LlmStatus = z.object({
   detail: z.string().optional(),
 });
 export type LlmStatus = z.infer<typeof LlmStatus>;
+
+/** Conversational AI status (local-first). */
+export const AiStatus = z.object({
+  provider: z.enum(['ollama', 'anthropic', 'off']),
+  state: z.enum(['off', 'checking', 'ready', 'unreachable', 'model-missing', 'no-credentials', 'error']),
+  /** Model actually used for conversation right now (preferred, or fallback when only that is installed). */
+  activeModel: z.string().nullable(),
+  preferredModel: z.string(),
+  fallbackModel: z.string(),
+  installedModels: z.array(z.string()),
+  ollamaVersion: z.string().nullable(),
+  /** Last measured latency of a real model turn. */
+  lastTurn: z.object({ model: z.string(), firstTokenMs: z.number(), totalMs: z.number(), at: z.string() }).nullable(),
+  /** True when Mochi uses simple (template) replies because no model is available. */
+  simpleMode: z.boolean(),
+  detail: z.string().optional(),
+});
+export type AiStatus = z.infer<typeof AiStatus>;
 
 export const SubjectRequest = z.object({ astronautId: AstronautId });

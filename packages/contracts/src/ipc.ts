@@ -16,7 +16,7 @@ import {
 import { AstronautId } from './crew';
 import { GameHistoryEntry, GameId, GameResult, LogActivity, ProgressState } from './gamification';
 import { ActivityRestrictions, IntelligenceReport, RecommendationSet } from './intelligence';
-import { ChatRequest, ChatResponse, JournalEntry, LlmStatus, MemoryItem, MemoryKind, SubjectRequest } from './conversation';
+import { AiStatus, ChatRequest, ChatResponse, JournalEntry, MemoryItem, MemoryKind, SubjectRequest } from './conversation';
 import { AlertItem, AuditEntry, WellbeingPatterns } from './alerts';
 import { HrpKnowledgeState } from './knowledge';
 import { ActivityKind, CrewBoard, CrewStatusOption } from './crew-social';
@@ -82,8 +82,21 @@ export const invokeChannels = {
   'memory:list': { request: SubjectRequest, response: z.array(MemoryItem), windows: ['dashboard'] },
   'memory:save': { request: SubjectRequest.extend({ id: z.string().optional(), kind: MemoryKind, text: z.string().min(1).max(200) }), response: z.array(MemoryItem), windows: ['dashboard'] },
   'memory:delete': { request: SubjectRequest.extend({ id: z.string() }), response: z.array(MemoryItem), windows: ['dashboard'] },
-  'llm:status': { request: Empty, response: LlmStatus, windows: ['dashboard'] },
-  'llm:configure': { request: z.object({ enabled: z.boolean() }), response: LlmStatus, windows: ['dashboard'] },
+  // Conversational AI (local-first: Ollama default; Anthropic optional, off by default).
+  'ai:status': { request: Empty, response: AiStatus, windows: ['dashboard', 'companion'] },
+  'ai:check': { request: Empty, response: AiStatus, windows: ['dashboard', 'companion'] },
+  /** First-run setup: download a model through Ollama — ONLY called after the user explicitly confirms. */
+  'ai:pull': { request: z.object({ model: z.string().min(1).max(80) }), response: z.object({ ok: z.boolean(), error: z.string().optional() }), windows: ['dashboard'] },
+  /** First-run setup: ask the active model for one short reply to prove it works. */
+  'ai:verify': { request: Empty, response: z.object({ ok: z.boolean(), reply: z.string().optional(), ms: z.number().optional(), model: z.string().optional(), error: z.string().optional() }), windows: ['dashboard'] },
+  /** Opens the official Ollama download page in the browser (fixed URL; nothing else can be opened). */
+  'app:openOllamaDownload': { request: Empty, response: z.void(), windows: ['dashboard', 'companion'] },
+  /** Write a journal entry directly (the user's own words, stored verbatim). */
+  'journal:create': { request: SubjectRequest.extend({ day: z.number().int().min(0).max(179), text: z.string().min(1).max(4000), feelings: z.array(z.string().max(30)).max(8).default([]) }), response: z.array(JournalEntry), windows: ['dashboard'] },
+  /** Show the companion and open its conversation (from dashboard mission links). */
+  'companion:openChat': { request: Empty, response: z.void(), windows: ['dashboard'] },
+  /** Open Dr G Zero (the dashboard) at a section, from the companion. */
+  'app:openDashboard': { request: z.object({ section: z.string().max(40).optional() }), response: z.void(), windows: ['companion'] },
   'alerts:list': { request: AssessRequest, response: z.array(AlertItem), windows: ['dashboard'] },
   'alerts:ack': { request: AssessRequest.extend({ alertId: z.string() }), response: z.void(), windows: ['dashboard'] },
   'alerts:share': { request: AssessRequest.extend({ alertId: z.string(), share: z.boolean() }), response: z.void(), windows: ['dashboard'] },
@@ -134,6 +147,14 @@ export const eventChannels = {
   'mission:state': { payload: MissionState, windows: ['dashboard', 'companion'] },
   'prefs:changed': { payload: Prefs, windows: ['dashboard', 'companion'] },
   'companion:event': { payload: CompanionEvent, windows: ['companion'] },
+  /** Streaming companion reply: the guarded text so far for a turn (replace, not append). */
+  'chat:stream': { payload: z.object({ turnId: z.string(), text: z.string(), done: z.boolean() }), windows: ['companion'] },
+  /** Ask the companion window to open its chat panel. */
+  'companion:open-chat': { payload: Empty, windows: ['companion'] },
+  'ai:status': { payload: AiStatus, windows: ['dashboard', 'companion'] },
+  'ai:pull-progress': { payload: z.object({ model: z.string(), status: z.string(), completed: z.number().optional(), total: z.number().optional() }), windows: ['dashboard'] },
+  /** Ask the dashboard to navigate to a section (e.g. from "Mochi, show me my health"). */
+  'dashboard:navigate': { payload: z.object({ section: z.string() }), windows: ['dashboard'] },
 } as const;
 
 export type EventChannel = keyof typeof eventChannels;

@@ -94,3 +94,14 @@ describe('IPC contract', () => {
     expect(invokeChannels['companion:move'].request.safeParse({ dx: 5000, dy: 0 }).success).toBe(false);
   });
 });
+
+describe('OllamaModelName', () => {
+  it('accepts ordinary Ollama model references', async () => {
+    const { OllamaModelName } = await import('../src/prefs');
+    for (const m of ['qwen3:4b', 'qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'hf.co/someone/model:Q4_K_M']) expect(OllamaModelName.safeParse(m).success).toBe(true);
+  });
+  it('rejects empty, spaced or injected names', async () => {
+    const { OllamaModelName } = await import('../src/prefs');
+    for (const m of ['', ' qwen3', 'qwen3 4b', 'qwen3;rm -rf /', '../etc', 'a'.repeat(81), 'http://evil/x']) expect(OllamaModelName.safeParse(m).success).toBe(false);
+  });
+});

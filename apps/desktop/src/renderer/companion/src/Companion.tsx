@@ -45,7 +45,7 @@ const ACTIONS: Record<CompanionAction, { label: string; icon: LucideIcon }> = {
   celebrate: { label: 'Celebrate a completed mission', icon: PartyPopper },
   sleep: { label: 'Let Mochi sleep', icon: BedDouble },
   wake: { label: 'Wake Mochi', icon: Sun },
-  'open-dashboard': { label: 'Open ORBITAL dashboard', icon: LayoutDashboard },
+  'open-dashboard': { label: 'Open Dr G Zero', icon: LayoutDashboard },
   hide: { label: 'Hide companion', icon: EyeOff },
 };
 
@@ -87,6 +87,11 @@ export function Companion() {
         void pet.invoke('companion:manifest').then(setManifest);
       }),
       pet.on('mission:state', setMission),
+      // Dashboard mission links and the tray can ask Mochi to open its conversation.
+      pet.on('companion:open-chat', () => {
+        dispatch({ type: 'wake' });
+        setPanel('chat');
+      }),
     ];
     return () => offs.forEach((off) => off());
   }, []);
@@ -98,7 +103,7 @@ export function Companion() {
       if (e.type === 'alert.active') {
         setQuiet(e.active);
         setPanel('none');
-        setBubble(e.active ? 'Something needs your attention in ORBITAL.' : null);
+        setBubble(e.active ? 'Something needs your attention in Dr G Zero.' : null);
         return;
       }
       lastInteraction.current = Date.now();
@@ -233,15 +238,10 @@ export function Companion() {
     if (!d) return;
     lastInteraction.current = Date.now();
     if (d.moved < DRAG_THRESHOLD) {
-      if (s.asleep) {
-        // Clicking a napping companion just wakes it (the wake message stays visible).
-        dispatch({ type: 'wake' });
-        say('wake');
-        setPanel('none');
-      } else {
-        dispatch({ type: 'play', anim: 'react' });
-        setPanel((p) => (p === 'none' ? 'menu' : 'none'));
-      }
+      // Clicking Mochi always opens (never closes) the conversation. Right-click opens the menu.
+      if (s.asleep) dispatch({ type: 'wake' });
+      else dispatch({ type: 'play', anim: 'react' });
+      setPanel('chat');
     } else void pet.invoke('companion:dragEnd');
     if (!hovering.current) setInteractive(false);
   };
@@ -311,7 +311,7 @@ export function Companion() {
 
         {panel === 'chat' && (
           <div onMouseEnter={onEnter} onMouseLeave={onLeave}>
-            <ChatPanel name={name} onClose={() => setPanel('none')} onUrgent={() => setQuiet(true)} />
+            <ChatPanel name={name} onClose={() => setPanel('none')} onMenu={() => setPanel('menu')} onUrgent={() => setQuiet(true)} />
           </div>
         )}
 
@@ -337,7 +337,7 @@ export function Companion() {
       <div
         data-testid="companion"
         role="button"
-        aria-label={`${name}. Click for menu, drag to move.`}
+        aria-label={`${name}. Click to chat, right-click for the menu, drag to move.`}
         aria-haspopup="menu"
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}

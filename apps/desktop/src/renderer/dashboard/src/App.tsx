@@ -13,6 +13,7 @@ import { Telemetry } from './sections/Telemetry';
 import { Reports } from './sections/Reports';
 import { Journal } from './sections/Journal';
 import { Knowledge } from './sections/Knowledge';
+import { Setup } from './sections/Setup';
 
 const VIEWS: Record<SectionId, ComponentType> = {
   overview: Overview,
@@ -26,6 +27,7 @@ const VIEWS: Record<SectionId, ComponentType> = {
   knowledge: Knowledge,
   companion: Companion,
   settings: Settings,
+  setup: Setup,
 };
 
 export function App() {

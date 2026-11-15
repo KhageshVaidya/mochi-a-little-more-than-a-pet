@@ -64,10 +64,12 @@ export async function runSmoke(
   const timeout = setTimeout(() => {
     writeFileSync(join(cfg.outDir, 'report.json'), JSON.stringify({ ok: false, error: 'timeout', issues, crashes }, null, 2));
     app.exit(2);
-  }, 120_000); // budget for the whole probe (Phase 3 added knowledge screenshots)
+  }, Number(process.env['MOCHI_SMOKE_TIMEOUT_MS'] ?? 120_000)); // whole-probe budget (override for slow environments, e.g. Rosetta)
 
   try {
     await Promise.all([waitForLoad(ctx.dashboard), waitForLoad(ctx.companion)]);
+    // Desktop-first: Dr G Zero (dashboard) is not shown at launch; Mochi is.
+    const dashboardHiddenAtLaunch = !ctx.dashboard.isVisible();
     ctx.dashboard.showInactive();
     ctx.companion.showInactive();
     await delay(1800);
@@ -130,11 +132,26 @@ export async function runSmoke(
     // ── Mochi: artwork, menu, status, sleep/wake, celebration, drag + persistence ──
     const cw = ctx.companion.webContents;
     const js = (code: string) => cw.executeJavaScript(code);
+    // Companions are per astronaut; the Mochi rig checks below need Mochi for the current astronaut.
+    await ctx.dashboard.webContents.executeJavaScript(`window.orbital.invoke('mission:get').then((m) => window.orbital.invoke('prefs:set', { pet: { companionByProfile: { [m.astronautId]: 'mochi' } } }))`);
+    await delay(900);
     const clickPet = `(() => { const el = document.querySelector('[data-testid=companion]'); const o = { bubbles: true, button: 0, pointerId: 1, screenX: 100, screenY: 100 };
       el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); return true; })()`;
     const art = await js(`(() => { const img = document.querySelector('[data-companion] img.rig-layer, [data-companion] img.companion-art'); return img ? { src: img.getAttribute('src'), w: img.naturalWidth, h: img.naturalHeight, fit: getComputedStyle(img).objectFit, alt: img.alt, eyelids: document.querySelectorAll('[data-testid=eyelid]').length, tail: !!document.querySelector('.rig-tail.tail-swish') } : null; })()`);
     await capture(ctx.companion, 'mochi-idle.png');
+    const rightClickPet = `(() => { document.querySelector('[data-testid=companion]').dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, button: 2 })); return true; })()`;
+    // M1: a click opens the conversation (never closes it); right-click opens the menu.
     await js(clickPet);
+    await delay(500);
+    const clickOpensChat = await js(`!!document.querySelector('[data-testid=chat]')`);
+    await js(clickPet);
+    await delay(300);
+    const secondClickKeepsChat = await js(`!!document.querySelector('[data-testid=chat]')`);
+    const simpleModeBadge = await js(`!!document.querySelector('[data-testid=simple-mode]')`);
+    await capture(ctx.companion, 'mochi-chat-simple-mode.png');
+    await js(`document.querySelector('[aria-label="Close chat"]')?.click()`);
+    await delay(200);
+    await js(rightClickPet);
     await delay(350);
     const menuItems = await js(`[...document.querySelectorAll('[data-testid=menu] [role=menuitem]')].map((b) => b.dataset.action)`);
     await capture(ctx.companion, 'mochi-menu.png');
@@ -142,7 +159,7 @@ export async function runSmoke(
     await delay(250);
     const statusText = await js(`document.querySelector('[data-testid=status]')?.innerText ?? ''`);
     await js(`document.querySelector('[aria-label="Close status"]')?.click()`);
-    await js(clickPet);
+    await js(rightClickPet);
     await delay(250);
     await js(`document.querySelector('[data-action=sleep]').click()`);
     await delay(500);
@@ -162,14 +179,18 @@ export async function runSmoke(
     const savedPositions = ctx.storage.getJSON<{ pet: { positions: Record<string, { x: number; y: number }> } }>('prefs')?.pet.positions ?? {};
     await ctx.dashboard.webContents.executeJavaScript(`window.orbital.invoke('prefs:set', { pet: { interactionsEnabled: false } })`);
     await delay(300);
+    await js(`document.querySelector('[aria-label="Close chat"]')?.click()`);
+    await delay(150);
     await js(clickPet);
+    await js(rightClickPet);
     await delay(250);
-    const menuWhenDisabled = await js(`!!document.querySelector('[data-testid=menu]')`);
+    const menuWhenDisabled = await js(`!!document.querySelector('[data-testid=menu]') || !!document.querySelector('[data-testid=chat]')`);
     await ctx.dashboard.webContents.executeJavaScript(`window.orbital.invoke('prefs:set', { pet: { interactionsEnabled: true } })`);
     // Every species: switch companion, confirm it renders its own artwork and motion profile; capture idle.
     const speciesProbe: Record<string, unknown> = {};
     for (const id of ['dog', 'cat', 'alien', 'mochi']) {
-      await ctx.dashboard.webContents.executeJavaScript(`window.orbital.invoke('prefs:set', { pet: { companionId: '${id}' } })`);
+      // Companions are per astronaut: set the current astronaut's companion.
+      await ctx.dashboard.webContents.executeJavaScript(`window.orbital.invoke('mission:get').then((m) => window.orbital.invoke('prefs:set', { pet: { companionByProfile: { [m.astronautId]: '${id}' } } }))`);
       await delay(900);
       speciesProbe[id] = await js(`(() => { const root = document.querySelector('[data-companion]'); const img = root?.querySelector('img'); return { rendered: root?.dataset.companion, profile: [...(root?.classList ?? [])].find((c) => c.startsWith('mp-')), loaded: !!img && img.naturalWidth > 0, src: img?.getAttribute('src') }; })()`);
       await capture(ctx.companion, `companion-${id}.png`);
@@ -196,7 +217,7 @@ export async function runSmoke(
       await o.invoke('companion:chat', { text: 'Good day, the repair went well' });
       const end = await o.invoke('companion:chat', { action: 'end' });
       const journal = await o.invoke('journal:list', { astronautId: 'CM-03' });
-      const llm = await o.invoke('llm:status');
+      const llm = await o.invoke('ai:status');
       const urgent = await o.invoke('companion:chat', { text: 'I can’t go on' });
       const alerts = await o.invoke('alerts:list', { astronautId: 'CM-03', day: 100 });
       const audit = await o.invoke('alerts:audit', { astronautId: 'CM-03' });
@@ -209,7 +230,7 @@ export async function runSmoke(
       await o.invoke('mission:command', { type: 'seek', day: 130 });
       return {
         openVoice: open.voice, endVoice: end.voice, journalCount: journal.length, journalSummaryKind: journal[0]?.summary?.kind,
-        llmState: llm.state, urgentVoice: urgent.voice, urgent: urgent.urgent, firstAlertTier: alerts[0]?.tier,
+        llmState: llm.state, aiSimpleMode: llm.simpleMode, urgentVoice: urgent.voice, urgent: urgent.urgent, firstAlertTier: alerts[0]?.tier,
         audited: audit.some((x) => x.event === 'safety-escalation'), boardStatuses: board.visibleStatuses.length,
         deterministic: JSON.stringify(a1) === JSON.stringify(a2), sofiaState: a1.state, patternSummary: patterns.summary,
       };
@@ -229,6 +250,10 @@ export async function runSmoke(
       moved: { dx: after.x - before.x, dy: after.y - before.y },
       positionPersisted: Object.values(savedPositions).some((p) => p.x === after.x && p.y === after.y),
       menuWhenDisabled,
+      clickOpensChat,
+      secondClickKeepsChat,
+      simpleModeBadge,
+      dashboardHiddenAtLaunch,
     };
 
     const companionProbe = await ctx.companion.webContents.executeJavaScript(`(async () => ({
@@ -260,6 +285,19 @@ export async function runSmoke(
       }),
     );
 
+    // Mochi M1: "show me my health" opens Dr G Zero at Physical; dashboard mission link opens Mochi's chat;
+    // a journal entry can be written in Dr G Zero; branding.
+    const cmd = await cw.executeJavaScript(`window.orbitalPet.invoke('companion:chat', { text: 'Mochi, show me my health' })`);
+    await delay(700);
+    const navigatedTo = await ctx.dashboard.webContents.executeJavaScript(`location.hash`);
+    await cw.executeJavaScript(`document.querySelector('[aria-label="Close chat"]')?.click()`);
+    await delay(200);
+    await ctx.dashboard.webContents.executeJavaScript(`window.orbital.invoke('companion:openChat')`);
+    await delay(500);
+    const openChatFromDashboard = await cw.executeJavaScript(`!!document.querySelector('[data-testid=chat]')`);
+    const journalCreated = await ctx.dashboard.webContents.executeJavaScript(`window.orbital.invoke('journal:create', { astronautId: 'CM-04', day: 130, text: 'Smoke test entry in my own words.', feelings: ['calm'] }).then((j) => j.some((e) => e.turns[0]?.answer === 'Smoke test entry in my own words.'))`);
+    const m1Probe = { commandAction: cmd.action, navigatedTo, openChatFromDashboard, journalCreated, dashboardTitle: ctx.dashboard.getTitle(), companionTitle: ctx.companion.getTitle() };
+
     // Phase 3: NASA HRP knowledge — offline registry, allow-listed source opening, alert risk context, UI.
     const knowledgeProbe = await ctx.dashboard.webContents.executeJavaScript(`(async () => {
       const o = window.orbital;
@@ -269,7 +307,8 @@ export async function runSmoke(
       const alerts = await o.invoke('alerts:list', { astronautId: 'CM-04', day: 130 });
       const withContext = alerts.filter((a) => a.riskContext && a.riskContext.length);
       location.hash = '#/knowledge/sleep-schedules';
-      await new Promise((r) => setTimeout(r, 900));
+      // Wait for the page to render (lazy route + data load) instead of a fixed delay; slow machines and CI vary.
+      for (let i = 0; i < 80 && !(document.querySelectorAll('[data-risk-id]').length && document.querySelector('[data-risk-detail] [data-source-id]')); i++) await new Promise((r) => setTimeout(r, 100));
       const riskButtons = document.querySelectorAll('[data-risk-id]').length;
       const detail = document.querySelector('[data-risk-detail]')?.getAttribute('data-risk-detail');
       const quotes = document.querySelectorAll('[data-risk-detail] [data-source-id]').length;
@@ -329,9 +368,11 @@ export async function runSmoke(
     await capture(ctx.dashboard, `knowledge-bone-${theme}.png`);
 
     await capture(ctx.dashboard, `dashboard-overview-${theme}.png`);
+    const orbitalTextSeen: string[] = [];
     for (const section of ['crew', 'physical', 'brain', 'journal', 'telemetry', 'challenges', 'reports', 'knowledge', 'companion', 'settings']) {
       await ctx.dashboard.webContents.executeJavaScript(`location.hash = '#/${section}'`);
       await delay(700);
+      if (await ctx.dashboard.webContents.executeJavaScript(`document.body.innerText.includes('ORBITAL')`)) orbitalTextSeen.push(section);
       await capture(ctx.dashboard, `dashboard-${section}-${theme}.png`);
     }
     await capture(ctx.companion, `companion-${theme}.png`);
@@ -365,6 +406,8 @@ export async function runSmoke(
       mochiProbe,
       crewProbe,
       knowledgeProbe,
+      m1Probe,
+      orbitalTextSeen,
       phase4Probe,
       dataLoad: ctx.data.loadReport,
       recordCount: ctx.storage.countRecords(),

@@ -129,7 +129,7 @@ export function Crew() {
       <SectionHeader
         eyebrow={`Mission day ${day}`}
         title="Crew"
-        subtitle="Five fictional crew members, each with a reproducible 180-day synthetic health history. Select a crew member to view their data across ORBITAL."
+        subtitle="Five fictional crew members, each with a reproducible 180-day synthetic health history. Select a crew member to view their data across Dr G Zero."
       />
       <div className="grid grid-cols-5 gap-4">
         {crew.map((p) => {

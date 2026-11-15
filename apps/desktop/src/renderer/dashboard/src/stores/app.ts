@@ -13,6 +13,7 @@ export const SECTIONS = [
   'knowledge',
   'companion',
   'settings',
+  'setup',
 ] as const;
 export type SectionId = (typeof SECTIONS)[number];
 
@@ -73,6 +74,10 @@ export async function connectStore(): Promise<void> {
   window.addEventListener('hashchange', () => useApp.setState({ section: sectionFromHash(), ...(focusFromHash() ? { knowledgeFocus: focusFromHash() } : {}) }));
   o.on('mission:state', (mission) => useApp.setState({ mission }));
   o.on('prefs:changed', (prefs) => useApp.setState({ prefs }));
+  // Mochi can open Dr G Zero at a section ("show me my health").
+  o.on('dashboard:navigate', ({ section }) => {
+    if ((SECTIONS as readonly string[]).includes(section)) useApp.getState().navigate(section as SectionId);
+  });
   const [mission, prefs, system, crew] = await Promise.all([
     o.invoke('mission:get'),
     o.invoke('prefs:get'),

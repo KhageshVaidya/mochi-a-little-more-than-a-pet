@@ -1,17 +1,18 @@
 import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
-import { app, BrowserWindow, Menu, nativeTheme, screen, type MenuItemConstructorOptions } from 'electron';
-import { CONTRACTS_VERSION, DEFAULT_COMPANION, MISSION_MILESTONES, type CompanionManifest } from '@orbital/contracts';
-import { companionCatalog, handleAssetProtocol, loadCompanionManifest, registerAssetScheme } from './companion-assets';
+import { app, BrowserWindow, Menu, nativeImage, nativeTheme, screen, Tray, type MenuItemConstructorOptions } from 'electron';
+import { CONTRACTS_VERSION, DEFAULT_COMPANION, MISSION_MILESTONES, type AstronautId, type CompanionManifest } from '@orbital/contracts';
+import { assetsRoot, companionCatalog, handleAssetProtocol, loadCompanionManifest, registerAssetScheme } from './companion-assets';
 import { Storage } from './storage';
 import { PrefsService } from './prefs';
 import { MissionClock } from './mission-clock';
 import { DataService } from './data-service';
 import { GameService } from './game-service';
 import { ConversationService } from './conversation-service';
-import { CrewService } from './crew-service';
+import { CrewService, setCrewNameResolver } from './crew-service';
 import { IntelligenceService } from './intelligence-service';
-import { AnthropicCompanionModel } from './llm';
+import { AiService } from './ai-service';
+import { applyIdentity, DEFAULT_COMPANION_BY_PROFILE, loadLocalIdentities } from './identities';
 import { writeFileSync } from 'node:fs';
 import { dialog, shell } from 'electron';
 import { allowedSourceUrl, hrpKnowledge } from './knowledge';
@@ -28,11 +29,18 @@ import {
 } from './windows';
 import { runSmoke, smokeConfig } from './smoke';
 import { runReview } from './review';
+import { runDemo } from './demo';
+import { runCapture } from './capture';
 
 /**
- * ORBITAL main process — the integration lead's module.
- * Owns shared state (prefs, mission clock, storage) and both windows; renderers are views.
+ * Mochi main process (integration module). Mochi (the desktop companion) is the primary experience;
+ * Dr G Zero (dashboard + intelligence) opens on request. Owns shared state and all windows; renderers are views.
  */
+
+// Rebrand without moving existing user data: the data folder keeps its pre-rename location (migration later).
+const legacyUserData = app.getPath('userData');
+app.setName('Mochi');
+app.setPath('userData', legacyUserData);
 
 const smoke = smokeConfig();
 if (smoke) {
@@ -46,6 +54,7 @@ registerAssetScheme();
 
 let dashboard: BrowserWindow | undefined;
 let companion: BrowserWindow | undefined;
+let tray: Tray | undefined; // kept referenced so it isn't garbage-collected
 
 async function bootstrap(): Promise<void> {
   applySecurityPolicy();
@@ -54,8 +63,14 @@ async function bootstrap(): Promise<void> {
   const storage = new Storage(join(app.getPath('userData'), 'orbital.sqlite'));
   const prefs = new PrefsService(storage);
   if (smoke?.theme) prefs.set({ theme: smoke.theme });
+  // Smoke/review runs are deterministic: no live model (the real model is covered by apps/desktop/src/main/mochi-live-ollama.test.ts).
+  if (smoke && process.env['MOCHI_SMOKE_AI'] !== 'ollama') prefs.set({ ai: { provider: 'off' } });
   const clock = new MissionClock(storage);
   const data = new DataService(storage);
+  // Private local demo identities (git-ignored file; never in smoke runs or packaged builds).
+  const identities = loadLocalIdentities(app.getAppPath(), (!smoke || process.env['MOCHI_DEMO_IDENTITIES'] === '1') && !app.isPackaged);
+  data.setProfileOverlay((p) => applyIdentity(p, identities));
+  setCrewNameResolver((id) => data.profiles().find((p) => p.id === id)?.name ?? id);
   data.init();
   const game = new GameService(storage, data, (e) => ipc.send('companion:event', e));
   // Phase 4: intelligence → decision → recommendations → missions. The ML model trains lazily (deterministic).
@@ -63,8 +78,11 @@ async function bootstrap(): Promise<void> {
   data.onInvalidate((id) => intel.invalidate(id));
   game.setRecommendationSource({ recommendations: (id, day) => intel.recommendations(id, day), offeredAll: (id) => intel.offeredAll(id) });
   const manifests = new Map<string, CompanionManifest>();
+  /** Each astronaut has their own companion: explicit choice → private identity → profile default → global. */
+  const companionIdFor = (astronautId: AstronautId): string =>
+    prefs.get().pet.companionByProfile[astronautId] ?? identities[astronautId]?.companion ?? DEFAULT_COMPANION_BY_PROFILE[astronautId] ?? prefs.get().pet.companionId;
   const companionManifest = (): CompanionManifest => {
-    const id = prefs.get().pet.companionId;
+    const id = companionIdFor(clock.get().astronautId);
     let m = manifests.get(id);
     if (!m) {
       try {
@@ -104,15 +122,23 @@ async function bootstrap(): Promise<void> {
   ipc.handle('brain:assess', ({ astronautId, day }) => data.assess(astronautId, day));
   ipc.handle('brain:timeline', ({ astronautId }) => data.timeline(astronautId));
   ipc.handle('telemetry:day', ({ astronautId, day }) => data.telemetry(astronautId, day));
-  const llm = new AnthropicCompanionModel();
-  if (prefs.get().privacy.llmEnabled && !smoke) void llm.check();
+  // Conversational AI: local Ollama by default (health-checked, streaming); Anthropic optional and off by default.
+  const ai = new AiService(() => prefs.get().ai, (status) => ipc.send('ai:status', status));
+  // First run: if the local model isn't ready, open the setup guide (once). Never downloads anything by itself.
+  void ai.check().then((s) => {
+    if (smoke || prefs.get().onboarding.completed) return;
+    if (s.state === 'ready') prefs.set({ onboarding: { completed: true } });
+    else if (s.provider === 'ollama') setTimeout(() => openDashboardAt('setup'), 1500);
+  });
   const convo = new ConversationService(storage, data, game, {
     suggestions: (id, day) => intel.recommendations(id, day).recommendations.map((r) => r.title),
     prefs: () => prefs.get(),
     selection: () => ({ astronautId: clock.get().astronautId, day: clock.get().day }),
     manifest: () => companionManifest(),
     emit: (e) => ipc.send('companion:event', e),
-    llm: () => (prefs.get().privacy.llmEnabled ? llm : null),
+    ai: () => ai,
+    stream: (turnId, text, done) => ipc.send('chat:stream', { turnId, text, done }),
+    openDashboard: (section) => openDashboardAt(section),
   });
   const crew = new CrewService(storage, game);
   ipc.handle('crew:board', ({ astronautId, day }) => crew.board(astronautId, day));
@@ -124,7 +150,7 @@ async function bootstrap(): Promise<void> {
   ipc.handle('journal:save', (entry) => convo.saveJournal(entry));
   ipc.handle('journal:delete', ({ astronautId, id }) => convo.deleteJournal(astronautId, id));
   ipc.handle('journal:export', async ({ astronautId, format }) => {
-    const res = await dialog.showSaveDialog({ defaultPath: `orbital-journal-${astronautId}.${format === 'json' ? 'json' : 'md'}` });
+    const res = await dialog.showSaveDialog({ defaultPath: `mochi-journal-${astronautId}.${format === 'json' ? 'json' : 'md'}` });
     if (res.canceled || !res.filePath) return { saved: false };
     writeFileSync(res.filePath, convo.exportJournal(astronautId, format), 'utf8');
     return { saved: true, path: res.filePath };
@@ -132,11 +158,25 @@ async function bootstrap(): Promise<void> {
   ipc.handle('memory:list', ({ astronautId }) => convo.memory(astronautId));
   ipc.handle('memory:save', ({ astronautId, id, kind, text }) => convo.saveMemory({ id: id ?? `m:${astronautId}:${Date.now()}`, subjectId: astronautId, kind, text }));
   ipc.handle('memory:delete', ({ astronautId, id }) => convo.deleteMemory(astronautId, id));
-  ipc.handle('llm:status', () => ({ ...llm.status(), enabled: prefs.get().privacy.llmEnabled }));
-  ipc.handle('llm:configure', async ({ enabled }) => {
-    prefs.set({ privacy: { llmEnabled: enabled } });
-    return enabled ? llm.check() : llm.disable();
+  ipc.handle('ai:status', () => ai.status());
+  ipc.handle('ai:pull', ({ model }) => ai.pull(model, (pr) => ipc.send('ai:pull-progress', { model, ...pr })));
+  ipc.handle('ai:verify', async () => {
+    const r = await ai.verify();
+    if (r.ok) prefs.set({ onboarding: { completed: true } });
+    return r;
   });
+  ipc.handle('app:openOllamaDownload', async () => {
+    if (!smoke) await shell.openExternal('https://ollama.com/download');
+  });
+  ipc.handle('ai:check', () => ai.check());
+  ipc.handle('journal:create', ({ astronautId, day, text, feelings }) => convo.createJournal(astronautId, day, text, feelings));
+  ipc.handle('companion:openChat', () => {
+    if (!prefs.get().pet.visible) prefs.set({ pet: { visible: true } });
+    if (!companion || companion.isDestroyed()) companion = openCompanion();
+    companion.showInactive();
+    ipc.send('companion:open-chat', undefined);
+  });
+  ipc.handle('app:openDashboard', ({ section }) => openDashboardAt(section ?? 'overview'));
   ipc.handle('alerts:list', ({ astronautId, day }) => convo.alerts(astronautId, day));
   ipc.handle('alerts:ack', ({ astronautId, day, alertId }) => convo.acknowledge(astronautId, day, alertId));
   ipc.handle('alerts:share', ({ astronautId, day, alertId, share }) => convo.recordShareDecision(astronautId, day, alertId, share));
@@ -180,11 +220,9 @@ async function bootstrap(): Promise<void> {
     const allowed = interactive && prefs.get().pet.interactionsEnabled;
     companion?.setIgnoreMouseEvents(!allowed, { forward: true });
   });
-  ipc.handle('app:focusDashboard', () => {
-    if (!dashboard || dashboard.isDestroyed()) dashboard = openDashboard();
-    dashboard.show();
-    dashboard.focus();
-  });
+  ipc.handle('app:focusDashboard', () => openDashboardAt());
+
+  let [aiProvider, aiModel, aiFallback, aiBase] = [prefs.get().ai.provider, prefs.get().ai.ollama.model, prefs.get().ai.ollama.fallbackModel, prefs.get().ai.ollama.baseUrl];
 
   // ── State fan-out ──────────────────────────────────────────────────────────
   let lastDay = clock.get().day;
@@ -196,7 +234,16 @@ async function bootstrap(): Promise<void> {
     }
     lastDay = state.day;
   });
+  let lastAstronaut = clock.get().astronautId;
+  clock.on('changed', (state) => {
+    if (state.astronautId !== lastAstronaut) ipc.send('prefs:changed', prefs.get()); // companion reloads its manifest
+    lastAstronaut = state.astronautId;
+  });
   prefs.on('changed', (p) => {
+    if (p.ai.provider !== aiProvider || p.ai.ollama.model !== aiModel || p.ai.ollama.fallbackModel !== aiFallback || p.ai.ollama.baseUrl !== aiBase) {
+      [aiProvider, aiModel, aiFallback, aiBase] = [p.ai.provider, p.ai.ollama.model, p.ai.ollama.fallbackModel, p.ai.ollama.baseUrl];
+      void ai.check();
+    }
     nativeTheme.themeSource = p.theme;
     ipc.send('prefs:changed', p);
     applyCompanionPrefs(p.pet);
@@ -205,11 +252,24 @@ async function bootstrap(): Promise<void> {
   });
 
   // ── Windows ───────────────────────────────────────────────────────────────
-  const openDashboard = (): BrowserWindow => {
-    const win = createDashboardWindow({ show: !smoke });
+  const openDashboard = (show = false): BrowserWindow => {
+    const win = createDashboardWindow({ show: show && !smoke });
     ipc.attach(win.webContents, 'dashboard');
     return win;
   };
+  /** Open Dr G Zero (the dashboard), optionally at a section — on request from Mochi, the tray or the dock. */
+  function openDashboardAt(section?: string): void {
+    const fresh = !dashboard || dashboard.isDestroyed();
+    if (fresh) dashboard = openDashboard(true);
+    const win = dashboard!;
+    const go = () => section && ipc.send('dashboard:navigate', { section });
+    if (fresh) win.webContents.once('did-finish-load', go);
+    else go();
+    if (!smoke) {
+      win.show();
+      win.focus();
+    }
+  }
   const openCompanion = (): BrowserWindow => {
     const win = createCompanionWindow(prefs.get().pet, { show: !smoke });
     ipc.attach(win.webContents, 'companion');
@@ -259,8 +319,10 @@ async function bootstrap(): Promise<void> {
   }
 
   buildMenu();
-  dashboard = openDashboard();
+  // Desktop-first: Mochi appears; Dr G Zero opens only when asked (smoke/review runs pre-create it hidden).
+  if (smoke) dashboard = openDashboard();
   if (prefs.get().pet.visible || smoke) companion = openCompanion();
+  tray = createTray();
 
   // Keep the companion on-screen when displays change.
   const reclamp = () => {
@@ -272,21 +334,50 @@ async function bootstrap(): Promise<void> {
   screen.on('display-removed', reclamp);
   screen.on('display-metrics-changed', reclamp);
 
-  app.on('activate', () => {
-    if (!dashboard || dashboard.isDestroyed()) dashboard = openDashboard();
-  });
+  function createTray(): Tray | undefined {
+    if (smoke) return undefined;
+    try {
+      const icon = nativeImage.createFromPath(join(assetsRoot(), 'pets', 'mochi', 'mochi.png')).resize({ height: 18 });
+      const t = new Tray(icon);
+      t.setToolTip('Mochi — A Little More Than a Pet');
+      const menu = () =>
+        Menu.buildFromTemplate([
+          { label: 'Chat with Mochi', click: () => openChatFromTray() },
+          { label: prefs.get().pet.visible ? 'Hide Mochi' : 'Show Mochi', click: () => prefs.set({ pet: { visible: !prefs.get().pet.visible } }) },
+          { label: 'Open Dr G Zero', click: () => openDashboardAt('overview') },
+          { type: 'separator' },
+          { label: 'Quit Mochi', role: 'quit' },
+        ]);
+      t.setContextMenu(menu());
+      prefs.on('changed', () => t.setContextMenu(menu()));
+      return t;
+    } catch (e) {
+      console.warn('[mochi] tray unavailable:', (e as Error).message);
+      return undefined;
+    }
+  }
+  function openChatFromTray(): void {
+    if (!prefs.get().pet.visible) prefs.set({ pet: { visible: true } });
+    if (!companion || companion.isDestroyed()) companion = openCompanion();
+    companion.showInactive();
+    ipc.send('companion:open-chat', undefined);
+  }
+
+  app.on('activate', () => openDashboardAt());
   app.on('before-quit', () => {
+    ai.dispose();
     clock.dispose();
     storage.close();
   });
 
-  if (smoke && process.env['ORBITAL_REVIEW'] === '1') await runReview(smoke, { dashboard, companion: companion! });
-  else if (smoke) await runSmoke(smoke, { dashboard, companion: companion!, storage, data, contractsVersion: CONTRACTS_VERSION });
+  if (smoke && process.env['ORBITAL_REVIEW'] === 'capture') await runCapture(smoke, { dashboard: dashboard!, companion: companion! });
+  else if (smoke && process.env['ORBITAL_REVIEW'] === 'demo') await runDemo(smoke, { dashboard: dashboard!, companion: companion! });
+  else if (smoke && process.env['ORBITAL_REVIEW'] === '1') await runReview(smoke, { dashboard: dashboard!, companion: companion! });
+  else if (smoke) await runSmoke(smoke, { dashboard: dashboard!, companion: companion!, storage, data, contractsVersion: CONTRACTS_VERSION });
 }
 
 app.on('second-instance', () => {
-  dashboard?.show();
-  dashboard?.focus();
+  companion?.showInactive();
 });
 
 // The companion is a satellite of the app: closing the dashboard on macOS keeps the app alive (standard behaviour).
