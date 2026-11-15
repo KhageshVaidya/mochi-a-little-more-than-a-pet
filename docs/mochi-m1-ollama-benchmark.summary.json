@@ -1,0 +1,78 @@
+{
+  "note": "Metrics-only public summary of the M1 live benchmark. Conversation transcripts are kept in private research records.",
+  "generatedBy": "MOCHI_LIVE=1 MOCHI_BENCH=1 npx vitest run apps/desktop/src/main/mochi-live-ollama.test.ts",
+  "at": "2026-11-15T17:18:02.201Z",
+  "machine": "darwin/arm64",
+  "scripts": [
+    {
+      "id": "brief-example",
+      "turns": 3
+    },
+    {
+      "id": "wants-space",
+      "turns": 2
+    },
+    {
+      "id": "good-news",
+      "turns": 3
+    },
+    {
+      "id": "tired",
+      "turns": 3
+    },
+    {
+      "id": "small-talk",
+      "turns": 3
+    },
+    {
+      "id": "crew",
+      "turns": 2
+    }
+  ],
+  "preferred": {
+    "model": "qwen3:4b-instruct-2507-q4_K_M",
+    "summary": {
+      "turns": 16,
+      "replied": 16,
+      "violations": {},
+      "firstTokenMs": {
+        "median": 287,
+        "p90": 379,
+        "max": 667
+      },
+      "totalMs": {
+        "median": 874,
+        "p90": 1241,
+        "max": 1268
+      },
+      "meanWords": 8.7,
+      "meanReasoningChars": 0
+    }
+  },
+  "fallback": {
+    "model": "qwen3:4b",
+    "summary": {
+      "turns": 16,
+      "replied": 8,
+      "violations": {
+        "no-reply": 8
+      },
+      "firstTokenMs": {
+        "median": 14227,
+        "p90": 18303,
+        "max": 18303
+      },
+      "totalMs": {
+        "median": 14503,
+        "p90": 18351,
+        "max": 18351
+      },
+      "meanWords": 6.9,
+      "meanReasoningChars": 620
+    }
+  },
+  "fallbackThinkingDisabledDiagnostic": {
+    "ms": 15905,
+    "reasoningLeakedIntoReply": true
+  }
+}

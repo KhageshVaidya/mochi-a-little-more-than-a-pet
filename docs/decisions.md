@@ -105,3 +105,16 @@ Details: docs/nasa-hrp-integration.md.
 - The companion relays approved titles verbatim and never via the LLM.
 - Details: docs/phase-4-adaptive-gamification.md.
 
+## D-024 · Mochi M1: local-first conversation; the model talks, rules decide (2026-11-15)
+- **Product direction:** "Mochi — A Little More Than a Pet" (Mochi / Dr G Zero / Fable); proposal in docs/mochi-*.md.
+- **Default provider:** Ollama on loopback. The preferred model is `qwen3:4b-instruct-2507-q4_K_M` (non-thinking).
+  - The `qwen3:4b` fallback runs with `think:true` and its reasoning discarded.
+  - Disabling thinking on `qwen3:4b` does not work on Ollama 0.40.16 (reasoning leaks as plain text).
+- **Pipeline:** safety screen, then deterministic router (commands, journal, memory), then a prompt allow-list, then streaming, then the output guard.
+  - Journal, check-in, memory and safety turns never enter the model's history.
+  - Templates are always labelled; simple mode is visible.
+- **Anthropic:** an optional provider, off by default, receiving the same allow-listed messages.
+- **Launch:** desktop-first; Dr G Zero opens on request; one companion per astronaut.
+- **Identities:** private demo identities live only in a git-ignored local file.
+- Details: docs/mochi-m1-results.md.
+

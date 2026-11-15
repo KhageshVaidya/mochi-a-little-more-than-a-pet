@@ -28,3 +28,23 @@ apps/desktop/.review/
 apps/desktop/.review-run.log
 # Private local demo identities (never committed)
 config/*.local.json
+
+# Private research records and unredacted originals (never published)
+private/
+
+# Team working copies of the presentation (may contain private demo names); the public deck is generated
+presentation/Zero-G Doc Presentation.pptx
+~$*
+
+# Credentials, keys and environment files
+.env
+.env.*
+*.p12
+*.pfx
+*.pem
+*.key
+*.mobileprovision
+*.provisionprofile
+
+# Logs and packaged-app smoke output
+*.log

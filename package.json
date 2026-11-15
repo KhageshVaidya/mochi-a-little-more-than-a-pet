@@ -2,7 +2,7 @@
   "name": "orbital",
   "private": true,
   "version": "0.1.0",
-  "description": "ORBITAL — astronaut health intelligence desktop app (NASA Space Apps 2026)",
+  "description": "Mochi — A Little More Than a Pet. Desktop companion and explainable astronaut wellbeing intelligence (NASA Space Apps 2026 demonstration)",
   "type": "module",
   "workspaces": [
     "packages/*",
