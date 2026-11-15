@@ -8,7 +8,11 @@ import { DataService } from './data-service';
 import { GameService } from './game-service';
 
 const dir = mkdtempSync(join(tmpdir(), 'orbital-game-'));
-afterAll(() => rmSync(dir, { recursive: true, force: true }));
+// Close the database before deleting its folder: Windows cannot delete open files.
+afterAll(() => {
+  storage.close();
+  rmSync(dir, { recursive: true, force: true });
+});
 const storage = new Storage(join(dir, 'g.sqlite'));
 const data = new DataService(storage);
 data.init();

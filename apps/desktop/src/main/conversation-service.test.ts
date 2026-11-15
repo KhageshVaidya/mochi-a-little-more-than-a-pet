@@ -15,7 +15,11 @@ import type { AiStatus } from '@orbital/contracts';
 import type { ModelMessage } from '@orbital/companion';
 
 const dir = mkdtempSync(join(tmpdir(), 'orbital-convo-'));
-afterAll(() => rmSync(dir, { recursive: true, force: true }));
+// Close the database before deleting its folder: Windows cannot delete open files.
+afterAll(() => {
+  storage.close();
+  rmSync(dir, { recursive: true, force: true });
+});
 const storage = new Storage(join(dir, 'c.sqlite'));
 const data = new DataService(storage);
 data.init();
